@@ -175,5 +175,4 @@ sig.y = zeros(1,length(sig));
 % Estimate of the extinction ratio of the signal. This is valid only for
 % "clean" driving signals that have not bee excessively low-pass filtered.
 
-
 end

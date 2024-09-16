@@ -467,7 +467,6 @@ params_cw.emission_frequency = 193.1e12;
 sig = opt_laser_cw(params_cw);
 % CW laser
 
-
 % -------------------------------------------------------------------------
 % opt_pulse_gauss
 % Gaussian pulse
@@ -476,8 +475,6 @@ sig = opt_laser_cw(params_cw);
 pulse = opt_pulse_gauss(time_array,order,peak_power,position,duration,chirp);
 % Gaussian pulse
 
-
-
 % -------------------------------------------------------------------------
 % opt_pulse_sech
 % Hyperbolic secant pulse
@@ -485,9 +482,6 @@ pulse = opt_pulse_gauss(time_array,order,peak_power,position,duration,chirp);
 % -------------------------------------------------------------------------
 pulse = opt_pulse_sech(time_array,peak_power,position,duration,chirp);
 % Hyperbolic secant pulse
-
-
-
 
 % -------------------------------------------------------------------------
 % opt_source_pulse 
@@ -504,7 +498,28 @@ sig = opt_source_pulse(seq,params_pulse_train);
 % Optical pulse source
 
 
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% transmitters
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 
+
+% -------------------------------------------------------------------------
+% tx_laser_chirped
+% Black-box laser with frequency chirp
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_chirped_tx.emission_frequency = reference_frequency;   % laser emission frequency, in Hz
+params_chirped_tx.power_average = 1.0e-3;                     % signal average power, in W
+params_chirped_tx.extinction_ratio = 10;                      % signal extinction ratio, in dB
+params_chirped_tx.alpha = 2.5;                                % alpha parameter
+params_chirped_tx.kappa = 12e12;                              % adiabatic chirp, in Hz/W
+[sig,freq_data] = tx_laser_chirped(nrz_data_sig,params_chirped_tx); 
+% Black-box laser with frequency chirp
 
 
 

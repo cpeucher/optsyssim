@@ -60,6 +60,15 @@ average_power = char_opt_average_power(sig);
 % Calculate signal average power
 
 
+% -------------------------------------------------------------------------
+% char_opt_temporal_chirp
+% Temporal chirp of an optical signal
+% /src/characterization/
+% -------------------------------------------------------------------------
+chirp = char_opt_temporal_chirp(sig);
+% Calculate temporal chirp
+
+
 
 
 
@@ -129,11 +138,107 @@ sig = elec_pulse_sequence_nrz(bit_pattern,rise_time);
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+% -------------------------------------------------------------------------
+% mod_iq
+% IQ optical modulator (single-polarization)
+% /src/modulators/
+% -------------------------------------------------------------------------
+params_iq.vpi_mzm = 1;
+params_iq.vpi_pm = 1;
+params_iq.bias_i1 = params_iq.vpi_mzm;
+params_iq.bias_i2 = 0;
+params_iq.bias_q1 = params_iq.vpi_mzm;
+params_iq.bias_q2 = 0;
+params_iq.split_i = 0.5;
+params_iq.split_q = 0.5;
+params_iq.loss_i = 0;
+params_iq.loss_q = 0;
+v_ps = params_iq.vpi_pm/2;
+sig_i1 = params_iq.vpi_mzm*(nrz_data_sig_i - 0.5);
+sig_i2 = -params_iq.vpi_mzmM*(nrz_data_sig_i - 0.5);
+sig_q1 = params_iq.vpi_mzm*(nrz_data_sig_q - 0.5);
+sig_q2 = -params_iq.vpi_mzm*(nrz_data_sig_q - 0.5);
+sig = mod_iq(sig,sig_i1,sig_i2,sig_q1,sig_q2,v_ps,params_iq);
+% IQ modulator
+
+
+% -------------------------------------------------------------------------
+% mod_linear
+% Linear intensity modulator
+% /src/modulators/
+% -------------------------------------------------------------------------
+extinction_ratio_db = 30;
+sig = mod_linear(sig,nrz_data_sig,extinction_ratio_db); 
+% Linear intensity modulator
+
+
+% -------------------------------------------------------------------------
+% mod_mzm
+% Mach-Zehnder modulator (MZM)
+% /src/modulators/
+% -------------------------------------------------------------------------
+vpi = 1.0;
+driving_signal_1 = vpi/2*(nrz_data_sig-0.5);
+driving_signal_2 = -vpi/2*(nrz_data_sig-0.5);
+bias_1 = 1.5*vpi;
+bias_2 = 0;
+split_in = 0.5;
+split_out = 0.5;
+loss = 0;
+sig = mod_mzm(sig,driving_signal_1,driving_signal_2,bias_1,bias_2,vpi,split_in,split_out,loss);
+% Mach-Zehnder modulator
+
+
+% -------------------------------------------------------------------------
+% mod_mzm_pulse_carver
+% Mach-Zehnder modulator-based pulse carver 
+% /src/modulators/
+% -------------------------------------------------------------------------
+optical_clock_frequency = symbol_rate;
+optical_clock_duty_cycle = 'rz33';%'rz50';%'rz67';
+sig = mod_mzm_pulse_carver(sig,optical_clock_frequency,optical_clock_duty_cycle);
+% Mach-Zehnder modulator-based pulse carver
+
+
+% -------------------------------------------------------------------------
+% mod_pm
+% Phase modulator (PM)
+% /src/modulators/
+% -------------------------------------------------------------------------
+vpi = 1.0;
+loss = 0;
+sig = mod_pm(sig,nrz_data_sig,vpi,loss); 
+% Phase modulator
+
+% -------------------------------------------------------------------------
+% mod_polm
+% Polarisation modulator
+% /src/modulators/
+% -------------------------------------------------------------------------
+vpi = 1.0;
+loss = 0;
+sig = mod_polm(sig,nrz_data_sig,vpi,loss); 
+% Polarisation modulator
 
 
 
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% numerical
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 
-
+% -------------------------------------------------------------------------
+% num_diff_1d_pb
+% Differentiate evenly spaced 1D data with periodic boundary conditions
+% /src/numerical/differentiation/
+% -------------------------------------------------------------------------
+dfunc = num_diff_1d_pb(func,h)
+% Differentiation
 
 
 
@@ -158,6 +263,91 @@ params_att.target = 10;  % attenuation in dB or total output power in dBm
 sig = opt_att(sig,params_att);
 % Optical attenuator
 
+
+% -------------------------------------------------------------------------
+% opt_combiner_y_junction
+% Optical Y-junction combiner with 50% combining power ratio
+% /src/passive/
+% -------------------------------------------------------------------------
+sig = opt_combiner_y_junction(sig1,sig2);
+% Optical Y-junction combiner with 50% combining power ratio
+
+
+
+% -------------------------------------------------------------------------
+% opt_coupler_2x2
+% 2x2 optical directional coupler
+% /src/passive/
+% -------------------------------------------------------------------------
+[sig21,sig22] = opt_coupler_2x2(sig11,sig12,'lin',0.5); 
+% 2x2 optical directional coupler
+
+
+% -------------------------------------------------------------------------
+% opt_delay
+% Optical delay
+% /src/passive/
+% -------------------------------------------------------------------------
+include_phase_shift = 0;%1;
+delay_target = 100e-12;
+[sig,delay_actual] = opt_delay(sig,include_phase_shift,delay_target); 
+% Optical delay
+
+
+% -------------------------------------------------------------------------
+% opt_dispersion
+% Linear and lossless dispersive element
+% /src/passive/
+% -------------------------------------------------------------------------
+params_dispersion.dispersion = 17;           % Dispersion in ps/nm/km
+params_dispersion.dispersion_slope = 0.058;  % Dispersion slope in ps/nm^2/km
+params_dispersion.dispersion_curvature = 0;  % Dispersion curvature, in ps/nm^3/km
+params_dispersion.dispersion_spec_frequency = reference_frequency;
+z = 1e3; 
+sig = opt_dispersion(sig,params_dispersion,z); 
+% Linear and lossless dispersive element
+
+
+% -------------------------------------------------------------------------
+%  opt_hybrid90_2x4
+% 90 degree 2x4 optical hybrid
+% /src/passive/
+% -------------------------------------------------------------------------
+[sigout1,sigout2,sigout3,sigout4] = opt_hybrid90_2x4(sig,sig_lo); 
+% 90 degree 2x4 optical hybrid
+
+% -------------------------------------------------------------------------
+% opt_otdm_mux
+% OTDM multiplexer
+% /src/passive/
+% -------------------------------------------------------------------------
+otdm_mux_multiplication_factor = 4;
+otdm_mux_mode = 'serial';% 'serial_random';'parallel';
+[sig,otdm_mux_delays] = opt_otdm_mux(sig,symbol_rate,...
+      otdm_mux_multiplication_factor,params_prbs.order,otdm_mux_mode);
+% OTDM multiplexer
+
+
+% -------------------------------------------------------------------------
+% opt_phase_shift
+% Optical phase-shifter
+% /src/passive/
+% -------------------------------------------------------------------------
+ sig = opt_phase_shift(sig,phase_shift); 
+ 
+ 
+ 
+% -------------------------------------------------------------------------
+% opt_splitter_y_junction
+% Optical Y-junction splitter with 50% combining power ratio
+% /src/passive/
+% -------------------------------------------------------------------------
+[sig1,sig2] = opt_splitter_y_junction(sig);
+% Y-junction splitter with 50% power splitting ratio
+ 
+ 
+ 
+ 
 
 
 % -------------------------------------------------------------------------
@@ -277,16 +467,21 @@ params_cw.emission_frequency = 193.1e12;
 sig = opt_laser_cw(params_cw);
 % CW laser
 
+% -------------------------------------------------------------------------
+% opt_pulse_gauss
+% Gaussian pulse
+% /src/sources/
+% -------------------------------------------------------------------------
+pulse = opt_pulse_gauss(time_array,order,peak_power,position,duration,chirp);
+% Gaussian pulse
 
 % -------------------------------------------------------------------------
 % opt_pulse_sech
-%
+% Hyperbolic secant pulse
+% /src/sources/
 % -------------------------------------------------------------------------
 pulse = opt_pulse_sech(time_array,peak_power,position,duration,chirp);
 % Hyperbolic secant pulse
-
-
-
 
 % -------------------------------------------------------------------------
 % opt_source_pulse 
@@ -303,6 +498,14 @@ sig = opt_source_pulse(seq,params_pulse_train);
 % Optical pulse source
 
 
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% transmitters
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
 
 
 
