@@ -1,4 +1,4 @@
-function [sig,actual_emission_frequency] = opt_laser_cw(params)
+function sig = opt_laser_cw(params)
 % Ideal continuous wave laser
 %
 % -------------------------------------------------------------------------
@@ -14,7 +14,7 @@ function [sig,actual_emission_frequency] = opt_laser_cw(params)
 % params_cw.power = 1.0e-3;
 % params_cw.linewidth = 0;
 % params_cw.emission_frequency = 193.1e12;
-% [sig,params_cw.actual_emission_frequency] = opt_laser_cw(params_cw);
+% sig = opt_laser_cw(params_cw);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -34,11 +34,7 @@ function [sig,actual_emission_frequency] = opt_laser_cw(params)
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% sig                           output optical signal 
-%                                   [optical signal structure]
-%
-% actual_emission_frequency     actual laser emission frequency, in Hz
-%                                   [real scalar]
+% sig               output optical signal [optical signal structure]
 %
 % -------------------------------------------------------------------------
 % GLOBAL:
@@ -54,22 +50,15 @@ function [sig,actual_emission_frequency] = opt_laser_cw(params)
 % -------------------------------------------------------------------------
 % REMARKS:
 % -------------------------------------------------------------------------
-% 
+% The structure params is updated with the fields:
 %
-% -------------------------------------------------------------------------
-% TO DO:
-% -------------------------------------------------------------------------
-% 
+% params.actual_emission_frequency      actual laser emission frequency, 
+%                                           in Hz [real scalar]
 %
-% -------------------------------------------------------------------------
-% CREDITS:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% AUTHOR:
-% -------------------------------------------------------------------------
-% Christophe Peucheret (christophe.peucheret@univ-rennes.fr)
+% params.frequency_offset               frequency offset between the actual
+%                                           emission frequency and the
+%                                           desired emission frequency,
+%                                           in Hz [real scalar]
 %
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -79,16 +68,16 @@ global time_array
 global dt
 global df 
 
-actual_emission_frequency = reference_frequency + round((params.emission_frequency - reference_frequency)/df)*df;
+params.actual_emission_frequency = reference_frequency + round((params.emission_frequency - reference_frequency)/df)*df;
 % Ensure that the emission frequency falls onto the frequency grid
 
-frequency_offset = actual_emission_frequency - params.emission_frequency;
+params.frequency_offset = params.actual_emission_frequency - params.emission_frequency;
 % Frequency offset between the actual emission frequency and the desired
 % emission frequency
 
 fprintf(1,'\n\n%s\n%s\t%f\t%s\n','opt_laser_cw:','Desired emission frequency: ',params.emission_frequency/1.0e12,' THz');
-fprintf(1,'%s\t\t%f\t%s\n','Actual emission frequency: ',actual_emission_frequency/1.0e12,' THz');
-fprintf(1,'%s\t\t\t\t\t\t%f\t%s\n','Delta f: ',frequency_offset/1.0e9,' GHz');
+fprintf(1,'%s\t\t%f\t%s\n','Actual emission frequency: ',params.actual_emission_frequency/1.0e12,' THz');
+fprintf(1,'%s\t\t\t\t\t\t%f\t%s\n','Delta f: ',params.frequency_offset/1.0e9,' GHz');
 % Notify the user that the emission frequency has been adjusted
 
 nsamples = length(time_array);
@@ -101,10 +90,11 @@ wiener_phase_noise = wiener_phase_noise - wiener_phase_noise(1);
 % We remove a constant phase shift so that the first value of the phase
 % noise is zero.
 
+
 % Apply correction factor to the phase noise process in order to avoid
 % phase discontinuities in conjunction with the periodic nature of the
 % signal.
-% C. J. Rasmussen, "Transmission analysis in WDM networks", Ph.D. thesis,
+% C. J. Rasmussen, "Transmission analysis in WDM networks", Ph.D. Thesis,
 % Technical University of Denmark, 1999.
 % pp. 118-119.
 phase_diff = wiener_phase_noise(nsamples) - wiener_phase_noise(1);
@@ -119,7 +109,7 @@ end
 
 
 sig = struct;
-sig.x = sqrt(params.power).*exp(-1i*wiener_phase_noise).*exp(1i*2*pi*(actual_emission_frequency - reference_frequency)*time_array);
+sig.x = sqrt(params.power).*exp(-1i*wiener_phase_noise).*exp(1i*2*pi*(params.actual_emission_frequency - reference_frequency)*time_array);
 sig.y = zeros(1,nsamples);
 % Returns the complex field
 

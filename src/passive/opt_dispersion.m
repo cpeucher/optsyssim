@@ -1,4 +1,4 @@
-function sig = opt_dispersion(sig,params)
+function sig = opt_dispersion(sig,params,z)
 % Linear and lossless dispersive element
 %
 % -------------------------------------------------------------------------
@@ -13,35 +13,44 @@ function sig = opt_dispersion(sig,params)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% params_dispersion.dispersion = 17;           % Dispersion in ps/nm
-% params_dispersion.dispersion_slope = 0.058;  % Dispersion slope in ps/nm^2.
+% params_dispersion.dispersion = 17;           % Dispersion in ps/nm/km
+% params_dispersion.dispersion_slope = 0.058;  % Dispersion slope in ps/nm^2/km
+% params_dispersion.dispersion_curvature = 0;  % Dispersion curvature, in ps/nm^3/km
 % params_dispersion.dispersion_spec_frequency = reference_frequency;
-% sig = opt_dispersion(sig,params_dispersion); 
+% z = 1e3; 
+% sig = opt_dispersion(sig,params_dispersion,z); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:
 % -------------------------------------------------------------------------
 % sig               input optical signal [optical signal structure]
-%                       This is it.'
 %
-% params            dispersion values [structure]
+% params            dispersion parameters [structure]
 %
 %                       params.dispersion
-%                           value of dispersion to apply to the signal, 
-%                           in ps/nm [real scalar]
+%                           dispersion, in ps/nm/km [real scalar]
 %
 %                       params.dispersion_slope
-%                           dispersion slope, in ps/nm^2 [real scalar]
+%                           dispersion slope, in ps/nm^2/km [real scalar]
+% 
+%                       params.dispersion_curvature
+%                           dispersion curvature, in ps/nm^3/km 
+%                           [real scalar]
 %
 %                       params.dispersion_spec_frequency
 %                           frequency at which the params.dispersion value 
 %                           is specified, in Hz [real scalar]
 %
+% z                 distance at which the dispersed signal is calculated,  
+%                       in m [real scalar]
+% 
+%                       When z = 1000, then params.dispersion corresponds 
+%                       to the accumulated dispersion in ps/nm.
+%
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
 % sig               output optical signal [optical signal structure]
-%                       This is it.
 %
 % -------------------------------------------------------------------------
 % GLOBAL:
@@ -51,59 +60,23 @@ function sig = opt_dispersion(sig,params)
 % reference_frequency   reference frequency, in Hz [real scalar]
 %
 % -------------------------------------------------------------------------
-% REMARKS:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% TO DO:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% CREDITS:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% AUTHOR:
-% -------------------------------------------------------------------------
-% Christophe Peucheret (christophe.peucheret@univ-rennes1.fr)
-%
-% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 global frequency_array 
 global reference_frequency
 
-
-length = 1000;
-% The fibre length is arbitrarily set to 1 km.
-% Then the dispersion value given in ps/nm corresponds to the same
-% dispersion per unit length value in ps/nm/km.
-
-dispersion_si = params.dispersion*1.0e-6;
-% Convert dispersion from ps/nm/km to s/m^2.
-dispersion_slope_si = params.dispersion_slope*1.0e3;
-% Convert dispersion slope from ps/nm^2/km to s/m^3.
-
-beta = dispersion_conv_d_beta([dispersion_si dispersion_slope_si],'to_beta','SI','SI',params.dispersion_spec_frequency);
-% Convert the dispersion and dispersion slope to to beta_2 and beta_3 
-% (elements beta(2) and beta(3), respectively).
+beta = dispersion_conv_d_beta([params.dispersion, params.dispersion_slope, params.dispersion_curvature],'to_beta','eng','SI',params.dispersion_spec_frequency);
+% Convert the dispersion and dispersion slope to beta_2 and beta_3 
 
 ref_freq = params.dispersion_spec_frequency - reference_frequency;
 % Dispersion specification frequency relative to the reference frequency.
 
-tf = exp(-1i*(0.5*beta(2).*(2*pi*(frequency_array - ref_freq)).^2+beta(3)/6*(2*pi*(frequency_array - ref_freq)).^3)*length);
+tf = exp(-1i*(0.5*beta(2)*(2*pi*(frequency_array - ref_freq)).^2 +...
+    beta(3)/6*(2*pi*(frequency_array - ref_freq)).^3)*z);
 % All-pass filter due to dispersion.
 
 sig.x = ifft(fft(sig.x).* fftshift(tf));
 sig.y = ifft(fft(sig.y).* fftshift(tf));
 % Apply the filter to the input signal.
 
-
-
 end
-% -------------------------------------------------------------------------
-% End of function
-% -------------------------------------------------------------------------

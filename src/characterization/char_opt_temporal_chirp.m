@@ -1,54 +1,53 @@
-function sig = pol_rotator(sigin,theta)
-% Polarization rotator
+function chirp = char_opt_temporal_chirp(sig)
+% Calculate temporal chirp of an optical signal
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
-% This functions rotates the input optical field by a given angle in the
-% counter clockwise direction, i.e. the rotation matrix:
-% R(theta)=[cos(theta) -sin(theta)  
-%           sin(theta) cos(theta)]
-% is applied to the input signal.
+% This function calculates the instantaneous frequency (with respect to the
+% reference_frequency) of an optical signal.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% sig = pol_rotator(sig,pi/2);
+% chirp = char_opt_temporal_chirp(sig);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
 % -------------------------------------------------------------------------
-% sig               input optical signal [optical signal structure]
-%
-% theta             rotation angle, in radians [real vector]
-%
-%                       For a static rotator, theta is a scalar
-%
-%                       For a dynamic rotator, theta is an 1xN vector,
-%                       where N is the number of samples
+% sig               optical signal [optical signal structure]
 %
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% sig               output optical signal [optical signal structure]
+% chiro              instantaneous frequency variations with respect to
+%                       reference_frequency, in Hz [real vector]
 %
 % -------------------------------------------------------------------------
 % GLOBAL:
 % -------------------------------------------------------------------------
-% 
+% dt                    time samples separation, in s [real scalar]
 %
 % -------------------------------------------------------------------------
-% CREDITS:
+% REMARKS:
 % -------------------------------------------------------------------------
-% 
+% When the periodic boundary condition is not satisfied, one needs to
+% truncate the chirp vector and the corresponding time vector
+% chirp = chirp(2:end -1);
+% time_chirp = time_array(2:end -1);
 %
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-sig.x = cos(theta).*sigin.x - sin(theta).*sigin.y;
-sig.y = sin(theta).*sigin.x + cos(theta).*sigin.y;
+global dt
+
+phi = -unwrap(angle(sig.x));
+% Signal phase.
+% We employ the phase convention exp(-1j*phi(t)) while angle in matlab
+% returns the argument of a complex number.
+% This is as good as unwrap is...
+
+chirp = -num_diff_1d_pb(phi,dt)/2/pi;
+% Instantaneous frequency
 
 end
-% -------------------------------------------------------------------------
-% End of function
-% -------------------------------------------------------------------------

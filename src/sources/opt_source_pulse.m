@@ -5,10 +5,9 @@ function sig = opt_source_pulse(symbs,params)
 % DESCRIPTION:
 % -------------------------------------------------------------------------
 % This function generates an optical pulse train according to a specified
-% binary sequence. The generated signal is polarised along -x.
+% complex sequence. The generated signal is polarised along -x.
 % The pulse train generation method consists in convolving a Dirac
 % comb with proper complex amplitudes with the desired pulse shape.
-% Therefore complex modulation of the optical pulse train is possible.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
@@ -73,22 +72,10 @@ function sig = opt_source_pulse(symbs,params)
 % -------------------------------------------------------------------------
 % REMARKS:
 % -------------------------------------------------------------------------
-% 
+% The structure params is updated with the fields:
 %
-% -------------------------------------------------------------------------
-% TO DO:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% CREDITS:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% AUTHOR:
-% -------------------------------------------------------------------------
-% Christophe Peucheret (christophe.peucheret@univ-rennes.fr)
+% params.actual_emission_frequency      actual laser emission frequency, 
+%                                           in Hz [real scalar]
 %
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
@@ -109,7 +96,7 @@ if rem(nsamples,nsymbols) == 0
     samples_per_symbol = nsamples/nsymbols;
     % Number of samples per symbol.
 else
-    error('elec_modulator: the number of samples should be an integer multiple of the number of symbols.');
+    error('opt_source_pulse: the number of samples should be an integer multiple of the number of symbols.');
 end
 
 
@@ -128,7 +115,7 @@ switch params.type
     case 'gaussian'
         % Gaussian pulse.
               
-        pulse = opt_pulse_gaussian(time_array,params.order,params.peak_power,position,params.fwhm,params.chirp);
+        pulse = opt_pulse_gauss(time_array,params.order,params.peak_power,position,params.fwhm,params.chirp);
         
     otherwise
         
@@ -156,17 +143,15 @@ pulse = circshift(pulse,[0 -nsamples/2+1]);
 fprintf(1,'\n%s\n%s%f%s\n','opt_source_pulse:','Desired emission frequency: ',params.emission_frequency/1.0e12,' THz');
 % Display the desired emission frequency.
 
-actual_emission_frequency = reference_frequency + round((params.emission_frequency - reference_frequency)/df)*df;
+params.actual_emission_frequency = reference_frequency + round((params.emission_frequency - reference_frequency)/df)*df;
 % First we ensure that the emission frequency falls onto the frequency
 % grid.
 % Not really necessary for a pulsed signal with broad spectrum. But anyway,
 % done for the sake of good order...
 
-
-
-fprintf(1,'%s%f%s\n','Actual emission frequency: ',actual_emission_frequency/1.0e12,' THz');
-fprintf(1,'%s%f%s\n','Delta f: ',(actual_emission_frequency - params.emission_frequency)/1.0e9,' GHz');
-% Ee notify the the user of this minor change.
+fprintf(1,'%s%f%s\n','Actual emission frequency: ',params.actual_emission_frequency/1.0e12,' THz');
+fprintf(1,'%s%f%s\n','Delta f: ',(params.actual_emission_frequency - params.emission_frequency)/1.0e9,' GHz');
+% We notify the the user of this minor change.
 
 
 sig = [];
@@ -175,6 +160,3 @@ sig.y = zeros(1,nsamples);
 % Generate optical signal.
     
 end
-% -------------------------------------------------------------------------
-% End of function
-% -------------------------------------------------------------------------

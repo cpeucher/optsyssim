@@ -7,7 +7,9 @@ function sig = mod_pm(sig,drive,vpi,loss)
 % This function models a phase modulator. No bandwidth limitation is
 % introduced. Therefore, if needed, such limitation needs to be modelled by
 % low pass filtering the driving signals.
-% Both polarisations are modulated the same amount.
+% Only the -x polarisation of the incoming signal is modulated. 
+% The -y polarisation is blocked (equivalent to having a polariser // x at
+% the input of the modulator).
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
@@ -39,32 +41,9 @@ function sig = mod_pm(sig,drive,vpi,loss)
 % 
 %
 % -------------------------------------------------------------------------
-% REMARKS:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% TO DO:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% CREDITS:
-% -------------------------------------------------------------------------
-% 
-%
-% -------------------------------------------------------------------------
-% AUTHOR:
-% -------------------------------------------------------------------------
-% Christophe Peucheret (christophe.peucheret@univ-rennes.fr)
-%
-% -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 sig.x = 10^(-loss/20)*sig.x.*exp(-1i*pi*(drive/vpi));
-sig.y = 10^(-loss/20)*sig.y.*exp(-1i*pi*(drive/vpi));
+sig.y = zeros(1,length(sig.y));
 
 end
-% -------------------------------------------------------------------------
-% End of function
-% -------------------------------------------------------------------------

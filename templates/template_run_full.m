@@ -130,7 +130,17 @@ do_debug = 1;
 do_print = 0;
 do_add_figsize_to_filename = 1;
 margin_figure = 0;
+
+% -------------------------------------------------------------------------
+% Figures
+% -------------------------------------------------------------------------
 fig.interpreter = 'latex';
+
+mred = [178 0 24]/255;
+
+% line_color = linspecer(6,'qualitative');
+% Use plot(x,y,'Color',line_color(1,:));
+
 
 
 
