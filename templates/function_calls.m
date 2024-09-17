@@ -507,6 +507,132 @@ sig = opt_source_pulse(seq,params_pulse_train);
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+% -------------------------------------------------------------------------
+% tx
+% General optical transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.type = 'ook_nrz';%'ook_rz33', 'ook_rz50', 'ook_rz67',
+%                       'ook_db_nrz_delay_add', 'ook_db_nrz_low_pass'
+%                       'dpsk_nrz_mzm', 'dpsk_nrz_pm'
+%                       'dpsk_rz33_mzm', 'dpsk_rz50_mzm', 'dpsk_rz67_mzm'
+%                       'qpsk_nrz_pm_pm', 'qpsk_nrz_mzm_pm', 'qpsk_nrz_iq'
+%                       'pam4_nrz_mzm'
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.bit_pattern_1 = bit_pattern_1;
+params_tx.bit_pattern_2 = bit_pattern_2;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx(params_tx);
+% General optical transmitter
+
+% -------------------------------------------------------------------------
+% tx_dpsk_nrz_mzm
+% NRZ-DPSK transmitter using a Mach-Zehnder modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = logical_differential_encoder_binary(bit_pattern);
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_dpsk_nrz_mzm(params_tx); 
+% NRZ-DPSK transmitter using a Mach-Zehnder modulator
+
+% -------------------------------------------------------------------------
+% tx_dpsk_nrz_pm
+% NRZ-DPSK transmitter using a phase modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = logical_differential_encoder_binary(bit_pattern);
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_dpsk_nrz_pm(params_tx); 
+% NRZ-DPSK transmitter using a phase modulator
+
+% -------------------------------------------------------------------------
+% tx_dpsk_rz33_mzm
+% 33% RZ-DPSK transmitter using a Mach-Zehnder modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = logical_differential_encoder_binary(bit_pattern);
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_dpsk_rz33_mzm(params_tx); 
+% 33% RZ-DPSK transmitter using a Mach-Zehnder modulator
+
+% -------------------------------------------------------------------------
+% tx_dpsk_rz50_mzm
+% 50% RZ-DPSK transmitter using a Mach-Zehnder modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = logical_differential_encoder_binary(bit_pattern);
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_dpsk_rx50_mzm(params_tx); 
+% 50% RZ-DPSK transmitter using a Mach-Zehnder modulator
+
+% -------------------------------------------------------------------------
+% tx_dpsk_rz67_mzm
+% 67% RZ-DPSK transmitter using a Mach-Zehnder modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = logical_differential_encoder_binary(bit_pattern);
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_dpsk_rx67_mzm(params_tx); 
+% 67% RZ-DPSK transmitter using a Mach-Zehnder modulator
+
+% -------------------------------------------------------------------------
+% tx_duobinary_nrz_delay_add
+% Delay-and-add NRZ duobinary transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_duobinary_nrz_delay_add(params_tx);
+% Delay-and-add NRZ duobinary transmitter
+
+% -------------------------------------------------------------------------
+% tx_duobinary_nrz_low_pass
+% Low-pass filter NRZ duobinary transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_duobinary_nrz_low_pass(params_tx); 
+% Low-pass filter NRZ duobinary transmitter
+
+% -------------------------------------------------------------------------
+% tx_fsk
+% Ideal optical binary FSK transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.type = 'fsk';%'cpfsk';'msk';'gmsk';
+params_tx.symbol_rate = symbol_rate;
+params_tx.emission_frequency = reference_frequency;
+params_tx.tone_spacing = 2*params_tx.symbol_rate; % For FSK and CPFSK only.
+params_tx.rise_time = 1/params_tx.symbol_rate/4; 
+params_tx.bt = 0.3;                               % For GMSK only.
+params_tx.power = 1.0e-3;
+sig = tx_fsk(bit_pattern,params_tx);
+% Ideal optical binary FSK transmitter
 
 % -------------------------------------------------------------------------
 % tx_laser_chirped
@@ -521,8 +647,146 @@ params_chirped_tx.kappa = 12e12;                              % adiabatic chirp,
 [sig,freq_data] = tx_laser_chirped(nrz_data_sig,params_chirped_tx); 
 % Black-box laser with frequency chirp
 
+% -------------------------------------------------------------------------
+% tx_ook_nrz
+% NRZ-OOK transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_ook_nrz(params_tx);
+% NRZ-OOK transmitter
 
+% -------------------------------------------------------------------------
+% tx_ook_rz33
+% 33% RZ-OOK transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_ook_rz33(params_tx); 
+% 33% RZ-OOK transmitter
 
+% -------------------------------------------------------------------------
+% tx_ook_rz50
+% 50% RZ-OOK transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_ook_rz50(params_tx); 
+% 50% RZ-OOK transmitter
 
+% -------------------------------------------------------------------------
+% tx_ook_rz67
+% 67% RZ-OOK transmitter
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_ook_rz67(params_tx); 
+% 67% RZ-OOK transmitter
 
+% -------------------------------------------------------------------------
+% tx_pam4_mzm
+% PAM4 transmitter using a Mach-Zehnder modulator (chirp-free, infinite ER)
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.linewidth = 0;
+params_tx.laser_power = 1.0e-3;
+params_tx.bit_pattern_1 = bit_pattern_1;
+params_tx.bit_pattern_2 = bit_pattern_2;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_pam4_mzm(params); 
+% PAM4 transmitter
 
+% -------------------------------------------------------------------------
+% tx_qam16_nrz_iq
+% NRZ-16QAM transmitter using ideal optical IQ modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+params_tx.emission_frequency = reference_frequency;
+params_tx.linewidth = 0;
+params_tx.power = 1e-3;
+params_tx.bit_pattern.b1 = round(rand(1,nsymbols));
+params_tx.bit_pattern.b2 = round(rand(1,nsymbols));
+params_tx.bit_pattern.b3 = round(rand(1,nsymbols));
+params_tx.bit_pattern.b4 = round(rand(1,nsymbols));
+params_tx.rise_time = 1/symbol_rate/4;
+params_tx.alpha = 0.64;
+params_tx.beta = 1;
+[sig,ui,uq] = tx_qam16_nrz_iq(params_tx); 
+% NRZ-16QAM transmitter using ideal optical IQ modulator
+
+% -------------------------------------------------------------------------
+% tx_qpsk_nrz_iq
+% NRZ-QPSK transmitter using optical IQ modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+u = round(rand(1,nsymbols));
+v = round(rand(1,nsymbols));
+[params_tx.bit_pattern_1,params_tx.bit_pattern_2,~,~,~] = logical_differential_encoder_dqpsk('parallel',u,v);
+params_tx.emission_frequency = reference_frequency;
+params_tx.linewidth = 0;
+params_tx.power = 1.0e-3;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_qpsk_nrz_iq(params_tx); 
+% NRZ-QPSK transmitter using optical IQ modulator
+
+% -------------------------------------------------------------------------
+% tx_qpsk_nrz_mzm_pm
+% NRZ-QPSK transmitter using a Mach-Zehnder modulator followed by a phase modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+u = round(rand(1,nsymbols));
+v = round(rand(1,nsymbols));
+[params_tx.bit_pattern_1,params_tx.bit_pattern_2,~,~,~] = logical_differential_encoder_dqpsk('serial',u,v);
+params_tx.emission_frequency = reference_frequency;
+params_tx.linewidth = 0;
+params_tx.power = 1.0e-3;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_qpsk_nrz_mzm_pm(params_tx);
+% NRZ-QPSK transmitter using a Mach-Zehnder modulator followed by a phase modulator
+
+% -------------------------------------------------------------------------
+% tx_qpsk_nrz_pm_pm
+% NRZ-QPSK transmitter using two phase modulators
+% /src/transmitters/
+% -------------------------------------------------------------------------
+u = round(rand(1,nsymbols));
+v = round(rand(1,nsymbols));
+[params_tx.bit_pattern_1,params_tx.bit_pattern_2,~,~,~] = logical_differential_encoder_dqpsk('serial',u,v);
+params_tx.emission_frequency = reference_frequency;
+params_tx.linewidth = 0;
+params_tx.power = 1.0e-3;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_qpsk_nrz_pm_pm(params_tx); 
+% NRZ-QPSK transmitter using two phase modulators
+
+% -------------------------------------------------------------------------
+% tx_qpsk_rz50_iq
+% 50% RZ-DQPSK transmitter using optical IQ modulator
+% /src/transmitters/
+% -------------------------------------------------------------------------
+u = round(rand(1,nsymbols));
+v = round(rand(1,nsymbols));
+[params_tx.bit_pattern_1,params_tx.bit_pattern_2,~,~,~] = logical_differential_encoder_dqpsk('parallel',u,v);
+params_tx.emission_frequency = reference_frequency;
+params_tx.linewidth = 0;
+params_tx.power = 1.0e-3;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx_qpsk_rz50_iq(params_tx);
+% 50% RZ-DQPSK transmitter using optical IQ modulator
