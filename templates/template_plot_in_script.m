@@ -7,17 +7,17 @@ do_add_figsize_to_filename = 1;
 margin_figure = 0;
 
 fig.interpreter = 'latex';
+fig.font_size = 18;
 
 fig_name = [file_name_core_figure '_'];
 hfig = figure('Name',fig_name);
 plot(x,y,'Color','b','LineStyle','-','Marker','none','LineWidth',1.5,'MarkerSize',12,'MarkerFaceColor','w','HandleVisibility','on')
 xlabel(' ','Interpreter',fig.interpreter)
 ylabel(' ','Interpreter',fig.interpreter)
-legend('','Location','NorthEast','Box','off','Interpreter',fig.interpreter,'FontSize',18)
-% title('','FontWeight','Normal','Interpreter',fig.interpreter)
+legend('','Location','NorthEast','Box','off','Interpreter',fig.interpreter,'FontSize',fig.font_size)
 ax = gca;
 ax.TickLabelInterpreter = fig.interpreter;
-ax.FontSize = 18;
+ax.FontSize = fig.font_size;
 ax.LineWidth = 1.5;
 ax.TickLength = [0.01 0.025]*1.5;
 ax.XMinorTick = 'on';
