@@ -59,37 +59,14 @@ function hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params)
 %
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-
 global CONSTANT
 
-%--------------------------------------------------------------------------
-% Calculation according to:
-% F. Devaux, Y. Sorel, and J. F. Kerdiles, "Simple measurement of fiber 
-% dispersion and of chirp parameter of  intensity modulated light emitter,"
-% Journal of Lightwave Technology, vol. 11, no. 12, pp.1937-1940, Dec.
-% 1993.
-% Does not take adiabatic chirp into account.
-%--------------------------------------------------------------------------
 
-% hresp = sqrt(1 + params.alpha.^2)*cos(pi*lambda.^2*freq.^2*dispersion/CONSTANT.c + atan(params.alpha));
-% % Fibre transfer function for light intensity / photocurrent.
-% 
-% hresp = hresp.*hresp;
-% % The previous function is squared since the fiber transfer function is
-% % defined here as the ratio of the RF power following photodetection (with
-% % identical responsivity) after and before the dispersive element.
-
-%--------------------------------------------------------------------------
-% Calculation according to:
-% Equation (33) in:
-% J. Wang and K. Petermann, "Small signal analysis for dispersive optical 
-% fiber communication systems," Journal of Lightwave Technology, vol. 10, 
-% no. 1, pp. 96-100, January 1992 [doi: 10.1109/50.108743].
-% Takes transient and adiabatic chirp into account
-%--------------------------------------------------------------------------
 theta = pi*lambda.^2*freq.^2*dispersion/CONSTANT.c;
 
 hresp = abs(cos(theta)-sin(theta)*params.alpha.*(1 - 1i*params.fc./freq)).^2;
-% Small signal frequency response.
+% Small signal frequency response:
+% Ratio of RF powers.
+% In dB: 10*log10(hresp)
 
 end
