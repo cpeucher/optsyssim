@@ -9,8 +9,10 @@ function hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params)
 % symmetric sideband components upon direct detection in a photodiode. 
 % The transfer function is calculated as a function of the modulation
 % frequency and the chirp parameter (alpha) of the laser.
-% The transfer function is considered as the ratio of the detected RF power
+% The transfer function is considered as the ratio of the detected current
 % after and before the dispersive element.
+% It corresponds to the S21 parameter one would measure with a vector
+% network analyser.
 % The calculation is performed according to:
 % J. Wang and K. Petermann, "Small signal analysis for dispersive optical 
 % fiber communication systems," Journal of Lightwave Technology, vol. 10, 
@@ -61,12 +63,11 @@ function hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params)
 % -------------------------------------------------------------------------
 global CONSTANT
 
-
 theta = pi*lambda.^2*freq.^2*dispersion/CONSTANT.c;
 
-hresp = abs(cos(theta)-sin(theta)*params.alpha.*(1 - 1i*params.fc./freq)).^2;
-% Small signal frequency response:
-% Ratio of RF powers.
-% In dB: 10*log10(hresp)
+hresp = cos(theta)-sin(theta)*params.alpha.*(1 - 1i*params.fc./freq);
+% Small signal frequency response
+% Ratio of currents / voltage => S21
+% In dB: 20*log10(abs(hresp))
 
 end
