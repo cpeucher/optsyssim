@@ -465,6 +465,28 @@ sig = pol_pdl(sig,insertion_loss,pdl);
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
+
+% -------------------------------------------------------------------------
+% rx_coherent
+% Front-end for polarisation- and phase-diversity coherent receiver
+% /src/receiver/
+% -------------------------------------------------------------------------
+params_coh.pbs_sig.angle = 0;
+params_coh.pbs_sig.loss = 0;
+params_coh.pbs_sig.extinction_ratio = Inf;
+params_coh.pbs_lo.angle = -pi/4;
+params_coh.pbs_lo.loss = 0;
+params_coh.pbs_lo.extinction_ratio = Inf;
+params_coh.pd.responsivity = 1;
+params_coh.pd.thermal_noise_density = 0*10e-12;
+params_coh.pd.shot_noise = 'off';
+params_coh.pd.dark_current = 0;
+params_coh.elpf.type = 'bessel';
+params_coh.elpf.order = 4;
+params_coh.elpf.f3dB = 0.7*symbol_rate;
+[sig_x_i,sig_x_q,sig_y_i,sig_y_q] = rx_coherent(sig,sig_lo,params_coh);
+% Coherent front-end
+
 % -------------------------------------------------------------------------
 % rx_pin
 % PIN receiver with shot and thermal noise and low-pass filtering
@@ -480,7 +502,14 @@ params_pin.elpf.f3dB = 0.7*symbol_rate;
 sig = rx_pin(sig,params_pin);
 % PIN receiver
 
-
+% -------------------------------------------------------------------------
+% rx_resynchronise
+% Retiming of an electrical or optical signal based on intensity cross-correlation ("clock recovery")
+% /src/receiver/
+% -------------------------------------------------------------------------
+sig_type = 'opt';%'elec';
+[sig,imax] = rx_resynchronise(sig,seq,sig_type);
+% Resync signal
 
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
