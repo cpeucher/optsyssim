@@ -1,42 +1,31 @@
 
+
+
+
+
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-% auxiliary
+% amplifiers
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-% prod_mm
-% Product of time or frequency dependent 2x2 matrices
-% /src/auxiliary/
+% opt_amplifier
+% Basic system model of an optical amplifier
+% /src/amplifiers/
 % -------------------------------------------------------------------------
-C = prod_mm(A,B);
-% Matrix-matrix product
-
-% -------------------------------------------------------------------------
-% prod_mv
-% Product of time or frequency dependent 2-element vector and 2x2 matrix
-% /src/auxiliary/
-% This function was initially created to manipulate Jones vector and is 
-% identical to jones_prod_mv under /src/polarization
-% We just created this function since its scope of use is much larger while
-% keeping a self-contained polarization package.
-% We are aware this is very bad practice.
-% -------------------------------------------------------------------------
-B = prod_mv(M,A);
-% Vector-matrix product
-
-
-
-
-
-
-
-
+params_optamp.mode = 'power';%'pain';%'saturation';
+params_optamp.pol = 'x';%'y';%'both';
+params_optamp.gain = 20;
+params_optamp.output_power = 10;
+params_optamp.noise_figure = 4;
+params_optamp.add_noise = 1;
+sig = opt_amplifier(sig,params_optamp);
+% Optical amplifier
 
 
 
@@ -239,6 +228,27 @@ sig = mod_polm(sig,nrz_data_sig,vpi,loss);
 % -------------------------------------------------------------------------
 dfunc = num_diff_1d_pb(func,h)
 % Differentiation
+
+% -------------------------------------------------------------------------
+% prod_mm
+% Product of time or frequency dependent 2x2 matrices
+% /src/numerical/matrices/
+% -------------------------------------------------------------------------
+C = prod_mm(A,B);
+% Matrix-matrix product
+
+% -------------------------------------------------------------------------
+% prod_mv
+% Product of time or frequency dependent 2-element vector and 2x2 matrix
+% /src/auxiliary/
+% This function was initially created to manipulate Jones vector and is 
+% identical to jones_prod_mv under /src/polarization
+% We just created this function since its scope of use is much larger while
+% keeping a self-contained polarization package.
+% We are aware this is very bad practice.
+% -------------------------------------------------------------------------
+B = prod_mv(M,A);
+% Vector-matrix product
 
 
 
