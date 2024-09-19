@@ -119,6 +119,22 @@ sig = elec_modulator(symbols,params_elecmod);
 % Electrical modulator
 
 % -------------------------------------------------------------------------
+% elec_pulse_gaussian
+% Electrical Gaussian pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_pulse_gaussian(time_array,pulse_position,pulse_duration,pulse_order); 
+% Gaussian pulse
+
+% -------------------------------------------------------------------------
+% elec_pulse_sech
+% Electrical sech pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_pulse_sech(time_array,pulse_position,pulse_duration); 
+% Electrical hyperbolic secant pulse
+
+% -------------------------------------------------------------------------
 % elec_pulse_sequence_nrz
 % Electrical NRZ pulse sequence generation
 % /src/electrical/
