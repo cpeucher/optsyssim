@@ -104,6 +104,19 @@ symbol_rate = 25e9;
 sig = elec_coder_nrz(bit_pattern,nsamples_per_symbol); 
 % NRZ encoder without rise time
 
+% -------------------------------------------------------------------------
+% elec_modulator
+% Electrical modulator using convolution of impulses with pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+params_elecmod.pulse_shape = 'rc';%'rrc';'sinc';'sech';'gaussian';
+params_elecmod.roll_off = 1;
+params_elecmod.symbol_rate = symbol_rate;
+params_elecmod.fwhm = 1/symbol_rate/6;
+params_elecmod.order = 1;
+params_elecmod.normalisation = 'peak';
+sig = elec_modulator(symbols,params_elecmod); 
+% Electrical modulator
 
 % -------------------------------------------------------------------------
 % elec_pulse_sequence_nrz
@@ -112,6 +125,26 @@ sig = elec_coder_nrz(bit_pattern,nsamples_per_symbol);
 % -------------------------------------------------------------------------
 sig = elec_pulse_sequence_nrz(bit_pattern,rise_time);
 % NRZ sequence generation
+
+% -------------------------------------------------------------------------
+% elec_rise_time
+% Apply rise time to a rectangular electrical signal
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_rise_time(sig,rise_time);
+% Rise time
+
+% -------------------------------------------------------------------------
+% elec_sinusoidal
+% Electrical sinusoidal signal generation
+% /src/electrical/
+% -------------------------------------------------------------------------
+params_rf.frequency = symbol_rate;
+params_rf.phase = 0;
+params_rf.vpp = 1.0;
+params_rf.vdc = 0;
+sig = elec_sinusoidal(params_rf); 
+% Electrical sinusoidal signal generation
 
 
 % -------------------------------------------------------------------------
