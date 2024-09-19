@@ -114,6 +114,37 @@ sig = elec_pulse_sequence_nrz(bit_pattern,rise_time);
 % NRZ sequence generation
 
 
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% fibres
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+% -------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% opt_nlse_scalar_basic
+% Basic scalar nonlinear Schroedinger equation
+% /src/fibres/
+% -------------------------------------------------------------------------
+params_fibre.nonlinear_coefficient = 1.3e-3;% nonlinear coefficient, in 1/W/m
+params_fibre.dispersion = 16;% dispersion, in ps/nm/km
+params_fibre.dispersion_slope = 0.058;% dispersion slope, in ps/nm2/km
+params_fibre.dispersion_curvature = 0;% dispersion curvature, in ps/nm3/km
+params_fibre.dispersion_spec_frequency = reference_frequency;
+params_fibre.loss = 0.2;% loss, in dB/km
+params_fibre.length = 10e3;% fibre length, in m
+numparams_fibre.max_step_size = 1;% maximum step size, in m
+numparams_fibre.max_phase_shift = 1e-3;% maximum nonlinear phase shift, in radians
+params_fibre.beta_coefficients = dispersion_conv_d_beta([params_fibre.dispersion params_fibre.dispersion_slope params_fibre.dispersion_curvature],'to_beta','eng','si',params_fibre.dispersion_spec_frequency);
+params_fibre.loss_alpha = loss_conv_lin_log(params_fibre.loss);
+sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
+% Basic scalar nonlinear Schroedinger equation
+
+
 
 
 
