@@ -170,7 +170,7 @@ fprintf('\n\n%s%s\n\n','Simulation started on ',datestr(start_time));
 % -------------------------------------------------------------------------
 % PRBS
 % -------------------------------------------------------------------------
-params_prbs.type = 'shift_register_sequence';%'de_bruijn_sequence';
+params_prbs.type = 'shift_register';%'de_bruijn';
 params_prbs.order = 7;
 params_prbs.poly = [7 6 0];%[7 3 0];[7 1 0];
 params_prbs.seed = [1 1 1 0 1 1 0];
