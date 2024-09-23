@@ -97,6 +97,15 @@ symbol_rate = 25e9;
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% elec_coder_manchester
+% Manchester encoder without rise time
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_coder_manchester(bit_pattern,nsamples_per_symbol); 
+% Manchester encoder
+
+
+% -------------------------------------------------------------------------
 % elec_coder_nrz
 % Electrical NRZ encoder without rise time
 % /src/electrical/
