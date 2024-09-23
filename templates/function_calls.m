@@ -203,6 +203,90 @@ sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
 % Basic scalar nonlinear Schroedinger equation
 
 
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% filters                                                                   filters
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+% -------------------------------------------------------------------------
+% opt_filter
+% Optical filter
+% /src/filters/
+% -------------------------------------------------------------------------
+sig = opt_filter(sig,tf);
+% Optical filter
+
+% -------------------------------------------------------------------------
+% opt_tf_fbg
+% Transfer function of fibre Bragg grating
+% /src/filters/
+% -------------------------------------------------------------------------
+params_fbg.length = 0.03;                 % Grating length, in m.
+params_fbg.centre_frequency = 193.1e12;   % Centre frequency of the grating, in Hz.
+params_fbg.n0 = 1.45;                     % Effective index of the fibre.
+params_fbg.dn = 1.0e-4;                   % Refractive index change.
+params_fbg.m = 0;                         % Control of average index change.
+params_fbg.chirp_rate = 0;                % Laser linear chirp rate, in 1/m.
+params_fbg.apodisation.type = 'uniform';     
+params_fbg.apodisation.eta = 0;
+params_fbg.apodisation.fwhm = 0;
+params_fbg.apodisation.profile = 0;
+numparams_fbg.nsections = 1000;           % Number of uniform grating sections.
+params_fbg.phase_shift = zeros(1,numparams.nsections);% Position of phase shifts.
+freq = frequency_array + reference_frequency;
+tf = opt_tf_fbg(freq,params_fbg,numparams_fbg);
+% Transfer function of fibre Bragg grating
+
+% -------------------------------------------------------------------------
+% opt_tf_fp
+% Transfer function of Fabry-Perot optical filter
+% /src/filters/
+% -------------------------------------------------------------------------
+params_fp.mode = 'transmission';%'reflection';
+params_fp.finesse = 100;
+params_fp.fsr = 100e9;
+params_fp.centre_frequency = 0;
+tf = opt_tf_fp(frequency_array,params_fp);
+% Transfer function of Fabry-Perot optical filter
+
+% -------------------------------------------------------------------------
+% opt_tf_gt
+% Transfer function of Gires-Tournois interferometer
+% /src/filters/
+% -------------------------------------------------------------------------
+params_gt.reflectivity = 0.9;
+params_gt.fsr = 100e9;
+params_gt.centre_frequency = 0;
+tf = opt_tf_gt(frequency_array,params_gt);
+% Transfer function of Gires-Tournois interferometer
+
+% -------------------------------------------------------------------------
+% opt_tf_matched
+% Transfer function of optical matched filter
+% /src/filters/
+% -------------------------------------------------------------------------
+tf = opt_tf_matched(pulse,freq);
+% Transfer function of optical matched filter
+
+% -------------------------------------------------------------------------
+% opt_tf_obpf
+% Transfer functions of some standard optical bandpass filters
+% /src/filters/
+% -------------------------------------------------------------------------
+params_obpf.type = 'gaussian';%'none','rectangular_ideal','rectangular';
+params_obpf.centre_frequency = 0;
+params_obpf.bandwidth = 40e9;
+params_obpf.order = 4;
+params_obpf.attenuation_in_band = -1;
+params_obpf.attenuation_out_band = -20;
+tf = opt_tf_obpf(params_obpf,frequency_array);
+% Optical bandpass filter transfer function
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
