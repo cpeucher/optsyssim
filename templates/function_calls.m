@@ -786,6 +786,40 @@ sig_type = 'opt';%'elec';
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% opt_broadband_time
+% Optical broadband source (time domain generation)
+% /src/sources/
+% -------------------------------------------------------------------------
+power_dbm = 0;  % power of each frequency component, in dBm
+sig = opt_broadband_time(power_dbm); 
+% Optical broadband source
+
+% -------------------------------------------------------------------------
+% opt_comb
+% Arbitrary frequency comb generation
+% /src/sources/
+% -------------------------------------------------------------------------
+params_comb.nlines = 13;
+% Number of lines in the comb.
+params_comb.centre_frequency = reference_frequency;
+% Centre frequency of the comb, in Hz.
+params_comb.line_spacing = 100e9;
+% Frequency spacing of the lines in the comb, in Hz.
+params_comb.frequency = params_comb.centre_frequency - (params_comb.nlines - 1)/2*params_comb.line_spacing+(0:1:params_comb.nlines -1 )*params_comb.line_spacing;
+% Frequencies of the lines in the comb, in Hz.
+params_comb.power = 1e-3*randn(1,params_comb.nlines);
+% Power of the lines in the comb, in W.
+params_comb.phase = zeros(1,params_comb.nlines);
+% Phases of the lines in the comb, in rad.
+params_comb.linewidth = 1e6*rand(1,params_comb.nlines);
+% Linewidths of the lines in the comb, in Hz.
+params_comb.jones.x = ones(1,params_comb.nlines);
+params_comb.jones.y = zeros(1,params_comb.nlines);
+% Jones vectors of the lines in the comb. Should be normalised.
+[sig,params_comb.line_indices] = opt_comb(params_comb);
+% Frequency comb
+
+% -------------------------------------------------------------------------
 % opt_laser_cw
 % Continuous wave (CW) laser
 % /src/sources/
