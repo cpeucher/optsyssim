@@ -64,6 +64,7 @@ function hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params)
 global CONSTANT
 
 theta = pi*lambda.^2*freq.^2*dispersion/CONSTANT.c;
+% theta = -0.5*beta_2 w^2 L, where w = angular frequency.
 
 hresp = cos(theta)-sin(theta)*params.alpha.*(1 - 1i*params.fc./freq);
 % Small signal frequency response
