@@ -797,6 +797,14 @@ sig = opt_laser_cw(params_cw);
 % CW laser
 
 % -------------------------------------------------------------------------
+% opt_nosig
+% Dummy optical signal generation
+% /src/sources/
+% -------------------------------------------------------------------------
+sig = opt_nosig();
+% Dummy optical signal generation
+
+% -------------------------------------------------------------------------
 % opt_pulse_gauss
 % Gaussian pulse
 % /src/sources/

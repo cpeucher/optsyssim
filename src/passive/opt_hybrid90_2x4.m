@@ -39,9 +39,9 @@ function [sigout1,sigout2,sigout3,sigout4] = opt_hybrid90_2x4(sigin1,sigin2)
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-[sig11,sig12] = opt_coupler_2x2(sigin1,opt_no_sig,'lin',0.5);
+[sig11,sig12] = opt_coupler_2x2(sigin1,opt_nosig,'lin',0.5);
 % Input 3 dB coupler (top).
-[sig21,sig22] = opt_coupler_2x2(opt_no_sig,sigin2,'lin',0.5);
+[sig21,sig22] = opt_coupler_2x2(opt_nosig,sigin2,'lin',0.5);
 % Input 3 dB coupler (bottom).
 [sigout1,sigout2] = opt_coupler_2x2(sig11,sig21,'lin',0.5);
 % Output 3 dB coupler(top).

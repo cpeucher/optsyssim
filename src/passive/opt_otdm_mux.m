@@ -85,7 +85,7 @@ else
         delays = zeros(1,nstages);
         % Initialise array for storing the values of delays.
         
-        [sig_up,sig] = opt_coupler_2x2(opt_no_sig,sig,'lin',0.5);
+        [sig_up,sig] = opt_coupler_2x2(opt_nosig,sig,'lin',0.5);
         % Input coupler.
         
         for kstage = 1:nstages
