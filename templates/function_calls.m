@@ -213,7 +213,6 @@ sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
-
 % -------------------------------------------------------------------------
 % opt_filter
 % Optical filter
@@ -221,6 +220,23 @@ sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
 % -------------------------------------------------------------------------
 sig = opt_filter(sig,tf);
 % Optical filter
+
+% -------------------------------------------------------------------------
+% opt_mrr
+% Micro-ring resonator filter in add-drop configuration
+% /src/filters/
+% -------------------------------------------------------------------------
+params_mrr.field_round_trip_loss = 0.96;
+params_mrr.power_coupling_1 = 0.63;
+params_mrr.power_coupling_2 = params_mrr.power_coupling_1;
+params_mrr.centre_frequency = 0;
+params_mrr.fsr = 100e9;
+params_mrr.visualiser_status = 0;
+params_mrr.save_tf.status = 0;
+params_mrr.save_tf.file_name = 'mrr_tf.dat';
+sig_add = opt_no_sig;
+[sig_through,sig_drop] = opt_mrr(sig,sig_add,params_mrr); 
+% Add-drop MRR 
 
 % -------------------------------------------------------------------------
 % opt_tf_fbg
@@ -273,6 +289,22 @@ tf = opt_tf_gt(frequency_array,params_gt);
 % -------------------------------------------------------------------------
 tf = opt_tf_matched(pulse,freq);
 % Transfer function of optical matched filter
+
+% -------------------------------------------------------------------------
+% opt_tf_mrr
+% Transfer function of add-drop micro-ring resonator filter
+% /src/filters/
+% -------------------------------------------------------------------------
+params_mrr.field_round_trip_loss = 0.96;
+params_mrr.power_coupling_1 = 0.63;
+params_mrr.power_coupling_2 = params_mrr.power_coupling_1;
+params_mrr.centre_frequency = 0;
+params_mrr.fsr = 100e9;
+vis_mrr.visualiser_status = 1;
+vis_mrr.save_tf.status = 0;
+vis_mrr.save_tf.file_name = 'mrr_tf.dat';
+tf = opt_tf_mrr(frequency_array,params_mrr,vis_mrr); 
+% Transfer function of add-drop micro-ring resonator filter
 
 % -------------------------------------------------------------------------
 % opt_tf_obpf
