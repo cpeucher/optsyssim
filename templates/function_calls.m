@@ -239,6 +239,19 @@ sig_add = opt_no_sig;
 % Add-drop MRR 
 
 % -------------------------------------------------------------------------
+% opt_mzdi
+% Mach-Zehnder delay interferometer
+% /src/filters/
+% -------------------------------------------------------------------------
+params_mzdi.delay_target = 1/symbol_rate;
+params_mzdi.coupling_ratio_in = 0.5;
+params_mzdi.coupling_ratio_out = 0.5;
+params_mzdi.mode = 'tuned';%'general';
+params_mzdi.phase_shift = 0;
+[sig21,sig22] = opt_mzdi(sig,opt_nosig,params_mzdi); 
+% Mach-Zehnder delay interferometer
+
+% -------------------------------------------------------------------------
 % opt_tf_fbg
 % Transfer function of fibre Bragg grating
 % /src/filters/
@@ -588,7 +601,6 @@ otdm_mux_mode = 'serial';% 'serial_random';'parallel';
 [sig,otdm_mux_delays] = opt_otdm_mux(sig,symbol_rate,...
       otdm_mux_multiplication_factor,params_prbs.order,otdm_mux_mode);
 % OTDM multiplexer
-
 
 % -------------------------------------------------------------------------
 % opt_phase_shift
