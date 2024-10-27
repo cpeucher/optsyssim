@@ -1,9 +1,6 @@
 % -------------------------------------------------------------------------
 % Test of meas_scope function
 %
-% 
-% 2024-08-01
-%
 % -------------------------------------------------------------------------
 
 
@@ -138,12 +135,8 @@ CONSTANT = core_load_constants();
 % ------------------------------------------------------------------------- 
 % Start time 
 % ------------------------------------------------------------------------- 
-start_time = clock;
-fprintf('\n\n%s%s\n\n','Simulation started on ',datestr(start_time));
-
-
-
-
+start_time = datetime("now");
+fprintf('\n\n%s%s\n\n','Simulation started on ',start_time);
 
 
 
@@ -186,7 +179,7 @@ params_scope.visualisers = {'amplitude'};
 params_scope.display_interval = [2 3]*1.0e-9;
 params_scope.save.emf = 1;
 params_scope.name = 'Electrical waveform characterisation';
-meas_scope_new(nrz_data_sig,params_scope); 
+meas_scope(nrz_data_sig,params_scope); 
 % Visualisation of electrical signal
 
 
@@ -194,19 +187,19 @@ params_scope.visualisers = {'power','phase','chirp'};
 % params_scope.display_interval = [0 time_array(end)];
 params_scope.save.emf = 1;
 params_scope.name = 'Optical waveform characterisation 1';
-traces = meas_scope_new(sig.x,params_scope); 
+traces = meas_scope(sig.x,params_scope); 
 
 params_scope.visualisers = {'chirp','power'};
 % params_scope.display_interval = [0 time_array(end)];
 params_scope.save.emf = 1;
 params_scope.name = 'Optical waveform characterisation 2';
-meas_scope_new(sig.x,params_scope); 
+meas_scope(sig.x,params_scope); 
 
 params_scope.visualisers = {'power'};
 % params_scope.display_interval = [0 time_array(end)];
 params_scope.save.emf = 1;
 params_scope.name = 'Optical waveform characterisation 3';
-meas_scope_new(sig.x,params_scope); 
+meas_scope(sig.x,params_scope); 
 
 
 
@@ -232,7 +225,7 @@ meas_scope_new(sig.x,params_scope);
 
 % ------------------------------------------------------------------------- 
 % ------------------------------------------------------------------------- 
-% Display duration (or wrapup: core_wrapup(start_time,0);)
+% Display simulation duration
 % ------------------------------------------------------------------------- 
 % ------------------------------------------------------------------------- 
-core_display_duration(start_time,clock);
+core_display_duration(start_time,datetime("now"));
