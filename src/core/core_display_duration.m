@@ -33,7 +33,7 @@ function core_display_duration(start_time,end_time)
 %
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
-% 
+
 duration = seconds(end_time - start_time);
 % Calculate duration in seconds between the start and stop of the
 % simulation

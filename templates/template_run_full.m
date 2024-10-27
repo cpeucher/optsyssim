@@ -138,10 +138,8 @@ CONSTANT = core_load_constants();
 % ------------------------------------------------------------------------- 
 % Start time 
 % ------------------------------------------------------------------------- 
-start_time = clock;
-fprintf('\n\n%s%s\n\n','Simulation started on ',datestr(start_time));
-
-
+start_time = datetime("now");
+fprintf('\n\n%s%s\n\n','Simulation started on ',start_time);
 
 
 
@@ -327,7 +325,7 @@ params_rf_pwm.input_impedance = 1;
 
 % ------------------------------------------------------------------------- 
 % ------------------------------------------------------------------------- 
-% Display duration (or wrapup: core_wrapup(start_time,0);)
+% Display simulation duration
 % ------------------------------------------------------------------------- 
 % ------------------------------------------------------------------------- 
-core_display_duration(start_time,clock);
+core_display_duration(start_time,datetime("now"));

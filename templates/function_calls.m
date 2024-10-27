@@ -93,6 +93,24 @@ symbol_rate = 25e9;
 [time_array,dt,frequency_array,df] = core_create_time_axis(nsamples_per_symbol,nsymbols,symbol_rate);
 % Create time and frequency axes
 
+% -------------------------------------------------------------------------
+% core_display_duration
+% Display time interval between two events
+% /src/core/
+% -------------------------------------------------------------------------
+start_time = datetime("now");
+end_time = datetime("now");
+core_display_duration(start_time,end_time);
+% Display simulation duration
+
+% -------------------------------------------------------------------------
+% core_load_constants
+% Load essential physical constants
+% /src/core/
+% -------------------------------------------------------------------------
+global CONSTANT
+CONSTANT = core_load_constants();
+% Load essential physical constants
 
 
 
