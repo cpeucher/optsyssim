@@ -212,11 +212,8 @@ rz_data_sig = elec_coder_rz(bit_pattern,nsamples_per_symbol,...
           params_rz.rise_time,params_rz.amplitude_mode);
       
       
-params_scope.type = 'elec';
-params_scope.pol = 'x';%'y','both';
-params_scope.visualiser_type = 'power';%'power_phase';'power_chirp';'power_phase_chirp';
+params_scope.visualisers = {'amplitude'};
 params_scope.display_interval = [0 time_array(end)];
-params_scope.save.ascii = 0;
 params_scope.save.emf = 0;
 params_scope.name = 'Electrical signal';
 meas_scope(rz_data_sig,params_scope);
@@ -240,7 +237,7 @@ params_osa.display_interval = [-6*symbol_rate 6*symbol_rate];
 params_osa.resolution_bandwidth = 12.5e9;
 params_osa.sensitivity = -60;
 params_osa.display = 1;
-params_osa.save.ascii = 0;
+params_osa.save.txt = 0;
 params_osa.save.emf = 0;
 params_osa.save.jpg = 0;
 params_osa.name = 'Optical spectrum';
@@ -248,14 +245,11 @@ meas_osa(sig,params_osa);
 % Optical spectrum analyser.
 
 
-params_scope.type = 'opt';%'elec';
-params_scope.pol = 'x';%'y','both';
-params_scope.visualiser_type = 'power';%'power_phase';'power_chirp';'power_phase_chirp';
+params_scope.visualisers = {'power'};
 params_scope.display_interval = [0 time_array(end)];
-params_scope.save.ascii = 0;
 params_scope.save.emf = 0;
 params_scope.name = 'Optical signal';
-meas_scope(sig,params_scope);
+meas_scope(sig.x,params_scope);
 % Oscilloscope
 
 
@@ -274,7 +268,7 @@ sig = rx_pin(sig,params_pin);
 params_eye.pol = 'x';%'y','both';
 params_eye.eye_number = 2;
 params_eye.samples_per_symbol = nsamples_per_symbol;
-params_eye.save.ascii = 0;
+params_eye.save.txt = 0;
 params_eye.save.emf = 0;
 params_eye.save.jpg = 0;
 params_eye.save.vertical_scale_type = 'auto';%'fixed';
