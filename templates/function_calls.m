@@ -173,12 +173,36 @@ sig = elec_modulator(symbols,params_elecmod);
 % Electrical modulator
 
 % -------------------------------------------------------------------------
-% elec_pulse_gaussian
+% elec_pulse_gauss
 % Electrical Gaussian pulse shape
 % /src/electrical/
 % -------------------------------------------------------------------------
-sig = elec_pulse_gaussian(time_array,pulse_position,pulse_duration,pulse_order); 
+sig = elec_pulse_gauss(time_array,pulse_position,pulse_duration,pulse_order); 
 % Gaussian pulse
+
+% -------------------------------------------------------------------------
+% elec_pulse_rc
+% Raised-cosine pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_pulse_rc(time_array,pulse_position,1/symbol_rate,alpha);
+% Raised-cosine pulse
+
+% -------------------------------------------------------------------------
+% elec_pulse_rectangular
+% Rectangular pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_pulse_rectangular(time_array,pulse_position,pulse_duration);
+% Rectangular pulse
+
+% -------------------------------------------------------------------------
+% elec_pulse_rrc
+% Root-raised-cosine pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_pulse_rrc(time_array,time_array(nsamples/2),1/symbol_rate,alpha); 
+% Root-raised-cosine pulse
 
 % -------------------------------------------------------------------------
 % elec_pulse_sech
@@ -187,6 +211,14 @@ sig = elec_pulse_gaussian(time_array,pulse_position,pulse_duration,pulse_order);
 % -------------------------------------------------------------------------
 sig = elec_pulse_sech(time_array,pulse_position,pulse_duration); 
 % Electrical hyperbolic secant pulse
+
+% -------------------------------------------------------------------------
+% elec_pulse_sinc
+% sinc pulse shape
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_pulse_sinc(time_array,pulse_position,1/symbol_rate); 
+% sinc pulse shape
 
 % -------------------------------------------------------------------------
 % elec_pulse_sequence_nrz

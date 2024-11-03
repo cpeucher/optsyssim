@@ -1,32 +1,32 @@
-function sig = elec_pulse_gaussian(time,position,duration,order)
-% Electrical Gaussian pulse shape
+function sig = elec_pulse_sinc(time,t0,ts)
+% sinc pulse shape
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
-% This function generates a time domain Gaussian pulse.
+% This function calculates a sinc pulse with adjustable duration.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% sig = elec_pulse_gaussian(time_array,pulse_position,pulse_duration,pulse_order); 
+% sig = elec_pulse_sinc(time_array,pulse_position,1/symbol_rate); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:
 % -------------------------------------------------------------------------
-% time              time values at which points the pulse will be
-%                   calculated, in s [real vector]
+% time              time values over which the pulse will be calculated
+%                       [real vector]
 %
-% position          pulse centre position, in s [real scalar]
+% t0                position of the pulse [real scalar]
 %
-% duration          pulse FWHM, in s [real scalar]
+% ts                symbol period [real scalar]
 %
-% order             Gaussian order [integer scalar]
+%                       Zero crossings will be at integer multiples of ts.                       
 %
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% sig               electrical pulse shape [real vector]
+% sig               electrical pulse [real vector]
 %
 % -------------------------------------------------------------------------
 % GLOBAL:
@@ -36,7 +36,7 @@ function sig = elec_pulse_gaussian(time,position,duration,order)
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-sig = exp(-log(2)*(2*(time - position)/duration).^(2*order));
-% Gaussian pulse.
+sig = func_sinc(pi*(time - t0)/ts);
+% Sinc pulse
 
 end

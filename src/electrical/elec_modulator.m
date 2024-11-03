@@ -38,7 +38,7 @@ function sig = elec_modulator(symbs,params)
 %                           params.pulse_shape ='rrc': root raised-cosine
 %                           params.pulse_shape ='sinc': sinc 
 %                           params.pulse_shape ='sech: sech
-%                           params.pulse_shape ='gaussian': Gaussian
+%                           params.pulse_shape ='gauss': Gaussian
 %
 %                       params.symbol_rate
 %                           symbol rate of the signal [real scalar]
@@ -182,10 +182,10 @@ switch params.pulse_shape
                 signorm = 1;
         end
         
-    case 'gaussian'
+    case 'gauss'
         % Gaussian pulse
         
-        sig = elec_pulse_gaussian(time_array,t0,params.fwhm,params.order);      
+        sig = elec_pulse_gauss(time_array,t0,params.fwhm,params.order);      
         
         switch params.normalisation            
             case 'peak'                
