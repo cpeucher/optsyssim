@@ -65,18 +65,18 @@ function sig = opt_dispersion(sig,params,z)
 global frequency_array 
 global reference_frequency
 
-beta = dispersion_conv_d_beta([params.dispersion, params.dispersion_slope, params.dispersion_curvature],'to_beta','eng','SI',params.dispersion_spec_frequency);
+beta = conv_disp_d_beta([params.dispersion, params.dispersion_slope, params.dispersion_curvature],'to_beta','eng','SI',params.dispersion_spec_frequency);
 % Convert the dispersion and dispersion slope to beta_2 and beta_3 
 
 ref_freq = params.dispersion_spec_frequency - reference_frequency;
-% Dispersion specification frequency relative to the reference frequency.
+% Dispersion specification frequency relative to the reference frequency
 
 tf = exp(-1i*(0.5*beta(2)*(2*pi*(frequency_array - ref_freq)).^2 +...
     beta(3)/6*(2*pi*(frequency_array - ref_freq)).^3)*z);
-% All-pass filter due to dispersion.
+% All-pass filter due to dispersion
 
 sig.x = ifft(fft(sig.x).* fftshift(tf));
 sig.y = ifft(fft(sig.y).* fftshift(tf));
-% Apply the filter to the input signal.
+% Apply the filter to the input signal
 
 end

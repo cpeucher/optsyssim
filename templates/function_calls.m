@@ -39,6 +39,31 @@ sig = opt_amplifier(sig,params_optamp);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% calc_disp_imdd_small_signal
+% Fibre frequency response due to dispersion and chirp with direct detection
+% /src/auxiliary/
+% -------------------------------------------------------------------------
+freq = [0:0.1:20]*1.0e9;                   % frequency range, in Hz
+lambda = CONSTANT.c/reference_frequency;   % laser wavelength, in m.
+dispersion = 17*80*1e-3;                   % dispersion, in s/m.
+params_chirpedtx.alpha = 0;                % laser alpha parameter.
+params_chirpedtx.fc = 0;                   % chirp corner frequency, in Hz.
+hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params_chirpedtx); 
+% Fibre + DD small-signal frequency response
+
+% -------------------------------------------------------------------------
+% conv_disp_d_beta
+% Conversion of dispersion between D, S, C and beta_n
+% /src/auxiliary/
+% -------------------------------------------------------------------------
+dispersion = 16;              % dispersion, in ps/nm/km
+dispersion_slope = 0.058;     % dispersion slope, in ps/nm2/km
+dispersion_curvature = 0;     % dispersion curvature, in ps/nm3/km
+dispersion_spec_frequency = CONSTANT.c/1550e-9;
+beta = conv_disp_d_beta([dispersion dispersion_slope dispersion_curvature],'to_beta','eng','si',dispersion_spec_frequency);
+% Convert dispersion to beta
+
+% -------------------------------------------------------------------------
 % conv_loss_lin_log
 % Conversion of loss per unit length from dB/km to m^-1 and calculation of effective length
 % /src/auxiliary/

@@ -23,7 +23,7 @@ function hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params)
 % -------------------------------------------------------------------------
 % freq = [0:0.1:20]*1.0e9;                   % frequency range, in Hz
 % lambda = CONSTANT.c/reference_frequency;   % laser wavelength, in m.
-% dispersion = 17*80*1e-3;                 % dispersion, in s/m.
+% dispersion = 17*80*1e-3;                   % dispersion, in s/m.
 % params_chirpedtx.alpha = 0;                % laser alpha parameter.
 % params_chirpedtx.fc = 0;                   % chirp corner frequency, in Hz.
 % hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params_chirpedtx); 
@@ -64,7 +64,7 @@ function hresp = calc_disp_imdd_small_signal(freq,lambda,dispersion,params)
 global CONSTANT
 
 theta = pi*lambda.^2*freq.^2*dispersion/CONSTANT.c;
-% theta = -0.5*beta_2 w^2 L, where w = angular frequency.
+% theta = -0.5*beta_2 w^2 L, where w = angular frequency
 
 hresp = cos(theta)-sin(theta)*params.alpha.*(1 - 1i*params.fc./freq);
 % Small signal frequency response
