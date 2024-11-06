@@ -26,7 +26,7 @@ function sig = opt_nlse_scalar_basic(sig,params,numparams)
 % numparams_fibre.max_step_size = 1;% maximum step size, in m
 % numparams_fibre.max_phase_shift = 1e-3;% maximum nonlinear phase shift, in radians
 % params_fibre.beta_coefficients = dispersion_conv_d_beta([params_fibre.dispersion params_fibre.dispersion_slope params_fibre.dispersion_curvature],'to_beta','eng','si',params_fibre.dispersion_spec_frequency);
-% params_fibre.loss_alpha = loss_conv_lin_log(params_fibre.loss);
+% params_fibre.loss_alpha = conv_loss_lin_log(params_fibre.loss);
 % sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
 %
 % -------------------------------------------------------------------------

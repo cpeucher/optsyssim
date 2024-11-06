@@ -28,6 +28,25 @@ sig = opt_amplifier(sig,params_optamp);
 % Optical amplifier
 
 
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% auxiliary                                                                 auxiliary
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+% conv_loss_lin_log
+% Conversion of loss per unit length from dB/km to m^-1 and calculation of effective length
+% /src/auxiliary/
+% -------------------------------------------------------------------------
+loss = 0.8;       % Loss in dB/km
+length = 50;      % Waveguide length, in m.
+[alpha,leff] = conv_loss_lin_log(loss,length);
+% Calculation of loss in 1/m and effective length
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -290,7 +309,7 @@ params_fibre.length = 10e3;% fibre length, in m
 numparams_fibre.max_step_size = 1;% maximum step size, in m
 numparams_fibre.max_phase_shift = 1e-3;% maximum nonlinear phase shift, in radians
 params_fibre.beta_coefficients = dispersion_conv_d_beta([params_fibre.dispersion params_fibre.dispersion_slope params_fibre.dispersion_curvature],'to_beta','eng','si',params_fibre.dispersion_spec_frequency);
-params_fibre.loss_alpha = loss_conv_lin_log(params_fibre.loss);
+params_fibre.loss_alpha = conv_loss_lin_log(params_fibre.loss);
 sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
 % Basic scalar nonlinear Schroedinger equation
 
