@@ -2,7 +2,6 @@
 % 
 %
 % 
-% 2024-08-01
 %
 % -------------------------------------------------------------------------
 
@@ -44,7 +43,7 @@ reset(stream);
 % -------------------------------------------------------------------------
 file_name_core_figure = strrep(mfilename,'run','fig');
 file_name_core_data = strrep(mfilename,'run','data');
-time_stamp = datestr(datetime('now','TimeZone','Z'),'yyyymmddThhMMSSZ');
+time_stamp = string(datetime('now','TimeZone','Z','Format','yyyyMMdd''T''HHmmss''Z'));
 
 %--------------------------------------------------------------------------
 % Switches
