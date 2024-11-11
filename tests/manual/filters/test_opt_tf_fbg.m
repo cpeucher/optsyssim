@@ -140,8 +140,8 @@ CONSTANT = core_load_constants();
 % ------------------------------------------------------------------------- 
 % Start time 
 % ------------------------------------------------------------------------- 
-start_time = clock;
-fprintf('\n\n%s%s\n\n','Simulation started on ',datestr(start_time));
+start_time = datetime("now");
+fprintf('\n\n%s%s\n\n','Simulation started on ',start_time);
 
 
 % ------------------------------------------------------------------------- 
@@ -318,7 +318,7 @@ frequency_array = freq - reference_frequency;
 tf_fbg1 = opt_tf_fbg(freq,params_fbg1,numparams_fbg1);
 % Calculate grating transfer function.
 
-save_dispersion.status = 'off';
+save_dispersion.status = 0;
 save_dispersion.file_name = 'filter_tf.dat';
 [phase_fbg1,freq_group_delay_fbg1,group_delay_fbg1,freq_dispersion_fbg1,dispersion_fbg1] = extract_dispersion_from_tf(frequency_array,tf_fbg1.transmission,'si',save_dispersion);
 % Extract dispersion from transfer function.
@@ -334,7 +334,7 @@ tf_fbg2 = opt_tf_fbg(freq,params_fbg2,numparams_fbg2);
 % Calculate grating transfer function.
 
 
-save_dispersion.status = 'off';
+save_dispersion.status = 0;
 save_dispersion.file_name = 'filter_tf.dat';
 [phase_fbg2,freq_group_delay_fbg2,group_delay_fbg2,freq_dispersion_fbg2,dispersion_fbg2] = extract_dispersion_from_tf(frequency_array,tf_fbg2.transmission,'si',save_dispersion);
 % Extract dispersion from transfer function.
@@ -349,7 +349,7 @@ save_dispersion.file_name = 'filter_tf.dat';
 tf_fbg3 = opt_tf_fbg(freq,params_fbg3,numparams_fbg3);
 % Calculate grating transfer function.
 
-save_dispersion.status = 'off';
+save_dispersion.status = 0;
 save_dispersion.file_name = 'filter_tf.dat';
 [phase_fbg3,freq_group_delay_fbg3,group_delay_fbg3,freq_dispersion_fbg3,dispersion_fbg3] = extract_dispersion_from_tf(frequency_array,tf_fbg3.transmission,'si',save_dispersion);
 % Extract dispersion from transfer function.
@@ -364,7 +364,7 @@ save_dispersion.file_name = 'filter_tf.dat';
 tf_fbg4 = opt_tf_fbg(freq,params_fbg4,numparams_fbg4);
 % Calculate grating transfer function.
 
-save_dispersion.status = 'off';
+save_dispersion.status = 0;
 save_dispersion.file_name = 'filter_tf.dat';
 [phase_fbg4,freq_group_delay_fbg4,group_delay_fbg4,freq_dispersion_fbg4,dispersion_fbg4] = extract_dispersion_from_tf(frequency_array,tf_fbg4.transmission,'si',save_dispersion);
 % Extract dispersion from transfer function.
@@ -380,7 +380,7 @@ save_dispersion.file_name = 'filter_tf.dat';
 tf_fbg5 = opt_tf_fbg(freq,params_fbg5,numparams_fbg5);
 % Calculate grating transfer function.
 
-save_dispersion.status = 'off';
+save_dispersion.status = 0;
 save_dispersion.file_name = 'filter_tf.dat';
 [phase_fbg5,freq_group_delay_fbg5,group_delay_fbg5,freq_dispersion_fbg5,dispersion_fbg5] = extract_dispersion_from_tf(frequency_array,tf_fbg5.reflection,'si',save_dispersion);
 % Extract dispersion from transfer function.
@@ -393,7 +393,7 @@ save_dispersion.file_name = 'filter_tf.dat';
 tf_fbg6 = opt_tf_fbg(freq,params_fbg6,numparams_fbg6);
 % Calculate grating transfer function.
 
-save_dispersion.status = 'off';
+save_dispersion.status = 0;
 save_dispersion.file_name = 'filter_tf.dat';
 [phase_fbg6,freq_group_delay_fbg6,group_delay_fbg6,freq_dispersion_fbg6,dispersion_fbg6] = extract_dispersion_from_tf(frequency_array,tf_fbg6.reflection,'si',save_dispersion);
 % Extract dispersion from transfer function.
@@ -517,11 +517,11 @@ y2.FontSize = fig.font_size;
 % -------------------------------------------------------------------------
 % GRID LINES
 % -------------------------------------------------------------------------
-ax.XGrid = 'off';
-ax.XMinorGrid = 'off';
+ax.XGrid = 0;
+ax.XMinorGrid = 0;
 
-ax.YGrid = 'off';
-ax.YMinorGrid = 'off';
+ax.YGrid = 0;
+ax.YMinorGrid = 0;
 
 ax.GridColorMode = 'manual';
 ax.GridColor = 'k';
@@ -695,11 +695,11 @@ y2.FontSize = fig.font_size;
 % -------------------------------------------------------------------------
 % GRID LINES
 % -------------------------------------------------------------------------
-ax.XGrid = 'off';
-ax.XMinorGrid = 'off';
+ax.XGrid = 0;
+ax.XMinorGrid = 0;
 
-ax.YGrid = 'off';
-ax.YMinorGrid = 'off';
+ax.YGrid = 0;
+ax.YMinorGrid = 0;
 
 ax.GridColorMode = 'manual';
 ax.GridColor = 'k';
@@ -877,11 +877,11 @@ y2.FontSize = fig.font_size;
 % -------------------------------------------------------------------------
 % GRID LINES
 % -------------------------------------------------------------------------
-ax.XGrid = 'off';
-ax.XMinorGrid = 'off';
+ax.XGrid = 0;
+ax.XMinorGrid = 0;
 
-ax.YGrid = 'off';
-ax.YMinorGrid = 'off';
+ax.YGrid = 0;
+ax.YMinorGrid = 0;
 
 ax.GridColorMode = 'manual';
 ax.GridColor = 'k';
@@ -1056,11 +1056,11 @@ y2.FontSize = fig.font_size;
 % -------------------------------------------------------------------------
 % GRID LINES
 % -------------------------------------------------------------------------
-ax.XGrid = 'off';
-ax.XMinorGrid = 'off';
+ax.XGrid = 0;
+ax.XMinorGrid = 0;
 
-ax.YGrid = 'off';
-ax.YMinorGrid = 'off';
+ax.YGrid = 0;
+ax.YMinorGrid = 0;
 
 ax.GridColorMode = 'manual';
 ax.GridColor = 'k';
@@ -1236,11 +1236,11 @@ y2.FontSize = fig.font_size;
 % -------------------------------------------------------------------------
 % GRID LINES
 % -------------------------------------------------------------------------
-ax.XGrid = 'off';
-ax.XMinorGrid = 'off';
+ax.XGrid = 0;
+ax.XMinorGrid = 0;
 
-ax.YGrid = 'off';
-ax.YMinorGrid = 'off';
+ax.YGrid = 0;
+ax.YMinorGrid = 0;
 
 ax.GridColorMode = 'manual';
 ax.GridColor = 'k';
@@ -1342,7 +1342,7 @@ hleg.Interpreter = fig.interpreter;
 hleg.FontName = fig.font_name;
 hleg.FontSize = fig.font_size;
 
-hleg.Visible = 'off';
+hleg.Visible = 0;
 
 
 % -------------------------------------------------------------------------
@@ -1414,11 +1414,11 @@ y2.FontSize = fig.font_size;
 % -------------------------------------------------------------------------
 % GRID LINES
 % -------------------------------------------------------------------------
-ax.XGrid = 'off';
-ax.XMinorGrid = 'off';
+ax.XGrid = 0;
+ax.XMinorGrid = 0;
 
-ax.YGrid = 'off';
-ax.YMinorGrid = 'off';
+ax.YGrid = 0;
+ax.YMinorGrid = 0;
 
 ax.GridColorMode = 'manual';
 ax.GridColor = 'k';
@@ -1505,6 +1505,6 @@ ax.MinorGridLineStyle = '--';
 % Display duration
 % ------------------------------------------------------------------------- 
 % ------------------------------------------------------------------------- 
-core_display_duration(start_time,clock);
+core_display_duration(start_time,datetime("now"));
 
 

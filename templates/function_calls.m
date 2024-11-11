@@ -350,6 +350,16 @@ sig = opt_nlse_scalar_basic(sig,params_fibre,numparams_fibre);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% extract_dispersion_from_tf
+% Group delay and dispersion from optical filter complex transfer function
+% /src/filters/
+% -------------------------------------------------------------------------
+% save_dispersion.status = 0;
+% save_dispersion.file_name = 'filter_tf.dat';
+% [phase,fgd,gd,fgvd,gvd] = extract_dispersion_from_tf(frequency_array,tf,'si',save_dispersion);
+% Extract filter GD and GVD
+
+% -------------------------------------------------------------------------
 % opt_filter
 % Optical filter
 % /src/filters/
