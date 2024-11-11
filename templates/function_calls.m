@@ -198,6 +198,20 @@ params_rz.normalisation = 1;
 % RZ signal
 
 % -------------------------------------------------------------------------
+% elec_elpf
+% Electrical low-pass filter
+% /src/electrical/
+% -------------------------------------------------------------------------
+params_elpf.type = 'bessel';%'butterworth';'gaussian;'none';'rc';'rectangular';'raised_cosine';'root_raised_cosine';
+params_elpf.order = 4;
+params_elpf.f3dB = 0.75*symbol_rate;
+params_elpf.roll_off = 0.6;            % for 'raised_cosine' and 'root_raised_cosine'
+params_elpf.symbol_rate = symbol_rate; % for 'raised_cosine' and 'root_raised_cosine'
+sig = elec_elpf(sig,params_elpf); 
+% Electrical low-pass filter
+% For backward compatibility only.
+
+% -------------------------------------------------------------------------
 % elec_filter
 % Electrical filter
 % /src/electrical/
