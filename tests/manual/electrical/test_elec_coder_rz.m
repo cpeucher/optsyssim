@@ -1,5 +1,5 @@
 % -------------------------------------------------------------------------
-% 
+% Test of elec_coder_rz
 %
 % 
 %
@@ -88,9 +88,9 @@ global CONSTANT
 % Set global simulation parameters
 % -------------------------------------------------------------------------
 reference_frequency = 193.1e12;
-nsamples_per_symbol = 128;
-nsymbols = 128;
-symbol_rate = 10e9;
+nsamples_per_symbol = 16;
+nsymbols = 4;
+symbol_rate = 40e9;
 
 nsamples = nsamples_per_symbol*nsymbols;
 sample_rate = nsamples_per_symbol*symbol_rate;
@@ -157,139 +157,116 @@ fprintf('\n\n%s%s\n\n','Simulation started on ',start_time);
 
 
 % -------------------------------------------------------------------------
-% -------------------------------------------------------------------------
-% -------------------------------------------------------------------------
 % Parameters
 % -------------------------------------------------------------------------
-% ------------------------------------------------------------------------- 
-% -------------------------------------------------------------------------
+duty_cycle = 0.6 %0.3;0.5;1;
+% RZ pulse duty cycle
+rise_time_fraction = 0.25;
+% Rise time, expressed in fraction of the symbol slot
 
 % -------------------------------------------------------------------------
-% PRBS
+% Alternate sequence
 % -------------------------------------------------------------------------
+
+isymbol = (1:1:nsymbols);
+% Symbol indices
+
+seq_alternate = mod(isymbol,2);
+% Alternate 101010... sequence
+
+
+sig_nrz = elec_coder_nrz(seq_alternate,nsamples_per_symbol);
+% NRZ signal
+
+
+nsamples_per_pulse = round(duty_cycle*nsamples_per_symbol/2)*2;
+
+duty_cycle_actual = nsamples_per_pulse/nsamples_per_symbol
+
+clock = [ones(1,nsamples_per_pulse) zeros(1,nsamples_per_symbol - nsamples_per_pulse)];
+clock = repmat(clock,1,nsymbols);
+clock = circshift(clock,[0 -(nsamples_per_pulse - nsamples_per_symbol)/2]);
+
+sig_rz = double(and(sig_nrz,clock));
+
+rise_time = rise_time_fraction*nsamples_per_symbol*dt;
+
+sig_rz_rt = elec_rise_time(sig_rz,rise_time);
+
+
+figure('Name','signal samples')
+subplot(4,1,1)
+stem((1:nsamples),sig_nrz,'b-')
+xlim([1 nsamples])
+subplot(4,1,2)
+stem((1:nsamples),clock,'r--^')
+xlim([1 nsamples])
+subplot(4,1,3)
+stem((1:nsamples),sig_rz,'r--^')
+xlim([1 nsamples])
+subplot(4,1,4)
+stem((1:nsamples),sig_rz_rt,'r--^')
+xlim([1 nsamples])
+
+% -------------------------------------------------------------------------
+% Try with functionalised elec_coder_rz
+% -------------------------------------------------------------------------
+params_rz.duty_cycle = duty_cycle;
+params_rz.rise_time = 1/symbol_rate*rise_time_fraction;
+params_rz.normalisation = 0;
+sig_rz_alt_func = elec_coder_rz(seq_alternate,nsamples_per_symbol,params_rz); 
+
+figure('Name','Compare functionalised')
+plot((1:nsamples),sig_rz_alt_func,'b-')
+hold on
+stem((1:nsamples),sig_rz_rt,'r^')
+xlim([1 nsamples])
+legend('elec_coder_rz','direct')
+xlabel('sample')
+ylabel('amplitude (a.u.)')
+
+% -------------------------------------------------------------------------
+% Try with PRBS
+% -------------------------------------------------------------------------
+nsymbols = 16;
+nsamples = nsamples_per_symbol*nsymbols;
+[time_array,dt,frequency_array,df] = core_create_time_axis(nsamples_per_symbol,nsymbols,symbol_rate);  
+% We increase the number of symbols and redefine the time axis accordingly.
+
 params_prbs.type = 'shift_register';%'de_bruijn';
 params_prbs.order = 7;
 params_prbs.poly = [7 6 0];%[7 3 0];[7 1 0];
 params_prbs.seed = [1 1 1 0 1 1 0];
+seq_prbs = logical_prbs(params_prbs);
+seq_prbs = logical_adapt_binary_sequence(seq_prbs,nsymbols);
 
-% -------------------------------------------------------------------------
-% Electrical signal 
-% -------------------------------------------------------------------------
-rise_time = 1/symbol_rate/4;  % NRZ signal rise time, in s.
+sig_nrz_prbs = elec_coder_nrz(seq_prbs,nsamples_per_symbol);
 
+[sig_rz_prbs,params_rz] = elec_coder_rz(seq_prbs,nsamples_per_symbol,params_rz); 
 
-
-
-
-        
-        
-% -------------------------------------------------------------------------        
-% -------------------------------------------------------------------------
-% -------------------------------------------------------------------------
-% Here we go
-% -------------------------------------------------------------------------
-% -------------------------------------------------------------------------    
-% -------------------------------------------------------------------------
-
-
-
-bit_pattern = logical_prbs(params_prbs);
-bit_pattern = logical_adapt_binary_sequence(bit_pattern,nsymbols);
-% Generate random sequence and adapt length to simulation time window. 
-
-
-nrz_data_sig = elec_pulse_sequence_nrz(bit_pattern,rise_time);
-% Encode the binary bit pattern onto an NRZ signal.
-
-
-params_rz.duty_cycle = 0.5;
-params_rz.rise_time = 1/symbol_rate/8;
-params_rz.normalisation = 1;
-rz_data_sig = elec_coder_rz(bit_pattern,nsamples_per_symbol,params_rz);
-      
-      
-params_scope.visualisers = {'amplitude'};
-params_scope.display_interval = [0 time_array(end)];
-params_scope.save.emf = 0;
-params_scope.name = 'Electrical signal';
-meas_scope(rz_data_sig,params_scope);
-% Oscilloscope
-
-params_tx.type = 'ook_nrz';
-params_tx.emission_frequency = reference_frequency;
-params_tx.power = 1.0e-3;
-params_tx.linewidth = 0;
-params_tx.bit_pattern = bit_pattern;
-params_tx.symbol_rate = symbol_rate;
-params_tx.rise_time = 1/symbol_rate/4;
-sig = tx(params_tx);
-% Optical transmitter.
+figure('Name','PRBS')
+plot((1:nsamples),sig_nrz_prbs,'r')
+hold on
+plot((1:nsamples),sig_rz_prbs,'b')
+xlim([1 nsamples])
+xlabel('sample')
+ylabel('amplitude (a.u.)')
+legend('NRZ','RZ')
+ylim([0 1]*1.1)
 
 
 
 
-params_osa.pol = 'x';%'y','both';
-params_osa.display_interval = [-6*symbol_rate 6*symbol_rate];
-params_osa.resolution_bandwidth = 12.5e9;
-params_osa.sensitivity = -60;
-params_osa.display = 1;
-params_osa.save.txt = 0;
-params_osa.save.emf = 0;
-params_osa.save.jpg = 0;
-params_osa.name = 'Optical spectrum';
-meas_osa(sig,params_osa);
-% Optical spectrum analyser.
-
-
-params_scope.visualisers = {'power'};
-params_scope.display_interval = [0 time_array(end)];
-params_scope.save.emf = 0;
-params_scope.name = 'Optical signal';
-meas_scope(sig.x,params_scope);
-% Oscilloscope
 
 
 
-params_pin.pd.responsivity = 1;
-params_pin.pd.thermal_noise_density = 10e-12;
-params_pin.pd.shot_noise = 0;
-params_pin.pd.dark_current = 0;
-params_pin.elpf.type = 'bessel';%'none';'gaussian';'rc';'rectangular';
-params_pin.elpf.order = 4;
-params_pin.elpf.f3dB = 0.7*symbol_rate;
-sig = rx_pin(sig,params_pin);
-% PIN receiver.
- 
 
-params_eye.pol = 'x';%'y','both';
-params_eye.eye_number = 2;
-params_eye.samples_per_symbol = nsamples_per_symbol;
-params_eye.save.txt = 0;
-params_eye.save.emf = 0;
-params_eye.save.jpg = 0;
-params_eye.save.vertical_scale_type = 'auto';%'fixed';
-params_eye.save.vertical_scale_max = 1.0e-3;
-params_eye.save.display_baseline = 1;
-params_eye.colour_grade = 0;
-params_eye.name = 'Eye diagram';
-meas_eye(sig,params_eye);
-% Eye diagram
 
-params_esa.display_interval = [0 4*symbol_rate];
-params_esa.resolution_bandwidth = 10e9;
-params_esa.input_impedance = 1;
-params_esa.display = 1;
-params_esa.save.ascii = 0;
-params_esa.save.emf = 0;
-params_esa.name = 'RF spectrum';
-spectrum = meas_esa(sig,params_esa);
-% RF spectrum analyser
 
-params_rf_pwm.centre_frequency = 60e9;
-params_rf_pwm.bandwidth = 10e9;
-params_rf_pwm.input_impedance = 1;
-[rf_power,psd] = meas_rf_power(sig,params_rf_pwm);
-% RF power meter.
+
+
+
+
 
 
 

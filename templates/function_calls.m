@@ -187,6 +187,17 @@ sig = elec_coder_nrz(bit_pattern,nsamples_per_symbol);
 % NRZ encoder without rise time
 
 % -------------------------------------------------------------------------
+% elec_coder_rz
+% Electrical RZ encoder 
+% /src/electrical/
+% -------------------------------------------------------------------------
+params_rz.duty_cycle = 0.5;
+params_rz.rise_time = 1/symbol_rate/8;
+params_rz.normalisation = 1;
+[sig,params_rz] = elec_coder_rz(bit_pattern,nsamples_per_symbol,params_rz); 
+% RZ signal
+
+% -------------------------------------------------------------------------
 % elec_filter
 % Electrical filter
 % /src/electrical/
