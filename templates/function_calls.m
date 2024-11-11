@@ -273,6 +273,14 @@ sig = elec_pulse_sequence_nrz(bit_pattern,rise_time);
 % NRZ sequence generation
 
 % -------------------------------------------------------------------------
+% elec_resync
+% Resynchronise electrical signal to a reference signal
+% /src/electrical/
+% -------------------------------------------------------------------------
+[sig, delay_samples] = elec_resync(sig,sig_ref);
+% Resynchronise electrical signal
+
+% -------------------------------------------------------------------------
 % elec_rise_time
 % Apply rise time to a rectangular electrical signal
 % /src/electrical/
