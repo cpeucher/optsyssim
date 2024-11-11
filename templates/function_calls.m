@@ -554,6 +554,14 @@ seq = logical_adapt_binary_sequence(seq,nsymbols);
 % Adapt binary sequence to simulation time window
 
 % -------------------------------------------------------------------------
+% logical_alternate
+% Generation of alternate binary sequence
+% /src/logical/
+% -------------------------------------------------------------------------
+seq = logical_alternate(alternate0,nsymbols);
+% Generation of alternate binary sequence
+
+% -------------------------------------------------------------------------
 % logical_prbs
 % Generation of pseudo-random binary sequences
 % /src/logical/

@@ -12,7 +12,7 @@ function sig = opt_source_pulse(symbs,params)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% params_pulse_train.type = 'gaussian';%'sech';
+% params_pulse_train.pulse_shape = 'gaussian';%'sech';
 % params_pulse_train.order = 1;
 % params_pulse_train.emission_frequency = reference_frequency + 100e9;
 % params_pulse_train.peak_power = 1e-3;
@@ -28,10 +28,10 @@ function sig = opt_source_pulse(symbs,params)
 %
 % params            pulse train parameters [structure]
 %
-%                       params.type
+%                       params.pulse_shape
 %                           type of pulse [string]
-%                           params.type = 'gaussian';
-%                           params.type = 'sech';
+%                           params.pulse_shape = 'gaussian';
+%                           params.pulse_shape = 'sech';
 %
 %                       params.order
 %                           Gaussian order [integer scalar]
@@ -105,7 +105,7 @@ position = time_array(length(time_array)/2);
 % the Dirac comb.
 
 % First we generate the isolated optical pulses shapes.
-switch params.type    
+switch params.pulse_shape    
         
     case 'sech'
         % sech pulse.
@@ -155,7 +155,7 @@ fprintf(1,'%s%f%s\n','Delta f: ',(params.actual_emission_frequency - params.emis
 
 
 sig = [];
-sig.x = pulse.*exp(1i*2*pi*(actual_emission_frequency - reference_frequency)*time_array);
+sig.x = pulse.*exp(1i*2*pi*(params.actual_emission_frequency - reference_frequency)*time_array);
 sig.y = zeros(1,nsamples);
 % Generate optical signal.
     
