@@ -41,16 +41,16 @@ global dt
 
 
 nsymbols = length(seq);
-% Number of bits.
+% Number of bits
 
 nsamples = length(time_array);
-% Number of samples.
+% Number of samples
 
 nsps = nsamples/nsymbols;
-% Number of samples per bit.
+% Number of samples per bit
 
 if mod(nsps,1) ~= 0 
-    % Check if nsps is an integer.
+    % Check if nsps is an integer
     error('elec_pulse_sequence_nrz: non-integer number of samples per symbol! Adjust the sequence length.');
 end
 
@@ -58,16 +58,9 @@ fprintf('\n\n%s\n%s%3.3e%s\n','elec_pulse_sequence_nrz:','Bit rate of sequence i
 
 sig = seq(ones(1,nsps),:);
 sig = sig(:).';    
-% Create ideal NRZ pulse sequence.    
+% Create ideal rectangular NRZ pulse sequence    
 
-rise_time_filter.type = 'gaussian';
-rise_time_filter.order = 1;
-rise_time_filter.f3dB = 0.3321/rise_time;
-% Relation between cut-off frequency and rise time for a Gaussian
-% filter.
-
-sig = elec_elpf(sig,rise_time_filter);
-% A Gaussian low-pass filter is used to introduce the rise time.   
-
+sig = elec_rise_time(sig,rise_time);
+% Apply rise time filter
             
 end 
