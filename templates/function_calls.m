@@ -170,6 +170,13 @@ core_display_duration(start_time,end_time);
 % Display simulation duration
 
 % -------------------------------------------------------------------------
+% isoptical
+% Test if a signal is optical
+% /src/core/
+% -------------------------------------------------------------------------
+[fflag,message] = isoptical(sig);
+
+% -------------------------------------------------------------------------
 % core_load_constants
 % Load essential physical constants
 % /src/core/

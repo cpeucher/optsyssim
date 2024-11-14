@@ -222,7 +222,7 @@ params_tx.linewidth = 0;
 params_tx.bit_pattern = bit_pattern;
 params_tx.symbol_rate = symbol_rate;
 params_tx.rise_time = 1/symbol_rate/4;
-sig = tx(params_tx);
+sig_1 = tx(params_tx);
 % Optical transmitter.
 
 
@@ -262,8 +262,8 @@ sig = rx_pin(sig,params_pin);
  
 
 params_eye.pol = 'x';%'y','both';
-params_eye.eye_number = 2;
-params_eye.samples_per_symbol = nsamples_per_symbol;
+params_eye.neyes = 2;
+params_eye.nsamples_per_symbol = nsamples_per_symbol;
 params_eye.save.txt = 0;
 params_eye.save.emf = 0;
 params_eye.save.jpg = 0;
