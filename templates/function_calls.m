@@ -124,6 +124,25 @@ chirp = char_opt_temporal_chirp(sig);
 % Calculate temporal chirp
 
 % -------------------------------------------------------------------------
+% mes_eye
+% Visualisation of eye diagram of optical or electrical signals
+% /src/characterization/
+% -------------------------------------------------------------------------
+params_eye.pol = 'x';%'y','both';
+params_eye.neyes = 2;
+params_eye.nsamples_per_symbol = nsamples_per_symbol;
+params_eye.save.txt = 0;
+params_eye.save.emf = 0;
+params_eye.save.jpg = 0;
+params_eye.save.vertical_scale_type = 'auto';%'fixed';
+params_eye.save.vertical_scale_max = 1.0e-3;
+params_eye.save.display_baseline = 1;
+params_eye.colour_grade = 0;
+params_eye.name = 'Eye diagram';
+meas_eye(sig,params_eye);
+% Plot eye diagram
+
+% -------------------------------------------------------------------------
 % meas_scope
 % Oscilloscope for visualisation of optical and electrical signals
 % /src/characterization/
