@@ -222,7 +222,7 @@ params_tx.linewidth = 0;
 params_tx.bit_pattern = bit_pattern;
 params_tx.symbol_rate = symbol_rate;
 params_tx.rise_time = 1/symbol_rate/4;
-sig_1 = tx(params_tx);
+sig= tx(params_tx);
 % Optical transmitter.
 
 
