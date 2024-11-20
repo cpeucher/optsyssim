@@ -513,6 +513,16 @@ params_elpf.samples_per_symbol = nsamples_per_symbol;
 tf = elec_tf_elpf(params_elpf,frequency_array);
 % Transfer functions of electrical low-pass filters
 
+% -------------------------------------------------------------------------
+% elec_tf_matched
+% Transfer function of matched electrical filter
+% /src/electrical/
+% -------------------------------------------------------------------------
+tf = elec_tf_matched(sig_pulse,dt);
+% Transfer function of matched electrical filter
+sig = elec_filter(sig,tf);
+
+
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 % --------------------------------------------------------------------------------------------------------------------------------------------------
