@@ -713,6 +713,14 @@ seq = logical_alternate(alternate0,nsymbols);
 % Generation of alternate binary sequence
 
 % -------------------------------------------------------------------------
+% logical_differential_encoder_binary
+% Differential encoder for DPSK or duobinary signal generation
+% /src/logical/
+% -------------------------------------------------------------------------
+bit_pattern_diffenc = logical_differential_encoder_binary(bit_pattern);
+% Differential encoder
+
+% -------------------------------------------------------------------------
 % logical_prbs
 % Generation of pseudo-random binary sequences
 % /src/logical/
