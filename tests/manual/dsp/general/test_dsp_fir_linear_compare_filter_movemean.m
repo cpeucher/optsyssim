@@ -144,14 +144,3 @@ xlabel('sample')
 ylabel('y')
 xlim([1 nsamples])
 legend('original noise-free sinusoidal signal','after movmean + delay compensation')
-
-
-
-
-
-
-
-
-
-
-
