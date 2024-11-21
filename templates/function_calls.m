@@ -114,6 +114,36 @@ length = 50;      % Waveguide length, in m.
 average_power = char_opt_average_power(sig);
 % Calculate signal average power
 
+% -------------------------------------------------------------------------
+% char_opt_constellation
+% Constellation diagram for optical signals
+% /src/characterization/
+% -------------------------------------------------------------------------
+params_constellation.type = 'scatter';%'transitions';%'scatter_transitions';
+params_constellation.pol = 'x';% 'y','both';
+params_constellation.nsamples_per_symbol = nsamples_per_symbol;
+params_constellation.sampling_time = nsamples_per_symbol/2;
+params_constellation.normalisation = 'mean';%'max';
+params_constellation.save.emf = 0;
+% params_constellation.line_color = 'b';
+% params_constellation.line_width = 3;
+% params_constellation.marker_type = 'o';
+% params_constellation.marker_color = 'r';
+% params_constellation.marker_size = 36;
+% params_constellation.plot_circular_grid = 1;
+% params_constellation.plot_axes = 0;
+params_constellation.name = 'Constellation';
+char_opt_constellation(sig,params_constellation); 
+% Plot optical constellation.
+
+% -------------------------------------------------------------------------
+% char_opt_peak_power
+% Peak power of optical signal in a given time interval
+% /src/characterization/
+% -------------------------------------------------------------------------
+pp = char_opt_peak_power(sig,time_interval);
+% Peak power of optical signal
+
 
 % -------------------------------------------------------------------------
 % char_opt_temporal_chirp
