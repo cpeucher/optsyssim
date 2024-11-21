@@ -154,6 +154,21 @@ chirp = char_opt_temporal_chirp(sig);
 % Calculate temporal chirp
 
 % -------------------------------------------------------------------------
+% mes_esa
+% Electrical spectrum analyser
+% /src/characterization/
+% -------------------------------------------------------------------------
+params_esa.display_interval = [0 frequency_array(end)];
+params_esa.resolution_bandwidth = 0;
+params_esa.input_impedance = 1;
+params_esa.display = 1;
+params_esa.save.txt = 0;
+params_esa.save.emf = 0;
+params_esa.name = 'RF spectrum';
+spectrum = meas_esa(sig,params_esa); 
+% Electrical spectrum analyser
+
+% -------------------------------------------------------------------------
 % mes_eye
 % Visualisation of eye diagram of optical or electrical signals
 % /src/characterization/
