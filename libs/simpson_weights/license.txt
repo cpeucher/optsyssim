@@ -1,3 +1,9 @@
 This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike
 4.0 International License. To view a copy of this license, visit
 http://creativecommons.org/licenses/by-nc-sa/4.0/
+
+From: Introduction to Numerical Methods and Matlab Programming for Engineers
+Todd Young & Martin Mohlenkamp
+Copyright © 2008, 2009, 2011 Todd Young & Martin Mohlenkamp
+Available: http://www.ohiouniversityfaculty.com/youngt/IntNumMeth/
+[Retrieved 2025-01-09]
