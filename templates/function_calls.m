@@ -483,6 +483,23 @@ params_rz.normalisation = 1;
 % RZ signal
 
 % -------------------------------------------------------------------------
+% elec_dc_block
+% Electrical DC block
+% /src/electrical/
+% -------------------------------------------------------------------------
+[sig, dclevel] = elec_dc_block(sig);
+% Electrical DC block
+
+% -------------------------------------------------------------------------
+% elec_bias
+% Applies bias and set peak-to-peak value to electrical signal
+% /src/electrical/
+% -------------------------------------------------------------------------
+sig = elec_bias(sig,dc,pp);
+% Set bias and peak-to-peak value
+
+
+% -------------------------------------------------------------------------
 % elec_elpf
 % Electrical low-pass filter
 % /src/electrical/
