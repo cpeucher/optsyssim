@@ -260,8 +260,8 @@ switch type
         xlabel('time (ps)');
         ylabel('phase (rad)');
         xlim(display_time_interval/1.0e-12)
-        ylim([1.1*min(display_waveform{3}) - 0.1*max(display_waveform{3}) ...
-            1.1*max(display_waveform{3}) - 0.1*min(display_waveform{3})])
+        ylim([1.1*min(display_waveform{3}) - 0.1*max(display_waveform{3}) - eps ...
+            1.1*max(display_waveform{3}) - 0.1*min(display_waveform{3}) + eps])
 
 
     case 'chirp'

@@ -1,5 +1,5 @@
 function I = num_int2d_simpson(F)
-% Double integral of a function defined on a Cartesian coordinate system by Simpson method
+% Double integral of function defined on Cartesian grid by Simpson method
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:
