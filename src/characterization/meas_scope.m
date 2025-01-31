@@ -241,8 +241,8 @@ switch type
         xlabel('time (ps)');
         ylabel('amplitude (a.u.)');
         xlim(display_time_interval/1.0e-12)
-        ylim([1.1*min(display_waveform{1}) - 0.1*max(display_waveform{1}) ...
-            1.1*max(display_waveform{1}) - 0.1*min(display_waveform{1})])
+        ylim([1.1*min(display_waveform{1}) - 0.1*max(display_waveform{1}) - eps ...
+            1.1*max(display_waveform{1}) - 0.1*min(display_waveform{1}) + eps])
 
     case 'power'
 
@@ -271,8 +271,8 @@ switch type
         xlabel('time (ps)');
         ylabel('chirp (GHz)');
         xlim(display_time_interval/1.0e-12)
-        ylim([1.1*min(display_waveform{4}) - 0.1*max(display_waveform{4}) ...
-            1.1*max(display_waveform{4}) - 0.1*min(display_waveform{4})]/1.0e9);
+        ylim([1.1*min(display_waveform{4}) - 0.1*max(display_waveform{4}) - eps ...
+            1.1*max(display_waveform{4}) - 0.1*min(display_waveform{4}) + eps]/1.0e9);
 
 
 end
