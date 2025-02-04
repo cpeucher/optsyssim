@@ -11,7 +11,7 @@ function sig = opt_amplifier(sig,params)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% params_optamp.mode = 'power';%'pain';%'saturation';
+% params_optamp.mode = 'power';%'gain';%'saturation';
 % params_optamp.pol = 'x';%'y';%'both';
 % params_optamp.gain = 20;
 % params_optamp.output_power = 10;
