@@ -93,12 +93,15 @@ function [sig21,sig22] = opt_mzdi(sig11,sig12,params)
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-if strcmp(mode,'tuned')
+if strcmp(params.mode,'tuned')
     include_delay_phase_shift = 0;
-elseif strcmp(mode,'general')
+
+elseif strcmp(params.mode,'general')
     include_delay_phase_shift = 1;
+
 else
     disp('opt_mzdi: phase shift option not implemented.')
+    
 end
 
 [sigup,siglow] = opt_coupler_2x2(sig11,sig12,'lin',params.coupling_ratio_in);
