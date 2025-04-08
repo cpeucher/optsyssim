@@ -365,6 +365,14 @@ symbs = mapping(words_dec,constellation);
 % Mapping
 
 % -------------------------------------------------------------------------
+% normalise_constellation
+% Normalisation of received constellation using energy per symbol
+% /src/digicoms/
+% -------------------------------------------------------------------------
+symbs_rx = normalise_constellation(symbs_rx,norm_es);
+% Normalise constellation
+
+% -------------------------------------------------------------------------
 % plot_constellation
 % Quickly plot digital constellation diagram
 % /src/digicoms/
