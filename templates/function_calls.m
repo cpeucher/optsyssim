@@ -341,6 +341,16 @@ symbs_cx = decision_qam_square_hard(symbs_rx,m);
 % Hard decision
 
 % -------------------------------------------------------------------------
+% decision_qpsk_hard
+% Hard decision for QPSK
+% /src/digicoms/
+% -------------------------------------------------------------------------
+es_rx = sum(abs(symbs_rx).^2)/length(symbs_rx);
+symbs_rx = symbs_rx*sqrt(2/es_rx);
+[symbs_cx,bits,words_dec] = decision_qpsk_hard(symbs_rx,'qpsk_gray');
+% Hard decision
+
+% -------------------------------------------------------------------------
 % define_constellation
 % Define constellations of digital modulation formats
 % /src/digicoms/
