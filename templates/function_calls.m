@@ -348,26 +348,26 @@ w = dsp_window(params_window);
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 % --------------------------------------------------------------------------------------------------------------------------------------------------
-% dsp/digicoms                                                              dsp/digicoms
+% digicoms                                                                  digicoms
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-% dsp_constellation_define
+% define_constellation
 % Define constellations of digital modulation formats
-% /src/dsp/digicoms/
+% /src/digicoms/
 % -------------------------------------------------------------------------
-[constellation,norm_es,norm_emax] = dsp_constellation_define(type,m);
+[constellation,norm_es,norm_emax] = define_constellation(type,m);
 % Define constellation
 
 % -------------------------------------------------------------------------
 % dsp_constellation_plot
 % Quickly plot digital constellation diagram
-% /src/dsp/digicoms/
+% /src/digicoms/
 % -------------------------------------------------------------------------
 constellation_type = 'plain';%'heat';'cluster';
 constellation_name = 'received constellation';
-dsp_constellation_plot(symbs,constellation_type,constellation_name,[-5:1:5]);
+plot_constellation_plot(symbs,constellation_type,constellation_name,[-5:1:5]);
 % Plot constellation
 
 % -------------------------------------------------------------------------

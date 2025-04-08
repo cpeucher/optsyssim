@@ -1,4 +1,4 @@
-function dsp_constellation_plot(symbs,type,figure_name,varargin)
+function plot_constellation(symbs,type,figure_name,varargin)
 % Quickly plot digital constellation diagram
 %
 % -------------------------------------------------------------------------
@@ -12,7 +12,7 @@ function dsp_constellation_plot(symbs,type,figure_name,varargin)
 % -------------------------------------------------------------------------
 % constellation_type = 'plain';%'heat';'cluster';
 % constellation_name = 'received constellation';
-% dsp_constellation_plot(symbs,constellation_type,constellation_name,[-5:1:5]);
+% plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -82,7 +82,7 @@ switch type
         
     otherwise
         
-        error('dsp_constellation_plot: visualisation type not defined.');        
+        error('plot_constellation: visualisation type not defined.');        
         
 end
 

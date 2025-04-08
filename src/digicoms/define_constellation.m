@@ -1,4 +1,4 @@
-function [constellation,norm_es,norm_emax] = dsp_constellation_define(type,m)
+function [constellation,norm_es,norm_emax] = define_constellation(type,m)
 % Define constellations of digital modulation formats
 %
 % -------------------------------------------------------------------------
@@ -38,7 +38,7 @@ function [constellation,norm_es,norm_emax] = dsp_constellation_define(type,m)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% [constellation,norm_es,norm_emax] = dsp_constellation_define(type,m);
+% [constellation,norm_es,norm_emax] = define_constellation(type,m);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -258,7 +258,7 @@ switch type
         
     otherwise
         
-        error('dsp_constellation_define: constellation not defined.');
+        error('define_constellation: constellation not defined.');
         
 end
 

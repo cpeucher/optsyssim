@@ -350,7 +350,7 @@ ylabel('amplitude (a.u.)')
 
 constellation_type = 'plain';%'heat';'cluster';
 constellation_name = ['constellation (PAM2): ' pulse_type];
-dsp_constellation_plot(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 
@@ -368,7 +368,7 @@ ylabel('amplitude (a.u.)')
 
 
 constellation_name = ['constellation (PAM2) after matched-filtering: ' pulse_type];
-dsp_constellation_plot(sig_mod_filt(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_mod_filt(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 
@@ -400,7 +400,7 @@ m = 4;
 data = dsp_data_binary(nsymbols,m);
 % Generate binary data.
 
-[constellation_gray,~,~] = dsp_constellation_define('pam4_gray',m);
+[constellation_gray,~,~] = define_constellation('pam4_gray',m);
 % Define the constellation for Gray mapping.
 
 [words_dec,words_bin] = dsp_conv_bin2dec(data,log2(m));
@@ -424,7 +424,7 @@ ylabel('amplitude (a.u.)')
 
 constellation_type = 'plain';%'heat';'cluster';
 constellation_name = ['constellation (PAM4): ' pulse_type];
-dsp_constellation_plot(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 
@@ -442,7 +442,7 @@ ylabel('amplitude (a.u.)')
 
 
 constellation_name = ['constellation (PAM4) after matched-filtering: ' pulse_type];
-dsp_constellation_plot(sig_mod_filt(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_mod_filt(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 
@@ -471,7 +471,7 @@ ylabel('amplitude (a.u.)')
 m = 16;
 % Constellation order. M points with log2(M) even (square constellation)
 
-[constellation,~,~] = dsp_constellation_define('qam16_gray',m);
+[constellation,~,~] = define_constellation('qam16_gray',m);
 % Define the constellation for Gray mapping.
 
 data = dsp_data_binary(nsymbols,m);
@@ -508,7 +508,7 @@ ylabel('amplitude (a.u.)')
 
 constellation_type = 'plain';%'heat';'cluster';
 constellation_name = ['constellation (QAM16): ' pulse_type];
-dsp_constellation_plot(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 
@@ -537,7 +537,7 @@ ylabel('amplitude (a.u.)')
 
 
 constellation_name = ['constellation (QAM16) after matched-filtering: ' pulse_type];
-dsp_constellation_plot(sig_mod_filt(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_mod_filt(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 
@@ -583,7 +583,7 @@ ylabel('amplitude (a.u.)')
 
 
 constellation_name = ['constellation (QAM16) after functionalised matched-filtering: ' pulse_type];
-dsp_constellation_plot(sig_tf(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(sig_tf(nsamples_per_symbol/2:nsamples_per_symbol:end),constellation_type,constellation_name,[-5:1:5]);
 % Constellation
 
 

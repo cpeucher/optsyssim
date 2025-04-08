@@ -307,7 +307,7 @@ meas_osa(sig,params_osa);
 % -------------------------------------------------------------------------
 m = 16;
 % Constellation order.
-[constellation,norm_es,norm_emax] = dsp_constellation_define('qam16_gray',m);
+[constellation,norm_es,norm_emax] = define_constellation('qam16_gray',m);
 % Define the constellation.
 data = dsp_data_binary(nsymbols,m);
 % Generate binary data.
@@ -318,7 +318,7 @@ symbs = dsp_mapping(words_dec,constellation);
 
 constellation_type = 'plain';%'heat';'cluster';
 constellation_name = 'generated digital constellation';
-dsp_constellation_plot(symbs,constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 
 
 params_pulse_train.pulse_shape = 'sech';
@@ -352,7 +352,7 @@ samps = sqrt(1000)*sig.x(nsamples_per_symbol/2:nsamples_per_symbol:end);
 % Sample the generated waveform.
 
 constellation_name = 'recovered digital constellation';
-dsp_constellation_plot(samps,constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(samps,constellation_type,constellation_name,[-5:1:5]);
 
 symbs_error = sum(abs(samps - symbs).^2);        
 
