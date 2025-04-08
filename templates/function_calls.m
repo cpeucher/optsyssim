@@ -267,6 +267,7 @@ CONSTANT = core_load_constants();
 % /src/digicoms/
 % -------------------------------------------------------------------------
 symbs = add_awgn(symbs,esn0); 
+% Add WGN to symbols
 
 % -------------------------------------------------------------------------
 % calc_eye
@@ -293,6 +294,14 @@ plot(time_array(1:nsamples_per_symbol),eye,'b');
 % -------------------------------------------------------------------------
 [constellation,norm_es,norm_emax] = define_constellation(type,m);
 % Define constellation
+
+% -------------------------------------------------------------------------
+% demapping
+% Demapping of digital symbols
+% /src/digicoms/
+% -------------------------------------------------------------------------
+words_dec = dsp_demapping(symbs_cx,constellation);
+% Demapping
 
 % -------------------------------------------------------------------------
 % generate_binary
