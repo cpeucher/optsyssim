@@ -101,7 +101,7 @@ ylabel('amplitude')
 % Generate modulated PAM2 signal with RC pulse shaping.
 % -------------------------------------------------------------------------
 m = 2;
-bit_pattern = dsp_data_binary(nsymbols,m);
+bit_pattern = generate_binary(nsymbols,m);
 % Generate bit pattern.
 
 sig_imp = dsp_upsample(bit_pattern,nos);

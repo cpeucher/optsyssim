@@ -309,7 +309,7 @@ m = 16;
 % Constellation order.
 [constellation,norm_es,norm_emax] = define_constellation('qam16_gray',m);
 % Define the constellation.
-data = dsp_data_binary(nsymbols,m);
+data = generate_binary(nsymbols,m);
 % Generate binary data.
 [words_dec,words_bin] = conv_bin2dec(data,log2(m));
 % Convert binary data into 4-bit words.

@@ -288,9 +288,17 @@ plot(time_array(1:nsamples_per_symbol),eye,'b');
 % Define constellation
 
 % -------------------------------------------------------------------------
+% generate_binary
+% Generation of uniformly distributed binary random data
+% /src/digicoms/
+% -------------------------------------------------------------------------
+bits_bin = generate_binary(nsymbols,m);
+% Generation of uniformly distributed binary random data
+
+% -------------------------------------------------------------------------
 % mapping
 % Mapping decimal words to complex symbols
-% /src/dsp/digicoms/
+% /src/digicoms/
 % -------------------------------------------------------------------------
 symbs = mapping(words_dec,constellation);
 % Mapping
@@ -307,13 +315,6 @@ plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 
 
 
-% -------------------------------------------------------------------------
-% dsp_data_binary
-% Generation of uniformly distributed binary random data
-% /src/dsp/digicoms/
-% -------------------------------------------------------------------------
-bits_bin = dsp_data_binary(nsymbols,m);
-% Generation of uniformly distributed binary random data
 
 
 

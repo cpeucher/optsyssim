@@ -323,7 +323,7 @@ ylabel('pulse amplitude (a.u.)')
 % Generate PAM2 signal with root-raised cosine pulse and apply matched
 % filtering.
 % -------------------------------------------------------------------------
-data = dsp_data_binary(nsymbols,2);
+data = generate_binary(nsymbols,2);
 % Generate random binary data.
 
 symbs_pam2 = data;
@@ -397,7 +397,7 @@ ylabel('amplitude (a.u.)')
 
 m = 4;
 
-data = dsp_data_binary(nsymbols,m);
+data = generate_binary(nsymbols,m);
 % Generate binary data.
 
 [constellation_gray,~,~] = define_constellation('pam4_gray',m);
@@ -474,7 +474,7 @@ m = 16;
 [constellation,~,~] = define_constellation('qam16_gray',m);
 % Define the constellation for Gray mapping.
 
-data = dsp_data_binary(nsymbols,m);
+data = generate_binary(nsymbols,m);
 % Generate binary data.
 
 [words_dec,words_bin] = conv_bin2dec(data,log2(m));

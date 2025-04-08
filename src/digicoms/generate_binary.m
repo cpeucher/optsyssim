@@ -1,4 +1,4 @@
-function bits = dsp_data_binary(nsymbols,m)
+function bits = generate_binary(nsymbols,m)
 % Generation of uniformly distributed binary random data
 %
 % -------------------------------------------------------------------------
@@ -10,7 +10,7 @@ function bits = dsp_data_binary(nsymbols,m)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% bits_bin = dsp_data_binary(nsymbols,m);
+% bits_bin = generate_binary(nsymbols,m);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
