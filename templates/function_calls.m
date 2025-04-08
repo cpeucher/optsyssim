@@ -417,6 +417,18 @@ constellation_name = 'received constellation';
 plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 % Plot constellation
 
+% -------------------------------------------------------------------------
+% plot_constellation_mapping
+% Plot original digital constellation with mapping
+% /src/digicoms/
+% -------------------------------------------------------------------------
+params.name = ['Constellation for '];
+params.labels.dec = 1; 
+params.labels.bin = 1;
+params.axes = 0;
+params.save = 0;
+plot_constellation_mapping(constellation,params); 
+% Plot original constellation
 
 
 
