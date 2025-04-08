@@ -333,6 +333,14 @@ bits_bin = conv_dec2bin(words_dec,nob);
 % Convert string of words to bits
 
 % -------------------------------------------------------------------------
+% decision_qam_square_hard
+% Hard decision for square QAM
+% /src/digicoms/
+% -------------------------------------------------------------------------
+symbs_cx = decision_qam_square_hard(symbs_rx,m);
+% Hard decision
+
+% -------------------------------------------------------------------------
 % define_constellation
 % Define constellations of digital modulation formats
 % /src/digicoms/
