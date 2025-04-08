@@ -288,6 +288,14 @@ plot(time_array(1:nsamples_per_symbol),eye,'b');
 % Convert bit string to words
 
 % -------------------------------------------------------------------------
+% conv_dec2bin
+% Converts vector of words (decimal) to vector of bits (binary)
+% /src/digicoms/
+% -------------------------------------------------------------------------
+bits_bin = conv_dec2bin(words_dec,nob);
+% Convert string of words to bits
+
+% -------------------------------------------------------------------------
 % define_constellation
 % Define constellations of digital modulation formats
 % /src/digicoms/

@@ -10,7 +10,7 @@ function words_dec = demapping(symbs_cx,constellation)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% words_dec = dsp_demapping(symbs_cx,constellation);
+% words_dec = demapping(symbs_cx,constellation);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
