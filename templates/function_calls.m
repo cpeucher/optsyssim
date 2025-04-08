@@ -367,6 +367,14 @@ words_dec = dsp_demapping(symbs_cx,constellation);
 % Demapping
 
 % -------------------------------------------------------------------------
+% extract_snr_constellation
+% Extract the SNR from data-aided clusters of a constellation
+% /src/digicoms/
+% -------------------------------------------------------------------------
+snr_db = extract_snr_constellation(cluster_da);
+% Extract SNR for each data-aided cluster of the constellation
+
+% -------------------------------------------------------------------------
 % generate_binary
 % Generation of uniformly distributed binary random data
 % /src/digicoms/
