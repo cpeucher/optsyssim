@@ -304,6 +304,19 @@ ser = calc_ser(symbs_cx,symbs_ref);
 % SER calculation
 
 % -------------------------------------------------------------------------
+% clustering
+% Data-aided clustering of received symbols
+% /src/digicoms/
+% -------------------------------------------------------------------------
+symbs_rx = normalise_constellation(symbs_rx,norm_es);
+cluster_da = clustering(symbs_rx,words_dec,m);
+% Data-aided clustering
+symbs_cx = decision_qam_square_hard(symbs_rx,m);
+words_dec_rx = demapping(symbs_cx,constellation);
+cluster_dd = clustering(symbs_cx,words_dec_rx,m);
+% Decision-directed clustering
+
+% -------------------------------------------------------------------------
 % conv_bin2dec
 % Converts vector of bits (binary) to vector of words (decimal)
 % /src/digicoms/
