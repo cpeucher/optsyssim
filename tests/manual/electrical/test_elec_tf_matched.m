@@ -480,7 +480,7 @@ data = dsp_data_binary(nsymbols,m);
 [words_dec,words_bin] = conv_bin2dec(data,log2(m));
 % Convert binary data into 2-bit words.
 
-symbs_qam16 = dsp_mapping(words_dec,constellation);
+symbs_qam16 = mapping(words_dec,constellation);
 % Mapping.
 
 sig_mod = elec_modulator(symbs_qam16,params_elecmod);

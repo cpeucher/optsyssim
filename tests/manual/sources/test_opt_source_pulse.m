@@ -313,7 +313,7 @@ data = dsp_data_binary(nsymbols,m);
 % Generate binary data.
 [words_dec,words_bin] = conv_bin2dec(data,log2(m));
 % Convert binary data into 4-bit words.
-symbs = dsp_mapping(words_dec,constellation);
+symbs = mapping(words_dec,constellation);
 % Mapping.
 
 constellation_type = 'plain';%'heat';'cluster';

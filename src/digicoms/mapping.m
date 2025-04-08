@@ -1,4 +1,4 @@
-function symbs = dsp_mapping(words_dec,constellation)
+function symbs = mapping(words_dec,constellation)
 % Mapping decimal words to complex symbols
 %
 % -------------------------------------------------------------------------
@@ -10,7 +10,7 @@ function symbs = dsp_mapping(words_dec,constellation)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% symbs = dsp_mapping(words_dec,constellation);
+% symbs = mapping(words_dec,constellation);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -25,7 +25,7 @@ function symbs = dsp_mapping(words_dec,constellation)
 % -------------------------------------------------------------------------
 % symbs             encoded symbols [complex vector]
 %
-%                       The elemends of symbs take values within the
+%                       The elements of symbs take values within the
 %                       elements of constellation.
 %
 % -------------------------------------------------------------------------

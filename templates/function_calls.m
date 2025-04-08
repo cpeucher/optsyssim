@@ -288,6 +288,14 @@ plot(time_array(1:nsamples_per_symbol),eye,'b');
 % Define constellation
 
 % -------------------------------------------------------------------------
+% mapping
+% Mapping decimal words to complex symbols
+% /src/dsp/digicoms/
+% -------------------------------------------------------------------------
+symbs = mapping(words_dec,constellation);
+% Mapping
+
+% -------------------------------------------------------------------------
 % plot_constellation
 % Quickly plot digital constellation diagram
 % /src/digicoms/
@@ -307,13 +315,7 @@ plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 bits_bin = dsp_data_binary(nsymbols,m);
 % Generation of uniformly distributed binary random data
 
-% -------------------------------------------------------------------------
-% dsp_mapping
-% Mapping decimal words to complex symbols
-% /src/dsp/digicoms/
-% -------------------------------------------------------------------------
-symbs = dsp_mapping(words_dec,constellation);
-% Mapping
+
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
