@@ -1,4 +1,4 @@
-function [words_dec,words_bin] = dsp_conv_bin2dec(bits_bin,nob)
+function [words_dec,words_bin] = conv_bin2dec(bits_bin,nob)
 % Converts vector of bits (binary) to vector of words (decimal)
 %
 % -------------------------------------------------------------------------
@@ -10,7 +10,7 @@ function [words_dec,words_bin] = dsp_conv_bin2dec(bits_bin,nob)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% [words_dec,words_bin] = dsp_conv_bin2dec(bits_bin,log2(m)); 
+% [words_dec,words_bin] = conv_bin2dec(bits_bin,log2(m)); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:

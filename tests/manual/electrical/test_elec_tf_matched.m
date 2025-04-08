@@ -403,7 +403,7 @@ data = dsp_data_binary(nsymbols,m);
 [constellation_gray,~,~] = define_constellation('pam4_gray',m);
 % Define the constellation for Gray mapping.
 
-[words_dec,words_bin] = dsp_conv_bin2dec(data,log2(m));
+[words_dec,words_bin] = conv_bin2dec(data,log2(m));
 % Convert binary data into 2-bit words.
 
 symbs_pam4 = constellation_gray(words_dec + 1);
@@ -477,7 +477,7 @@ m = 16;
 data = dsp_data_binary(nsymbols,m);
 % Generate binary data.
 
-[words_dec,words_bin] = dsp_conv_bin2dec(data,log2(m));
+[words_dec,words_bin] = conv_bin2dec(data,log2(m));
 % Convert binary data into 2-bit words.
 
 symbs_qam16 = dsp_mapping(words_dec,constellation);

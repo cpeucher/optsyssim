@@ -271,6 +271,13 @@ figure('Name','eye diagram')
 plot(time_array(1:nsamples_per_symbol),eye,'b');
 % Plot eye diagram
 
+% -------------------------------------------------------------------------
+% conv_bin2dec
+% Converts vector of bits (binary) to vector of words (decimal)
+% /src/digicoms/
+% -------------------------------------------------------------------------
+[words_dec,words_bin] = conv_bin2dec(bits_bin,log2(m)); 
+% Convert bit string to words
 
 % -------------------------------------------------------------------------
 % define_constellation
@@ -290,13 +297,7 @@ constellation_name = 'received constellation';
 plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 % Plot constellation
 
-% -------------------------------------------------------------------------
-% dsp_conv_bin2dec
-% Converts vector of bits (binary) to vector of words (decimal)
-% /src/dsp/digicoms/
-% -------------------------------------------------------------------------
-[words_dec,words_bin] = dsp_conv_bin2dec(bits_bin,log2(m)); 
-% Convert bit string to words
+
 
 % -------------------------------------------------------------------------
 % dsp_data_binary
