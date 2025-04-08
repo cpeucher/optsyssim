@@ -270,6 +270,14 @@ symbs = add_awgn(symbs,esn0);
 % Add WGN to symbols
 
 % -------------------------------------------------------------------------
+% calc_evm
+% Error vector magnitude (EVM) calculation
+% /src/digicoms/
+% -------------------------------------------------------------------------
+[evm_max,evm_rms] = calc_evm(constellation,clust);
+% EVM calculation
+
+% -------------------------------------------------------------------------
 % calc_eye
 % Quick eye diagram calculation
 % /src/digicoms/
