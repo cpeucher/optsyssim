@@ -262,6 +262,17 @@ CONSTANT = core_load_constants();
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% calc_eye
+% Quick eye diagram calculation
+% /src/digicoms/
+% -------------------------------------------------------------------------
+eye = calc_eye(sig,nsamples_per_symbol);
+figure('Name','eye diagram')
+plot(time_array(1:nsamples_per_symbol),eye,'b');
+% Plot eye diagram
+
+
+% -------------------------------------------------------------------------
 % define_constellation
 % Define constellations of digital modulation formats
 % /src/digicoms/
@@ -270,13 +281,13 @@ CONSTANT = core_load_constants();
 % Define constellation
 
 % -------------------------------------------------------------------------
-% dsp_constellation_plot
+% plot_constellation
 % Quickly plot digital constellation diagram
 % /src/digicoms/
 % -------------------------------------------------------------------------
 constellation_type = 'plain';%'heat';'cluster';
 constellation_name = 'received constellation';
-plot_constellation_plot(symbs,constellation_type,constellation_name,[-5:1:5]);
+plot_constellation(symbs,constellation_type,constellation_name,[-5:1:5]);
 % Plot constellation
 
 % -------------------------------------------------------------------------
@@ -1096,12 +1107,12 @@ B = prod_mv(M,A);
 % Numerical estimation of the continuous-time Fourier transform based on DFT
 % /src/numerical/transforms/
 % -------------------------------------------------------------------------
-% F = num_ft(f,dt);
-% % For time interval [0 T]
-% F = num_ft(f,dt,0);
-% % For time interval [-T/2 T/2]
-% F = num_ft(f,dt,(T1 + T2)/2);
-% % For time interval [T1 T2]
+F = num_ft(f,dt);
+% For time interval [0 T]
+F = num_ft(f,dt,0);
+% For time interval [-T/2 T/2]
+F = num_ft(f,dt,(T1 + T2)/2);
+% For time interval [T1 T2]
 % Fourier transform
 
 % -------------------------------------------------------------------------
@@ -1109,8 +1120,8 @@ B = prod_mv(M,A);
 % Numerical estimation of the inverse continuous Fourier transform based on IDFT
 % /src/numerical/transforms/
 % -------------------------------------------------------------------------
-% f = num_ift(F,dt);
-% inverse Fourier transform
+f = num_ift(F,dt);
+% Inverse Fourier transform
 
 
 

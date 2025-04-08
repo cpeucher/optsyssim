@@ -339,7 +339,7 @@ params_elecmod.normalisation = 'default';
 sig_mod = elec_modulator(symbs_pam2,params_elecmod);
 % Modulator
 
-eye = dsp_eye(sig_mod,nsamples_per_symbol);
+eye = calc_eye(sig_mod,nsamples_per_symbol);
 % Calculate eye diagram.
 
 figure('Name',['eye diagram (PAM2): ' pulse_type])
@@ -358,7 +358,7 @@ plot_constellation(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),conste
 sig_mod_filt = ifft(fft(sig_mod).* fftshift(Hmf));
 % Matched filtering.
 
-eye = dsp_eye(sig_mod_filt,nsamples_per_symbol);
+eye = calc_eye(sig_mod_filt,nsamples_per_symbol);
 % Calculate eye diagram.
 figure('Name',['eye diagram (PAM2) after matched filter: ' pulse_type])
 plot(eye,'b','LineWidth',1.5);
@@ -413,7 +413,7 @@ sig_mod = elec_modulator(symbs_pam4,params_elecmod);
 % Modulator
 
 
-eye = dsp_eye(sig_mod,nsamples_per_symbol);
+eye = calc_eye(sig_mod,nsamples_per_symbol);
 % Calculate eye diagram.
 
 figure('Name',['eye diagram (PAM2): ' pulse_type])
@@ -432,7 +432,7 @@ plot_constellation(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),conste
 sig_mod_filt = ifft(fft(sig_mod).* fftshift(Hmf));
 % Matched filtering.
 
-eye = dsp_eye(sig_mod_filt,nsamples_per_symbol);
+eye = calc_eye(sig_mod_filt,nsamples_per_symbol);
 % Calculate eye diagram.
 figure('Name',['eye diagram (PAM4) after matched filter: ' pulse_type])
 plot(eye,'b','LineWidth',1.5);
@@ -487,7 +487,7 @@ sig_mod = elec_modulator(symbs_qam16,params_elecmod);
 % Modulator
 
 
-eye = dsp_eye(sig_mod,nsamples_per_symbol);
+eye = calc_eye(sig_mod,nsamples_per_symbol);
 % Calculate eye diagram.
 
 figure('Name',['eye diagram (QAM16) - in-phase: ' pulse_type])
@@ -516,7 +516,7 @@ plot_constellation(sig_mod(nsamples_per_symbol/2:nsamples_per_symbol:end),conste
 sig_mod_filt = ifft(fft(sig_mod).* fftshift(Hmf));
 % Matched filtering.
 
-eye = dsp_eye(sig_mod_filt,nsamples_per_symbol);
+eye = calc_eye(sig_mod_filt,nsamples_per_symbol);
 % Calculate eye diagram.
 figure('Name',['eye diagram (QAM16) after matched filter - in-phase: ' pulse_type])
 plot(real(eye),'b','LineWidth',1.5);
@@ -562,7 +562,7 @@ tf = elec_tf_matched(sig_pulse,dt);
 sig_tf = elec_filter(sig_mod,tf);
 % Matched filtering.
 
-eye_tf = dsp_eye(sig_tf,nsamples_per_symbol);
+eye_tf = calc_eye(sig_tf,nsamples_per_symbol);
 % Calculate eye diagram.
 figure('Name',['eye diagram (QAM16) after functionalised matched filter - in-phase: ' pulse_type])
 plot(real(eye_tf),'b','LineWidth',1.5);
