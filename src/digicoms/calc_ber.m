@@ -1,4 +1,4 @@
-function ber = dsp_ber(bits,bits_ref)
+function ber = calc_ber(bits,bits_ref)
 % Bit-error-ratio calculation by comparison of two binary vectors
 %
 % -------------------------------------------------------------------------

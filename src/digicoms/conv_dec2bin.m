@@ -17,6 +17,7 @@ function bits_bin = conv_dec2bin(words_dec,nob)
 % -------------------------------------------------------------------------
 % words_dec         vector of numbers in decimal representation 
 %                       [real vector]
+%
 %                       The numbers will be converted to their binary 
 %                       representation with nob bits.
 %
@@ -29,6 +30,7 @@ function bits_bin = conv_dec2bin(words_dec,nob)
 % bits_bin          vector of bits corresponding to the binary
 %                       representation of the decimal numbers in 
 %                       words_dec [binary vector]
+%
 %                       The length of the vector is equal to 
 %                       length(words_dec)*nob.
 %
@@ -45,7 +47,7 @@ a = dec2bin(words_dec(:)',nob) - '0';
 bits_bin = reshape(a',[1,numel(a)]);
 
 bits_bin = logical(bits_bin);
-% Convert the array to a logical array.
+% Convert the array to a logical array
 
 
 end

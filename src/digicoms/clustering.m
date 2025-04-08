@@ -26,6 +26,7 @@ function clust = clustering(symbs,words_dec,m)
 %
 % words_dec         decimal representation of the transmitted words
 %                       [integer vector]
+%
 %                       words_dec can be a vector containing the binary
 %                       representation of the original transmitted symbols,
 %                       in which case we perform data-aided clustering, or
@@ -33,12 +34,14 @@ function clust = clustering(symbs,words_dec,m)
 %                       which case we perform decision-directed clustering.
 %
 % m                 order of the modulation format [integer]
+%
 %                       Number of symbols in the constellation.
 %
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
 % clust             clusters of complex symbols [cell array]
+%
 %                       clust{ii,:} contains the elements (complex symbols)
 %                       of the ii-th cluster, corresponding to transmitted
 %                       word ii - 1 (decimal represention)

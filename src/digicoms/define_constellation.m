@@ -43,7 +43,8 @@ function [constellation,norm_es,norm_emax] = define_constellation(type,m)
 % -------------------------------------------------------------------------
 % INPUTS:
 % -------------------------------------------------------------------------
-% type              constellation to be generated [string]                 
+% type              constellation to be generated [string]     
+%
 %                       Currently defined type are:
 %                       'bpsk'
 %                       'pam4_natural'
@@ -69,6 +70,7 @@ function [constellation,norm_es,norm_emax] = define_constellation(type,m)
 %                       'qam64_gray'
 %
 % m                 number of points in the constellation [integer]
+%
 %                       The number of bits per symbol is log2(m).
 %
 % -------------------------------------------------------------------------

@@ -30,6 +30,7 @@ function eye = calc_eye(sig,nsamples_per_symbol)
 % OUTPUTS:
 % -------------------------------------------------------------------------
 % eye                   eye diagram [real matrix]
+%
 %                           The eye diagram is a matrix with:
 %                           - nsamples_per_symbol lines
 %                           - nsymbols columns
@@ -52,7 +53,7 @@ nsamples = length(sig);
 
 nsymbols = nsamples/nsamples_per_symbol;
 % We take for granted this is an integer. Should be the case from the way
-% we generate the signal
+% we generate the signal.
 
 eye = reshape(sig,nsamples_per_symbol,nsymbols);
 % Eye diagram

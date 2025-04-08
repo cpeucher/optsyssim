@@ -1,5 +1,5 @@
 function ser = calc_ser(symbs_cx,symbs_ref)
-% Calculation of symbol error ratio (SER)
+% Calculation of symbol-error-ratio (SER)
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:

@@ -15,6 +15,7 @@ function symbs_cx = decision_qam_square_hard(symbs_rx,m)
 % INPUTS:
 % -------------------------------------------------------------------------
 % symbs_rx          received signal samples [complex vector]
+%
 %                       The received signal has already been normalised 
 %                       to the standard constellation so that the
 %                       decision thresholds take values within
@@ -22,13 +23,15 @@ function symbs_cx = decision_qam_square_hard(symbs_rx,m)
 %
 % m                 number of elements in the constellation
 %                       [integer scalar]
+%
 %                       Only square constellations are considered
 %                       therefore m = 2^k with k even
 %
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% symbs_cx          symbols after hard decision [complex vector]   
+% symbs_cx          symbols after hard decision [complex vector]  
+%
 %                       Their real and imaginary parts take values 
 %                       within {...,-7,-5,-3,-1,1,3,5,7,...}
 %

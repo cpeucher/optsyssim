@@ -16,6 +16,7 @@ function snr_db = extract_snr_constellation(clust)
 % INPUTS:
 % -------------------------------------------------------------------------
 % clust             clusters of complex symbols [cell array]
+%
 %                       clust{ii,:} contains the elements (complex symbols)
 %                       of the ii-th cluster, corresponding to transmitted
 %                       word ii - 1 (decimal representation)

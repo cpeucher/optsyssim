@@ -37,8 +37,7 @@ function plot_constellation(symbs,type,figure_name,varargin)
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% sig               output optical signal [optical signal structure]
-%                       This is it.
+%
 %
 % -------------------------------------------------------------------------
 % GLOBAL:
@@ -68,6 +67,10 @@ switch type
     case 'heat'
         
         scatplot(real(symbs), imag(symbs));
+        % Makes us of 
+        % Alex Sanchez (2021). scatplot 
+        % https://www.mathworks.com/matlabcentral/fileexchange/8577-scatplot
+        % MATLAB Central File Exchange. Retrieved October 8, 2021. 
         
         max_iq = max(max(abs(real(symbs))),max(abs(imag(symbs))));
         

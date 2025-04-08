@@ -5,9 +5,9 @@ function plot_constellation_mapping(constellation,params)
 % DESCRIPTION:
 % -------------------------------------------------------------------------
 % This function plots the constellations of digital modulation formats as
-% defined by the define_constellation.
+% defined by define_constellation.
 % It is not to be used to plot noisy / distorted constellations, but just
-% the theoretical constellations with the chose bit mapping.
+% the theoretical constellations with the chosen bit mapping.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:

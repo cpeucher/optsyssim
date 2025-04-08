@@ -16,6 +16,7 @@ function words_dec = demapping(symbs_cx,constellation)
 % INPUTS:
 % -------------------------------------------------------------------------
 % symbs_cx          complex symbols after decision [complex vector]
+%
 %                       The elements of symbs_cx take value within the
 %                       ensemble defining the constellation.
 %
