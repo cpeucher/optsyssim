@@ -270,6 +270,14 @@ symbs = add_awgn(symbs,esn0);
 % Add WGN to symbols
 
 % -------------------------------------------------------------------------
+% calc_ber
+% Bit-error-ratio calculation by comparison of two binary vectors
+% /src/digicoms/
+% -------------------------------------------------------------------------
+ber = calc_ber(bits,bits_ref);
+% BER calculation
+
+% -------------------------------------------------------------------------
 % calc_evm
 % Error vector magnitude (EVM) calculation
 % /src/digicoms/
