@@ -8,7 +8,7 @@ function [constellation,norm_es,norm_emax] = define_constellation(type,m)
 % of points in the constellation, containing the normalised complex values
 % of all the points in the constellation.
 %
-% The contellation points are by defaut defined on a grid of spacing equal
+% The constellation points are by defaut defined on a grid of spacing equal
 % to 2, i.e. their real and imaginary parts take values in
 % [... -9 -7 -5 -3 -1 1 3 5 7 9 ...].
 % 
@@ -25,15 +25,15 @@ function [constellation,norm_es,norm_emax] = define_constellation(type,m)
 % decimal 3 / binary 11
 %
 % Normalisation factors are also provided so that the constellation has 
-% an energy per symbol equal to 1, or so a maximum energy equal to 1, i.e.
+% an energy per symbol equal to 1, or a maximum energy equal to 1, i.e.
 % that it fits within the circle of radius 1 
 % The normalised constellation is obtained by 
 % constellation/sqrt(norm_es) 
 % constellation/sqrt(norm_emax)
 %
-% In order to obtained a normalised constellation, divide the output vector
+% In order to obtain a normalised constellation, divide the output vector
 % constellation by the normalisation factor of interest.
-% Observe that this normalisation is not carried out withing the function.
+% Observe that this normalisation is not carried out within the function.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
