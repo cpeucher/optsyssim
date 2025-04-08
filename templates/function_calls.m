@@ -270,6 +270,15 @@ symbs = add_awgn(symbs,esn0);
 % Add WGN to symbols
 
 % -------------------------------------------------------------------------
+% add_cfo
+% Add carrier frequency offset (CFO) to the signal samples
+% /src/digicoms/
+% -------------------------------------------------------------------------
+cfo_normalised = cfo_absolute/symbol_rate;
+symbs = add_cfo(symbs,cfo_normalised);
+% Add carrier frequency offset
+
+% -------------------------------------------------------------------------
 % calc_ber
 % Bit-error-ratio calculation by comparison of two binary vectors
 % /src/digicoms/
