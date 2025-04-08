@@ -1,28 +1,28 @@
-function ber = dsp_ber(bits,bits_ref)
-% Bit-error-ratio calculation by comparison of two binary vectors
+function ser = calc_ser(symbs_cx,symbs_ref)
+% Calculation of symbol error ratio (SER)
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
-% This function returns the bit-error-ratio of received binary data by 
-% comparison with a vector of reference binary data.
+% This function returns the symbol-error-ratio of received symbols by 
+% comparison with a vector of reference symbols.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% ber = calc_ber(bits,bits_ref);
+% ser = calc_ser(symbs_cx,symbs_ref); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:
 % -------------------------------------------------------------------------
-% bits              received bit stream [logical vector]
-%                       
-% bits_ref          reference bit stream [logical vector]
+% symbs_cx          complex symbols after decision [complex vector]
+%
+% symbs_ref         reference transmitted symbols [complex vector]
 %
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% ber               calculated bit-error-ratio [real scalar]
+% ser               symbol-error-ratio [real scalar]
 %
 % -------------------------------------------------------------------------
 % GLOBAL:
@@ -32,11 +32,16 @@ function ber = dsp_ber(bits,bits_ref)
 % -------------------------------------------------------------------------
 % -------------------------------------------------------------------------
 
-if length(bits) ~= length(bits_ref)
-    error('calc_ber: the received and reference binary bit vectors do not have the same lengths.');
+if length(symbs_cx) ~= length(symbs_ref)    
+    error('calc_ser: the received and reference complex symbols vectors do not have the same lengths.');    
 end
 
-ber = sum(xor(bits,bits_ref))/length(bits);
-% That's it
+nsymb = length(symbs_ref);
+% Number of symbols
+
+vones = ones(1,nsymb);
+ser = sum(vones(abs(symbs_cx - symbs_ref) ~= 0))/nsymb;
+% Calculate symbol error ratio
+
 
 end

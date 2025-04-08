@@ -296,6 +296,14 @@ plot(time_array(1:nsamples_per_symbol),eye,'b');
 % Plot eye diagram
 
 % -------------------------------------------------------------------------
+% calc_ser
+% Calculation of symbol error ratio (SER)
+% /src/digicoms/
+% -------------------------------------------------------------------------
+ser = calc_ser(symbs_cx,symbs_ref); 
+% SER calculation
+
+% -------------------------------------------------------------------------
 % conv_bin2dec
 % Converts vector of bits (binary) to vector of words (decimal)
 % /src/digicoms/
