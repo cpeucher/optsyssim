@@ -376,6 +376,59 @@ words_dec = dsp_demapping(symbs_cx,constellation);
 % Demapping
 
 % -------------------------------------------------------------------------
+% diffdec_qam
+% Differential decoding for square mQAM
+% /src/digicoms/
+% -------------------------------------------------------------------------
+nsymbols = 2^20;
+m = 64;
+esn0_db = 20;
+bits = generate_binary(nsymbols,m);
+symbs = diffenc_qam(bits,m);
+symbs_rx = add_awgn(symbs,esn0_db);
+[bits_rx,symbs_diff] = diffdec_qam(symbs_rx,m);
+ber = calc_ber(bits_rx,bits(log2(m)+1:end)) 
+
+% -------------------------------------------------------------------------
+% diffdec_qpsk
+% Differential decoding for QPSK
+% /src/digicoms/
+% -------------------------------------------------------------------------
+nsymbols = 2^10;
+m = 4;
+esn0_db = 20;
+bits = generate_binary(nsymbols,m);
+[words_dec, words_bin] = conv_bin2dec(bits,log2(m));
+symbs = diffenc_qpsk(words_dec);
+symbs_rx = add_awgn(symbs,esn0_db);
+[bits_rx, symbs_diff] = diffdec_qpsk(symbs_rx,'hard');
+ber = calc_ber(bits_rx,bits(3:end));
+
+% -------------------------------------------------------------------------
+% diffenc_qam
+% Generation of differentially encoded symbols for square m-QAM modulation
+% /src/digicoms/
+% -------------------------------------------------------------------------
+symbs = dsp_qam_diffenc(bits,m);
+% Differential encoding for square QAM
+
+% -------------------------------------------------------------------------
+% diffenc_qpsk
+% Generation of differentially encoded symbols for QPSK modulation
+% /src/digicoms/
+% -------------------------------------------------------------------------
+symbs = diffenc_qpsk(words_dec);
+% Differential encoding for QPSK
+
+% -------------------------------------------------------------------------
+% diffenc_qpsk_nextquadrant
+% Determine quadrant index for QPSK differential encoding
+% /src/digicoms/
+% -------------------------------------------------------------------------
+iquad(iword) = diffenc_qpsk_nextquadrant(iquad(iword - 1),words_dec(iword - 1));
+% Determine quadrant index based on 2-bit word value and previous quadrant index
+
+% -------------------------------------------------------------------------
 % extract_snr_constellation
 % Extract the SNR from data-aided clusters of a constellation
 % /src/digicoms/
