@@ -662,6 +662,15 @@ enb = calc_enb_tf('lowpass',tf,max(abs(tf)),df);
 % Equivalent noise bandwidth
 
 % -------------------------------------------------------------------------
+% calc_rc_spectrum
+% Calculation of raised-cosine pulse spectrum
+% /src/electrical/
+% -------------------------------------------------------------------------
+roll_off = 0.1;
+freq = linspace(0,fs/2,1000);
+H = calc_rc_spectrum(freq,symbol_rate,roll_off); 
+
+% -------------------------------------------------------------------------
 % elec_coder_manchester
 % Manchester encoder without rise time
 % /src/electrical/
