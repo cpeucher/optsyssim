@@ -484,6 +484,14 @@ plot_constellation_mapping(constellation,params);
 % Plot original constellation
 
 % -------------------------------------------------------------------------
+% plot_constellation_mapping
+% Reference SEP versus Es/N0 curves over AWGN for various constellations 
+% /src/digicoms/
+% -------------------------------------------------------------------------
+[pse, status] = sep_awgn_reference(esn0_db,mod,m);
+% Theoretical symbol-error-probability versus SNR
+
+% -------------------------------------------------------------------------
 % serial_parallel
 % Serial-to-parallel conversion
 % /src/digicoms/
