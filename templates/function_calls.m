@@ -575,6 +575,13 @@ spectrum_sampling = calc_rc_spectrum(freq_sampling,ts,roll_off);
 h = dsp_fir_design_frequency_sampling(freq_sampling,spectrum_sampling,fsa,ntaps,1);
 % Tap coefficients 
 
+% -------------------------------------------------------------------------
+% dsp_fir_design_frequency_sampling
+% Calculate the frequency response of a FIR filter from its impulse response / tap coefficients
+% /src/dsp/general/
+% -------------------------------------------------------------------------
+[wh,H] = dsp_fir_frequency_response(h);
+% Filter frequency response
 
 % -------------------------------------------------------------------------
 % dsp_fir_linear
