@@ -372,7 +372,7 @@ symbs_rx = symbs_rx*sqrt(2/es_rx);
 % Demapping of digital symbols
 % /src/digicoms/
 % -------------------------------------------------------------------------
-words_dec = dsp_demapping(symbs_cx,constellation);
+words_dec = demapping(symbs_cx,constellation);
 % Demapping
 
 % -------------------------------------------------------------------------
@@ -549,6 +549,32 @@ bb = dsp_delay(aa,3);
 cc = dsp_delay(aa,3,[9 10 11]);
 dd = dsp_delay(aa,3,[9 10 11;12 13 14;15 16 17;18 19 20;21 22 334]);
 % Digital delay
+
+% -------------------------------------------------------------------------
+% dsp_fir_design_frequency_sampling
+% FIR filter coefficients determination by frequency sampling
+% /src/dsp/general/
+% -------------------------------------------------------------------------
+roll_off = 0.1; 
+% Raised-cosine roll-off factor
+ts = 1/symbol_rate; 
+% Symbol rate, in baud
+nos = 4;
+% Oversampling factor. Even number.
+fsa = nos*symbol_rate;
+% Sampling frequency
+nlengthsymbs = 16;
+% Filter depth, in terms of number of symbols
+% 16 means 8 symbols on each side
+% Even number
+ntaps = nlengthsymbs*nos + 1;
+% FIR filter length. Ensure it is an odd number
+freq_sampling = linspace(0,fsa/2,1000);
+spectrum_sampling = calc_rc_spectrum(freq_sampling,ts,roll_off);
+% Analog spectrum of raise-cosine filter
+h = dsp_fir_design_frequency_sampling(freq_sampling,spectrum_sampling,fsa,ntaps,1);
+% Tap coefficients 
+
 
 % -------------------------------------------------------------------------
 % dsp_fir_linear
