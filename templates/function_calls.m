@@ -551,6 +551,48 @@ dd = dsp_delay(aa,3,[9 10 11;12 13 14;15 16 17;18 19 20;21 22 334]);
 % Digital delay
 
 % -------------------------------------------------------------------------
+% dsp_farrow
+% Implementation of Farrow structure, e.g. for interpolation
+% /src/dsp/general/
+% -------------------------------------------------------------------------
+% Linear interpolator (2 basepoints - 1 sample delay):
+nfilters = 2;
+ntaps = 2;
+c0 = [0, 1];
+c1 = [1, -1];
+c = [c0;c1].';
+
+% Parabolic interpolator (3 basepoints - 1 sample delay):
+nfilters = 3;
+ntaps = 3;
+c0 = [0,   1,  0];
+c1 = [0.5, 0,  -0.5];
+c2 = [0.5, -1, 0.5];
+c = [c0;c1;c2].';
+
+% Cubic interpolator (4 basepoints - 2 sample delay): 
+nfilters = 4;
+ntaps = 4;
+c0 = [0,    0,     1,    0];
+c1 = [-1/6, 1,     -1/2, -1/3];
+c2 = [0,   1/2,    -1,   1/2];
+c3 = [1/6, -1/2,   1/2,  -1/6]; 
+c = [c0;c1;c2;c3].';
+
+% Parabolic interpolator (4 basepoints - 2 sample delay)
+ntaps = 4;
+nfilters = 3;
+alpha = 0.5;
+c = [0,  -alpha,     alpha;
+    0,   alpha+1,  -alpha;
+    1,   alpha-1   -alpha;
+    0,  -alpha,     alpha];
+
+y = dsp_farrow(x,c,zeros(ntaps,nfilters),mu);
+% Farrow interpolator
+
+
+% -------------------------------------------------------------------------
 % dsp_fir_design_frequency_sampling
 % FIR filter coefficients determination by frequency sampling
 % /src/dsp/general/
@@ -576,7 +618,7 @@ h = dsp_fir_design_frequency_sampling(freq_sampling,spectrum_sampling,fsa,ntaps,
 % Tap coefficients 
 
 % -------------------------------------------------------------------------
-% dsp_fir_design_frequency_sampling
+% dsp_fir_frequency_response
 % Calculate the frequency response of a FIR filter from its impulse response / tap coefficients
 % /src/dsp/general/
 % -------------------------------------------------------------------------
