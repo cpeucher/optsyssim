@@ -305,6 +305,15 @@ plot(time_array(1:nsamples_per_symbol),eye,'b');
 % Plot eye diagram
 
 % -------------------------------------------------------------------------
+% calc_rc_spectrum
+% Calculation of raised-cosine pulse spectrum
+% /src/digicoms/
+% -------------------------------------------------------------------------
+roll_off = 0.1;
+freq = linspace(0,fs/2,1000);
+H = calc_rc_spectrum(freq,symbol_rate,roll_off); 
+
+% -------------------------------------------------------------------------
 % calc_ser
 % Calculation of symbol error ratio (SER)
 % /src/digicoms/
@@ -737,22 +746,12 @@ enb = calc_enb_tf('lowpass',tf,max(abs(tf)),df);
 % Equivalent noise bandwidth
 
 % -------------------------------------------------------------------------
-% calc_rc_spectrum
-% Calculation of raised-cosine pulse spectrum
-% /src/electrical/
-% -------------------------------------------------------------------------
-roll_off = 0.1;
-freq = linspace(0,fs/2,1000);
-H = calc_rc_spectrum(freq,symbol_rate,roll_off); 
-
-% -------------------------------------------------------------------------
 % elec_coder_manchester
 % Manchester encoder without rise time
 % /src/electrical/
 % -------------------------------------------------------------------------
 sig = elec_coder_manchester(bit_pattern,nsamples_per_symbol); 
 % Manchester encoder
-
 
 % -------------------------------------------------------------------------
 % elec_coder_nrz
