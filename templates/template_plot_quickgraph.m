@@ -66,7 +66,7 @@ mred = [178 0 24]/255;
 % -------------------------------------------------------------------------
 file_name_core_figure = strrep(mfilename,'plot','fig');
 file_name_core_data = strrep(mfilename,'plot','data');
-time_stamp = datestr(datetime('now','TimeZone','Z'),'yyyymmddThhMMSSZ');
+time_stamp = string(datetime('now','TimeZone','Z','Format','yyyyMMdd''T''HHmmss''Z'));
 
 
 % -------------------------------------------------------------------------

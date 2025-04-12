@@ -18,7 +18,7 @@ format long
 % -------------------------------------------------------------------------
 file_name_core_figure = strrep(mfilename,'run','fig');
 file_name_core_data = strrep(mfilename,'run','data');
-time_stamp = datestr(datetime('now','TimeZone','Z'),'yyyymmddThhMMSSZ');
+time_stamp = string(datetime('now','TimeZone','Z','Format','yyyyMMdd''T''HHmmss''Z'));
 
 % ------------------------------------------------------------------------- 
 % Reinitialise the random number generator for reproducibility.
