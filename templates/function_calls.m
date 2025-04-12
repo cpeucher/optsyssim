@@ -483,6 +483,13 @@ params.save = 0;
 plot_constellation_mapping(constellation,params); 
 % Plot original constellation
 
+% -------------------------------------------------------------------------
+% serial_parallel
+% Serial-to-parallel conversion
+% /src/digicoms/
+% -------------------------------------------------------------------------
+streams_out = serial_parallel(bits_bin,nstreams); 
+% Serial-to-parallel conversion
 
 
 
