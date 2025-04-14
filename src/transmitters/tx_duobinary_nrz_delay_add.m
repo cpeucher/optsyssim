@@ -66,7 +66,7 @@ function sig = tx_duobinary_nrz_delay_add(params)
 global time_array
 
 
-samples_per_symbol = length(time_array)/length(params.bit_pattern);
+nsamples_per_symbol = length(time_array)/length(params.bit_pattern);
 % Number of samples per symbol
 
 bit_pattern_diff_enc = logical_differential_encoder_binary(not(params.bit_pattern));
@@ -75,7 +75,7 @@ bit_pattern_diff_enc = logical_differential_encoder_binary(not(params.bit_patter
 nrz_data_sig = elec_pulse_sequence_nrz(bit_pattern_diff_enc,params.rise_time);
 % Generate differentially-encoded NRZ data stream
 
-duobinary_data_sig = 0.5*(nrz_data_sig + circshift(nrz_data_sig,[0 samples_per_symbol]));
+duobinary_data_sig = 0.5*(nrz_data_sig + circshift(nrz_data_sig,[0 nsamples_per_symbol]));
 % Delay and add filter applied to the NRZ data stream
 % The filtered signal is normalised back to a peak-to-peak amplitude of 1.
 
