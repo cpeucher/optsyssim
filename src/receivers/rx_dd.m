@@ -79,7 +79,7 @@ function sig = rx_dd(sig,params)
 %                       params.obpf 
 %                           optical bandpass filter parameters [structure]
 %
-%                           See opt_opbf function for more details.
+%                           See opt_tf_obpf function for more details.
 %
 %                           params.obpf.type 
 %                           params.obpf.order
@@ -224,7 +224,6 @@ elseif strcmp(params.type,'id')
         disp('rx_dd: non existing MZDI input port.');
     end
     % Select input port of MZDI    
-
 
     [sig21,sig22] = opt_mzdi(sig11,sig12,params.mzdi);
     % Mach-Zehnder delay interferometer
