@@ -12,7 +12,7 @@ function sig = opt_broadband_time(power)
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
 % power_dbm = 0;
-% sig = opt_source_broadband_time(power_dbm); 
+% sig = opt_broadband_time(power_dbm); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:
