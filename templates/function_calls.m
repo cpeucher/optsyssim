@@ -2009,7 +2009,7 @@ sig = tx_ook_rz67(params_tx);
 % -------------------------------------------------------------------------
 params_tx.emission_frequency = reference_frequency;
 params_tx.linewidth = 0;
-params_tx.laser_power = 1.0e-3;
+params_tx.power = 1.0e-3;
 params_tx.bit_pattern_1 = bit_pattern_1;
 params_tx.bit_pattern_2 = bit_pattern_2;
 params_tx.rise_time = 1/symbol_rate/4;
