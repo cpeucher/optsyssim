@@ -1661,6 +1661,61 @@ params_coh.elpf.f3dB = 0.7*symbol_rate;
 % Coherent front-end
 
 % -------------------------------------------------------------------------
+% rx_dd
+% Receiver incl. optical filtering and direct and interferometric detection
+% /src/receiver/
+% -------------------------------------------------------------------------
+params_rx.type = 'dd';%'id';
+params_rx.obpf.type = 'gaussian';
+params_rx.obpf.order = 1;
+params_rx.obpf.bandwidth = 4*symbol_rate;
+params_rx.obpf.centre_frequency = 0;
+
+% Parameters for direct-detection receiver:
+params_rx.elpf.type = 'bessel';
+params_rx.elpf.order = 4;
+params_rx.elpf.f3dB = 0.75*symbol_rate;
+params_rx.pd.responsivity = 1;
+params_rx.pd.shot_noise = 0;
+params_rx.pd.thermal_noise_density = 0;
+params_rx.pd.dark_current = 0;
+
+% Parameters for interferometric-detection receiver:
+params_rx.mzdi.input_port = 'upper';%'lower';
+params_rx.mzdi.mode = 'tuned';%'general';
+params_rx.mzdi.delay = 1/symbol_rate;
+params_rx.mzdi.phase_shift = 0;
+
+params_rx.upper.pd.responsivity = 1;
+params_rx.upper.pd.shot_noise = 0;
+params_rx.upper.pd.thermal_noise_density = 0;
+params_rx.upper.pd.dark_current = 0;
+params_rx.lower.pd.responsivity = 1;
+params_rx.lower.pd.shot_noise = 0;
+params_rx.lower.pd.thermal_noise_density = 0;
+params_rx.lower.pd.dark_current = 0;
+
+params_rx.upper.elpf.type = 'bessel';
+params_rx.upper.elpf.order = 4;
+params_rx.upper.elpf.f3dB = 0.75*symbol_rate;
+params_rx.lower.elpf.type = 'bessel';
+params_rx.lower.elpf.order = 4;
+params_rx.lower.elpf.f3dB = 0.75*symbol_rate;
+params_rx.bd.detection_mode = 'balanced';%'single_ended_upper';%'single_ended_lower';
+params_rx.bd.electrical_delay = 0;
+params_rx.bd.polarity = 1;%-1.
+
+sig = rx_dd(sig,params_rx);
+
+% For MZDI input_port = 'upper' and mode = 'Tuned'
+% 'single_ended_upper' -> compare to original data sequence and ignore 
+% 1st bit. The optical signal is AMI.
+% 'single_ended_lower' -> compare to inverted original data sequence and 
+% ignore 1st bit. The optical signal is DB.
+
+
+
+% -------------------------------------------------------------------------
 % rx_pin
 % PIN receiver with shot and thermal noise and low-pass filtering
 % /src/receiver/
