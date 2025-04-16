@@ -26,7 +26,7 @@ function varargout = meas_osa(sig,params)
 % params_osa.save.emf = 0;
 % params_osa.save.jpg = 0;
 % params_osa.name = 'Optical spectrum';
-% meas_osa(sig.x,params_osa); 
+% meas_osa(sig,params_osa); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:

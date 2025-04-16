@@ -154,7 +154,7 @@ chirp = char_opt_temporal_chirp(sig);
 % Calculate temporal chirp
 
 % -------------------------------------------------------------------------
-% mes_esa
+% meas_esa
 % Electrical spectrum analyser
 % /src/characterization/
 % -------------------------------------------------------------------------
@@ -186,6 +186,23 @@ params_eye.colour_grade = 0;
 params_eye.name = 'Eye diagram';
 meas_eye(sig,params_eye);
 % Plot eye diagram
+
+% -------------------------------------------------------------------------
+% meas_osa
+% Optical spectrum analyser
+% /src/characterization/
+% -------------------------------------------------------------------------
+params_osa.pol = 'x';%'y';'both';
+params_osa.display_interval = [frequency_array(1) frequency_array(end)];
+params_osa.resolution_bandwidth = 0;%12.5e9;
+params_osa.sensitivity = -40;
+params_osa.display = 1;
+params_osa.save.txt = 0;
+params_osa.save.emf = 0;
+params_osa.save.jpg = 0;
+params_osa.name = 'Optical spectrum';
+meas_osa(sig,params_osa); 
+% Optical spectrum analyser
 
 % -------------------------------------------------------------------------
 % meas_rf_power
