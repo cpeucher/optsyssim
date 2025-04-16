@@ -188,6 +188,17 @@ meas_eye(sig,params_eye);
 % Plot eye diagram
 
 % -------------------------------------------------------------------------
+% meas_rf_power
+% Integrate RF power in a specified bandwidth
+% /src/characterization/
+% -------------------------------------------------------------------------
+params_rf_pwm.centre_frequency = 10e9;
+params_rf_pwm.bandwidth = 4*df;
+params_rf_pwm.input_impedance = 1;
+[rf_power,psd] = meas_rf_power(sig,params_rf_pwm);
+% Extract RF power in specified bandwidth
+
+% -------------------------------------------------------------------------
 % meas_scope
 % Oscilloscope for visualisation of optical and electrical signals
 % /src/characterization/
