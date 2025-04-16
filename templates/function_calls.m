@@ -134,7 +134,7 @@ params_constellation.save.emf = 0;
 % params_constellation.plot_axes = 0;
 params_constellation.name = 'Constellation';
 char_opt_constellation(sig,params_constellation); 
-% Plot optical constellation.
+% Plot optical constellation
 
 % -------------------------------------------------------------------------
 % char_opt_peak_power
