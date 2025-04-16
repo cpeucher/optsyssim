@@ -144,7 +144,6 @@ char_opt_constellation(sig,params_constellation);
 pp = char_opt_peak_power(sig,time_interval);
 % Peak power of optical signal
 
-
 % -------------------------------------------------------------------------
 % char_opt_temporal_chirp
 % Temporal chirp of an optical signal
@@ -152,6 +151,14 @@ pp = char_opt_peak_power(sig,time_interval);
 % -------------------------------------------------------------------------
 chirp = char_opt_temporal_chirp(sig);
 % Calculate temporal chirp
+
+% -------------------------------------------------------------------------
+% char_pulse_rms
+% rms width of an optical pulse
+% /src/characterization/
+% -------------------------------------------------------------------------
+rms = char_pulse_rms(abs(sig.x).^2); 
+% Pulse rms duration, in s
 
 % -------------------------------------------------------------------------
 % meas_esa
