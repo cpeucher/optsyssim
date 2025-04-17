@@ -39,6 +39,27 @@ sig = opt_amplifier(sig,params_optamp);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% calc_disp_broadening_gauss_1
+% 2nd and 3rd order dispersion-induced rms broadening of 1st order Gaussian pulse
+% /src/auxiliary/
+% -------------------------------------------------------------------------
+params.fwhm = 10e-12;
+params.chirp = 0;
+[broadening_rms,ld,ldp] = calc_disp_broadening_gauss_1(distance,beta2,beta3,params);
+% Pulse rms broadening factor
+
+% -------------------------------------------------------------------------
+% calc_disp_broadening_gauss_m
+% Second-order dispersion-induced rms broadening of super-Gaussian pulses
+% /src/auxiliary/
+% -------------------------------------------------------------------------
+params.fwhm = 10e-12;
+params.chirp = 0;
+params.order = 2;
+[broadening_rms,ld] = calc_disp_broadening_gauss_m(distance,beta2,params);
+% Pulse rms broadening factor
+
+% -------------------------------------------------------------------------
 % calc_disp_imdd_small_signal
 % Fibre frequency response due to dispersion and chirp with direct detection
 % /src/auxiliary/
@@ -1391,7 +1412,7 @@ C = prod_mm(A,B);
 % -------------------------------------------------------------------------
 % prod_mv
 % Product of time or frequency dependent 2-element vector and 2x2 matrix
-% /src/auxiliary/
+% /src/numerical/matrices
 % This function was initially created to manipulate Jones vector and is 
 % identical to jones_prod_mv under /src/polarization
 % We just created this function since its scope of use is much larger while
