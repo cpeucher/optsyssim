@@ -1157,6 +1157,23 @@ tf = opt_tf_mrr(frequency_array,params_mrr,vis_mrr);
 % Transfer function of add-drop micro-ring resonator filter
 
 % -------------------------------------------------------------------------
+% opt_tf_mrr_crow
+% Coupled microring resonator (CROW) chain matrix 
+% /src/filters/
+-------------------------------------------------------------------------
+params_crow.nrings = 3;
+params_crow.power_coupling = [0.45 0.5 0.3 0.45]';
+params_crow.radius = [10e-6 20e-6 10e-6];
+params_crow.phase_shift = [0 0 0];
+params_crow.neff = [2.54 2.54 2.54]';
+params_crow.loss_log = [1e-2 1e-2 1e-2]';
+M = opt_tf_mrr_crow(frequency_array,params_crow);
+tf_through = squeeze(-M(1,1,:)./M(1,2,:)).';
+tf_drop = squeeze(M(2,1,:) - M(1,1,:).*M(2,2,:)./M(1,2,:)).';
+tf_all_pass = squeeze((M(1,1,:) - M(2,1,:))./(M(2,2,:) - M(1,2,:))).';
+% Transfer function of coupled MRRs
+
+% -------------------------------------------------------------------------
 % opt_tf_obpf
 % Transfer functions of some standard optical bandpass filters
 % /src/filters/
