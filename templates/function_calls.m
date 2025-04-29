@@ -1158,7 +1158,7 @@ tf = opt_tf_mrr(frequency_array,params_mrr,vis_mrr);
 
 % -------------------------------------------------------------------------
 % opt_tf_mrr_crow
-% Coupled microring resonator (CROW) chain matrix 
+% Coupled microring resonator (CROW) scattering matrix 
 % /src/filters/
 -------------------------------------------------------------------------
 params_crow.nrings = 3;

@@ -1,10 +1,10 @@
 function M = opt_tf_mrr_crow(freq,params)
-% Coupled microring resonator (CROW) chain matrix 
+% Coupled microring resonator (CROW) scattering matrix 
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
-% This function implements chain matrix computations of coupled
+% This function implements scattering matrix computations of coupled
 % micro-ring resonators of the "coupled-resonator optical waveguides"
 % (CROW) type.
 % The coupled ring resonators consist of:
@@ -156,7 +156,7 @@ function M = opt_tf_mrr_crow(freq,params)
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% M                 "chain matrix" of the structure
+% M                 "scattering matrix" of the structure
 %
 %                       For an add-drop structure, the through and drop 
 %                           transfer functions are:
