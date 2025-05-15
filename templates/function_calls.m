@@ -474,7 +474,7 @@ ber = calc_ber(bits_rx,bits(3:end));
 % Generation of differentially encoded symbols for square m-QAM modulation
 % /src/digicoms/
 % -------------------------------------------------------------------------
-symbs = dsp_qam_diffenc(bits,m);
+symbs = diffenc_qam(bits,m);
 % Differential encoding for square QAM
 
 % -------------------------------------------------------------------------
@@ -591,6 +591,27 @@ streams_out = serial_parallel(bits_bin,nstreams);
 % -------------------------------------------------------------------------
 sig = dac_zoh(samples,ndac);
 % Zero-order hold
+
+
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% dsp/digital-coherent                                                      dsp/digital-coherent
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+
+% -------------------------------------------------------------------------
+% cfo_estimation_leven
+% CFO estimation for M-PSK modulation according to Leven
+% /src/dsp/digital-coherent/
+% -------------------------------------------------------------------------
+tk = [0:1:length(symbs) - 1]/symbol_rate;
+cfo_estimation_mpower = 4;
+cfo_estimation_sample_delay = 1;
+cfo_estimation_block_length = 1000;
+[cfo_estimate, cfo_estimation_delay] = cfo_estimation_leven(symbs_rx,cfo_estimation_mpower,cfo_estimation_sample_delay,cfo_estimation_block_length);
+symbs_comp = dsp_delay(symbs_rx,cfo_estimation_delay).*exp(-1j*2*pi*cfo_estimate.*dsp_delay(tk,cfo_estimation_delay)*symbol_rate);
+symbs_comp = symbs_comp([2*cfo_estimation_delay + 1:end]);
+
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
