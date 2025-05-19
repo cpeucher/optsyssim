@@ -605,12 +605,16 @@ sig = dac_zoh(samples,ndac);
 % /src/dsp/digital-coherent/
 % -------------------------------------------------------------------------
 tk = [0:1:length(symbs) - 1]/symbol_rate;
-cfo_estimation_mpower = 4;
-cfo_estimation_sample_delay = 1;
-cfo_estimation_block_length = 1000;
-[cfo_estimate, cfo_estimation_delay] = cfo_estimation_leven(symbs_rx,cfo_estimation_mpower,cfo_estimation_sample_delay,cfo_estimation_block_length);
-symbs_comp = dsp_delay(symbs_rx,cfo_estimation_delay).*exp(-1j*2*pi*cfo_estimate.*dsp_delay(tk,cfo_estimation_delay)*symbol_rate);
+mpower = 4;
+sample_delay = 1;
+block_length = 1000;
+[cfo_estimate, cfo_estimation_delay] = cfo_estimation_leven(symbs,mpower,sample_delay,block_length);
+symbs_comp = dsp_delay(symbs,cfo_estimation_delay).*exp(-1j*2*pi*cfo_estimate.*dsp_delay(tk,cfo_estimation_delay)*symbol_rate);
 symbs_comp = symbs_comp([2*cfo_estimation_delay + 1:end]);
+
+nblocks = floor(length(symbs)/block_length);
+cfo_estimate = cfo_estimation_leven(symbs,mpower,sample_delay,block_length,'block');
+symbs_comp = symbs(1:nblocks*block_length).*exp(-1j*2*pi*cfo_estimate.*tk(1:nblocks*block_length)*symbol_rate);
 
 
 

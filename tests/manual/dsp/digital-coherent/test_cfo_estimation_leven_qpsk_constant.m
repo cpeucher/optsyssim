@@ -13,7 +13,8 @@
 % 
 % Estimation is performed over 2 samples separated by a specified delay 
 % (point) or averaged over a block of 2 samples separated by a specified 
-% delay (block).
+% delay. In this case, either running averaging using an FIR filter (FIR),
+% or averaging over adjacent blocks (block) of data is performed.
 %
 % -------------------------------------------------------------------------
 
@@ -74,7 +75,7 @@ plot_constellation(symbs,'plain','Constellation at Tx output');
 symbol_rate = 10e9;     
 % Symbol rate, in baud. Signal is sampled at the symbol rate.
 esn0_db = +Inf;    
-%esn0_db = 20;
+% esn0_db = 20;
 % Signal-to-noise ratio, in dB. Will govern the amount of AWGN added.
 
 % -------------------------------------------------------------------------
@@ -85,10 +86,10 @@ cfo_mean = 1e6;       % Added constant CFO value, in Hz
 % -------------------------------------------------------------------------
 % CFO estimation parameters
 % -------------------------------------------------------------------------
-cfo_estimation_mpower = 4;
-cfo_estimation_sample_delay_block = 1; 
-cfo_estimation_sample_delay_point = 2; 
-cfo_estimation_block_length = 1000;
+mpower = 4;
+sample_delay_block = 1; 
+sample_delay_point = 2; 
+block_length = 1000;
 % Parameters of the phase differential algorithm (Leven)
 
 % -------------------------------------------------------------------------
@@ -110,13 +111,13 @@ symbs = symbs.*exp(1i*2*pi*cfo_mean*tk);
 % Calculate delay of the estimator etc.
 % Is actually also returned by updated version of function
 % -------------------------------------------------------------------------
-cfo_estimation_delay_block = (cfo_estimation_sample_delay_block + cfo_estimation_block_length - 1)/2;
-cfo_estimation_delay_point = (cfo_estimation_sample_delay_point + 1 - 1)/2;
+cfo_estimation_delay_fir = (sample_delay_block + block_length - 1)/2;
+cfo_estimation_delay_point = (sample_delay_point + 1 - 1)/2;
 % Estimation of CFO estimation delay, in number of samples
 % Is now returned by function.
 
-cfo_compensable_max_block = symbol_rate/2/cfo_estimation_sample_delay_block/cfo_estimation_mpower;
-cfo_compensable_max_point = symbol_rate/2/cfo_estimation_sample_delay_point/cfo_estimation_mpower;
+cfo_compensable_max_fir = symbol_rate/2/sample_delay_block/mpower;
+cfo_compensable_max_point = symbol_rate/2/sample_delay_point/mpower;
 % Maximum compensable CFO, in Hz.
 
 
@@ -125,16 +126,16 @@ fprintf('%s\n\n','======================================')
 
 
 fprintf('%s\n','Point estimation:')
-fprintf('%s\t\t%i\n','Delay between samples:',cfo_estimation_sample_delay_block)
+fprintf('%s\t\t%i\n','Delay between samples:',sample_delay_block)
 fprintf('%s\t%i\n','Size of averaging block:',1)
 fprintf('%s\t\t\t%1.1f\n','Estimator delay:',cfo_estimation_delay_point)
 fprintf(1,'%s\t%6.6f\t%s\n\n','Maximum compensable CFO: ',cfo_compensable_max_point/1.0e6, 'MHz');
 
-fprintf('%s\n','Block estimation:')
-fprintf('%s\t\t%i\n','Delay between samples:',cfo_estimation_sample_delay_block)
-fprintf('%s\t%i\n','Size of averaging block:',cfo_estimation_block_length)
-fprintf('%s\t\t\t%1.1f\n','Estimator delay:',cfo_estimation_delay_block)
-fprintf(1,'%s\t%6.6f\t%s\n\n','Maximum compensable CFO: ',cfo_compensable_max_block/1.0e6, 'MHz');
+fprintf('%s\n','FIR averaging estimation:')
+fprintf('%s\t\t%i\n','Delay between samples:',sample_delay_block)
+fprintf('%s\t%i\n','Size of averaging block:',block_length)
+fprintf('%s\t\t\t%1.1f\n','Estimator delay:',cfo_estimation_delay_fir)
+fprintf(1,'%s\t%6.6f\t%s\n\n','Maximum compensable CFO: ',cfo_compensable_max_fir/1.0e6, 'MHz');
 
 
 fprintf(1,'%s\t%6.6f\t%s\n','Added CFO: ',cfo_mean/1.0e6, 'MHz');
@@ -164,41 +165,42 @@ symbs_rx = symbs;
 % -------------------------------------------------------------------------
 % CFO estimation
 % -------------------------------------------------------------------------
-cfo_estimate_block = cfo_estimation_leven(symbs_rx,cfo_estimation_mpower,cfo_estimation_sample_delay_block,cfo_estimation_block_length);
-% CFO estimation with block averaging
-cfo_estimate_point = cfo_estimation_leven(symbs_rx,cfo_estimation_mpower,cfo_estimation_sample_delay_point,1);
+cfo_estimate_fir = cfo_estimation_leven(symbs_rx,mpower,sample_delay_block,block_length);
+% CFO estimation with FIR running averaging
+cfo_estimate_point = cfo_estimation_leven(symbs_rx,mpower,sample_delay_point,1);
 % 1-point CFO estimation
+
 
 % -------------------------------------------------------------------------
 % Compare applied CFO with estimates
 % -------------------------------------------------------------------------
-cfo_added_delayed_block = dsp_delay(cfo_added,cfo_estimation_delay_block);
+cfo_added_delayed_fir = dsp_delay(cfo_added,cfo_estimation_delay_fir);
 cfo_added_delayed_point = dsp_delay(cfo_added,cfo_estimation_delay_point);
 % Delay the added CFO by the value of the delay of the estimator
 % For constant CFO, this is not very relevant...
 
-cfo_estimate_error_block = cfo_estimate_block*symbol_rate - cfo_added_delayed_block;
+cfo_estimate_error_fir = cfo_estimate_fir*symbol_rate - cfo_added_delayed_fir;
 cfo_estimate_error_point = cfo_estimate_point*symbol_rate - cfo_added_delayed_point;
 % Calculate CFO estimation error, in Hz
 
 figure('Name','CFO estimate')
-plot(cfo_estimate_block*symbol_rate/1.0e6,'g-');
+plot(cfo_estimate_fir*symbol_rate/1.0e6,'g-');
 hold on
 plot(cfo_estimate_point*symbol_rate/1.0e6,'b--');
 plot(cfo_added/1.0e6,'r--')
 xlabel('sample');
 ylabel('CFO (MHz)');
-legend('CFO estimate (block)','CFO estimate (point)','added CFO')
+legend('CFO estimate (FIR av.)','CFO estimate (point)','added CFO')
 
 figure('Name','CFO estimate : estimator delay check')
 hold on
-plot(cfo_estimate_block*symbol_rate/1.0e6,'go-')
+plot(cfo_estimate_fir*symbol_rate/1.0e6,'go-')
 hold on
 plot(cfo_estimate_point*symbol_rate/1.0e6,'b*--')
 plot(cfo_added/1.0e6, 'rs--')
 xlabel('sample')
 ylabel('CFO (MHz)')
-legend('CFO estimate (block)','CFO estimate (point)','added CFO')
+legend('CFO estimate (FIR av.)','CFO estimate (point)','added CFO')
 grid on
 
 figure('Name','CFO estimate - point')
@@ -216,27 +218,27 @@ xlabel('sample');
 ylabel('CFO error (kHz)');
 ylim([min(cfo_estimate_error_point(2*cfo_estimation_delay_point+1:end)) max(cfo_estimate_error_point(2*cfo_estimation_delay_point+1:end))]/1.0e3)
 
-figure('Name','CFO estimate - block')
+figure('Name','CFO estimate - FIR averaging')
 subplot(2,1,1)
-plot(cfo_estimate_block*symbol_rate/1.0e6,'g-');
+plot(cfo_estimate_fir*symbol_rate/1.0e6,'g-');
 hold on
-plot(cfo_added_delayed_block/1.0e6,'r--')
+plot(cfo_added_delayed_fir/1.0e6,'r--')
 xlabel('sample');
 ylabel('CFO (MHz)');
-legend('CFO estimate (block)','added CFO (delayed)')
+legend('CFO estimate (FIR av.)','added CFO (delayed)')
 ylim([min(cfo_added)*0.95 max(cfo_added)*1.05]/1.0e6)
 subplot(2,1,2)
-plot(cfo_estimate_error_block/1.0e3,'k-');
+plot(cfo_estimate_error_fir/1.0e3,'k-');
 xlabel('sample');
 ylabel('CFO error (kHz)');
-ylim([min(cfo_estimate_error_block(2*cfo_estimation_delay_block+1:end)) max(cfo_estimate_error_block(2*cfo_estimation_delay_block+1:end))]/1.0e3)
+ylim([min(cfo_estimate_error_fir(2*cfo_estimation_delay_fir+1:end)) max(cfo_estimate_error_fir(2*cfo_estimation_delay_fir+1:end))]/1.0e3)
 
 
 % -------------------------------------------------------------------------
 % CFO compensation
 % -------------------------------------------------------------------------
-symbs_comp_block = dsp_delay(symbs,cfo_estimation_delay_block).*exp(-1j*2*pi*cfo_estimate_block.*dsp_delay(tk,cfo_estimation_delay_block)*symbol_rate);
-symbs_comp_block = symbs_comp_block(2*cfo_estimation_delay_block + 1:end);
+symbs_comp_fir = dsp_delay(symbs,cfo_estimation_delay_fir).*exp(-1j*2*pi*cfo_estimate_fir.*dsp_delay(tk,cfo_estimation_delay_fir)*symbol_rate);
+symbs_comp_fir = symbs_comp_fir(2*cfo_estimation_delay_fir + 1:end);
 
 symbs_comp_point = dsp_delay(symbs,cfo_estimation_delay_point).*exp(-1j*2*pi*cfo_estimate_point.*dsp_delay(tk,cfo_estimation_delay_point)*symbol_rate);
 symbs_comp_point = symbs_comp_point(2*cfo_estimation_delay_point + 1:end);
@@ -244,13 +246,14 @@ symbs_comp_point = symbs_comp_point(2*cfo_estimation_delay_point + 1:end);
 symbs_original_delayed_point = dsp_delay(symbs_ref,cfo_estimation_delay_point);
 symbs_original_delayed_point = symbs_original_delayed_point(2*cfo_estimation_delay_point + 1:end);
 
-symbs_original_delayed_block = dsp_delay(symbs_ref,cfo_estimation_delay_block);
-symbs_original_delayed_block = symbs_original_delayed_block(2*cfo_estimation_delay_block + 1:end);
+symbs_original_delayed_fir = dsp_delay(symbs_ref,cfo_estimation_delay_fir);
+symbs_original_delayed_fir = symbs_original_delayed_fir(2*cfo_estimation_delay_fir + 1:end);
+
 
 % -------------------------------------------------------------------------
 % Check constellation after CFO compensation
 % -------------------------------------------------------------------------
-plot_constellation(symbs_comp_block,'plain','Constellation after CFO compensation - block');
+plot_constellation(symbs_comp_fir,'plain','Constellation after CFO compensation - FIR averaging');
 plot_constellation(symbs_comp_point,'plain','Constellation after CFO compensation - point');
 
 % -------------------------------------------------------------------------
@@ -276,19 +279,57 @@ ylabel('phase (\times \pi rad)');
 legend('original','after CFO compensation: 1 point')
 xlim(check_symbols_range)
 
-figure('Name','Original and compensated symbols - block')
-stem(angle(symbs_original_delayed_block)/pi,'b');
+figure('Name','Original and compensated symbols - FIR averaging')
+stem(angle(symbs_original_delayed_fir)/pi,'b');
 hold on
-stem(angle(symbs_comp_block)/pi,'rs')
+stem(angle(symbs_comp_fir)/pi,'rs')
 xlabel('sample');
 ylabel('phase (\times \pi rad)');
-legend('original','after CFO compensation: block')
+legend('original','after CFO compensation: FIR av.')
 xlim(check_symbols_range)
+
+%%
+% -------------------------------------------------------------------------
+% We also try the basic block averaging option that has been introduced at  
+% a later stage in the function.
+% -------------------------------------------------------------------------
+
+nblocks = floor(length(symbs)/block_length);
+% Number of complete blocks of length block_length in the input data
+
+cfo_estimate_block = cfo_estimation_leven(symbs_rx,mpower,sample_delay_block,block_length,'block');
+% CFO estimation 
+
+cfo_estimate_error_block = cfo_estimate_block*symbol_rate - cfo_added(1:nblocks*block_length);
+% CFO estimation error
+
+
+figure('Name','CFO estimate - block averaging')
+subplot(2,1,1)
+plot(cfo_estimate_block*symbol_rate/1.0e6,'b-');
+hold on
+plot(cfo_added/1.0e6,'r--')
+xlabel('sample');
+ylabel('CFO (MHz)');
+legend('CFO estimate (block av.)','added CFO')
+ylim([min(cfo_added)*0.95 max(cfo_added)*1.05]/1.0e6)
+subplot(2,1,2)
+plot(cfo_estimate_error_block/1.0e3,'k-');
+xlabel('sample');
+ylabel('CFO error (kHz)');
+
+symbs_comp_block = symbs_rx(1:nblocks*block_length).*exp(-1j*2*pi*cfo_estimate_block.*tk(1:nblocks*block_length)*symbol_rate);
+% CFO compensation
+
+plot_constellation(symbs_comp_block,'plain','Constellation after CFO compensation - block averaging');
+
+
+
 
 % -------------------------------------------------------------------------
 % Figure alignment
 % -------------------------------------------------------------------------
 % Requires alignfigs function
 % Available at https://github.com/nickhale/alignfigs
-alignfigs(4)
+% alignfigs(4)
 
