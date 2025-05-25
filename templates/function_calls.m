@@ -616,6 +616,23 @@ nblocks = floor(length(symbs)/block_length);
 cfo_estimate = cfo_estimation_leven(symbs,mpower,sample_delay,block_length,'block');
 symbs_comp = symbs(1:nblocks*block_length).*exp(-1j*2*pi*cfo_estimate.*tk(1:nblocks*block_length)*symbol_rate);
 
+% -------------------------------------------------------------------------
+% iq_gsop
+% Gram-Schmidt orthogonalization procedure for IQ imbalance compensation
+% /src/dsp/digital-coherent/
+% -------------------------------------------------------------------------
+[samps_cmp_r,samps_cmp_i] = iq_gsop(real(samps),imag(samps));
+samps_cmp = samps_cmp_r + 1i*samps_cmp_i; 
+samps_cmp = normalise_constellation(samps_cmp,norm_es);
+
+% -------------------------------------------------------------------------
+% iq_lop
+% Löwdin orthogonalization procedure for IQ imbalance compensation
+% /src/dsp/digital-coherent/
+% -------------------------------------------------------------------------
+[samps_cmp_r,samps_cmp_i] = iq_lop(real(samps),imag(samps));
+samps_cmp = samps_cmp_r + 1i*samps_cmp_i; 
+samps_cmp = normalise_constellation(samps_cmp,norm_es);
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
