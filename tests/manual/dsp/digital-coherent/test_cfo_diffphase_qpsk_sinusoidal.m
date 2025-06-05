@@ -6,7 +6,7 @@
 % 366?368 (2007) [DOI: 10.1109/LPT.2007.891893].
 %
 % We generate a (discrete-time) QPSK signal, add some frequency offset, 
-% possibly some AWGN, then apply the cfo_estimation_leven.m function to
+% possibly some AWGN, then apply the cfo_diffphase.m function to
 % estimate the CFO.
 %
 % The added CFO can be constant or sinusoidal.
@@ -172,9 +172,9 @@ symbs_rx = symbs;
 % -------------------------------------------------------------------------
 % CFO estimation
 % -------------------------------------------------------------------------
-cfo_estimate_fir = cfo_estimation_leven(symbs_rx,mpower,sample_delay_block,block_length);
+cfo_estimate_fir = cfo_diffphase(symbs_rx,mpower,sample_delay_block,block_length);
 % CFO estimation with FIR running averaging
-cfo_estimate_point = cfo_estimation_leven(symbs_rx,mpower,sample_delay_point,1);
+cfo_estimate_point = cfo_diffphase(symbs_rx,mpower,sample_delay_point,1);
 % 1-point CFO estimation
 
 % -------------------------------------------------------------------------
@@ -305,7 +305,7 @@ xlim(check_symbols_range)
 nblocks = floor(length(symbs)/block_length);
 % Number of complete blocks of length block_length in the input data
 
-cfo_estimate_block = cfo_estimation_leven(symbs_rx,mpower,sample_delay_block,block_length,'block');
+cfo_estimate_block = cfo_diffphase(symbs_rx,mpower,sample_delay_block,block_length,'block');
 % CFO estimation 
 
 cfo_estimate_error_block = cfo_estimate_block*symbol_rate - cfo_added(1:nblocks*block_length);

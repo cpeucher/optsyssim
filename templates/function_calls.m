@@ -407,6 +407,14 @@ bits_bin = conv_dec2bin(words_dec,nob);
 % Convert string of words to bits
 
 % -------------------------------------------------------------------------
+% decision_med
+% Minimum Euclidian distance (MED) decision
+% /src/digicoms/
+% -------------------------------------------------------------------------
+[symbs_cx,words_dec] = decision_med(symbs_rx,constellation);
+% Minimum Euclidian distance decision
+
+% -------------------------------------------------------------------------
 % decision_qam_square_hard
 % Hard decision for square QAM
 % /src/digicoms/
@@ -600,21 +608,28 @@ sig = dac_zoh(samples,ndac);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
-% cfo_estimation_leven
-% CFO estimation for M-PSK modulation according to Leven
+% cfo_diffphase
+% CFO estimation for M-PSK by differential phase algorithm (Leven)
 % /src/dsp/digital-coherent/
 % -------------------------------------------------------------------------
 tk = [0:1:length(symbs) - 1]/symbol_rate;
 mpower = 4;
 sample_delay = 1;
 block_length = 1000;
-[cfo_estimate, cfo_estimation_delay] = cfo_estimation_leven(symbs,mpower,sample_delay,block_length);
+[cfo_estimate, cfo_estimation_delay] = cfo_diffphase(symbs,mpower,sample_delay,block_length);
 symbs_comp = dsp_delay(symbs,cfo_estimation_delay).*exp(-1j*2*pi*cfo_estimate.*dsp_delay(tk,cfo_estimation_delay)*symbol_rate);
 symbs_comp = symbs_comp([2*cfo_estimation_delay + 1:end]);
 
 nblocks = floor(length(symbs)/block_length);
-cfo_estimate = cfo_estimation_leven(symbs,mpower,sample_delay,block_length,'block');
+cfo_estimate = cfo_diffphase(symbs,mpower,sample_delay,block_length,'block');
 symbs_comp = symbs(1:nblocks*block_length).*exp(-1j*2*pi*cfo_estimate.*tk(1:nblocks*block_length)*symbol_rate);
+
+% -------------------------------------------------------------------------
+% cpr_bps
+% Carrier phase estimation using the blind phase search (BPS) algorithm
+% /src/dsp/digital-coherent/
+% -------------------------------------------------------------------------
+
 
 % -------------------------------------------------------------------------
 % iq_gsop

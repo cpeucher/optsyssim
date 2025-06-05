@@ -6,10 +6,10 @@
 % 366-368 (2007) [DOI: 10.1109/LPT.2007.891893].
 %
 % We generate a (discrete-time) QPSK signal, add some frequency offset, 
-% possibly some AWGN, then apply the cfo_estimation_leven.m function to
+% possibly some AWGN, then apply the cfo_diffphase.m function to
 % estimate the CFO.
 %
-% The added CFO is constant.
+% The added CFO varies linearly.
 % 
 % Estimation is performed over 2 samples separated by a specified delay 
 % (point) or averaged over a block of 2 samples separated by a specified 
@@ -34,7 +34,7 @@ reset(stream);
 % -------------------------------------------------------------------------
 % Global parameters
 % -------------------------------------------------------------------------
-nsymbols = 2^17;
+nsymbols = 2^13;
 % Number of symbols. Should be power of 2.
 
 % -------------------------------------------------------------------------
@@ -72,16 +72,17 @@ plot_constellation(symbs,'plain','Constellation at Tx output');
 % -------------------------------------------------------------------------
 % Parameters
 % ------------------------------------------------------------------------- 
-symbol_rate = 10e9;     
+symbol_rate = 25e9;     
 % Symbol rate, in baud. Signal is sampled at the symbol rate.
 esn0_db = +Inf;    
-% esn0_db = 20;
+% esn0_db = 30;
 % Signal-to-noise ratio, in dB. Will govern the amount of AWGN added.
 
 % -------------------------------------------------------------------------
 % Added CFO parameters
 % -------------------------------------------------------------------------
-cfo_mean = 1e6;       % Added constant CFO value, in Hz
+cfo_start = 1e6;       % Initial CFO value, in Hz
+cfo_slope = 1e12;      % CFO slope, in Hz/s
 
 % -------------------------------------------------------------------------
 % CFO estimation parameters
@@ -89,7 +90,7 @@ cfo_mean = 1e6;       % Added constant CFO value, in Hz
 mpower = 4;
 sample_delay_block = 1; 
 sample_delay_point = 2; 
-block_length = 1000;
+block_length = 32;%1000;
 % Parameters of the phase differential algorithm (Leven)
 
 % -------------------------------------------------------------------------
@@ -98,13 +99,16 @@ block_length = 1000;
 tk = [0:1:length(symbs) - 1]/symbol_rate;
 % Sampling instants
 
-cfo_added = cfo_mean*ones(1,length(symbs));
-% Calculation of the added CFO, for representation purpose
+cfo_added = cfo_start + cfo_slope*tk;
+% Added CFO, in Hz
+
+pphi = (2*pi*cfo_start + pi*cfo_slope*tk).*tk;
+% Corresponding time-varying phase
 
 % -------------------------------------------------------------------------
 % Add CFO
 % -------------------------------------------------------------------------
-symbs = symbs.*exp(1i*2*pi*cfo_mean*tk);
+symbs = symbs.*exp(1i*pphi);
 % CFO addition
 
 % -------------------------------------------------------------------------
@@ -118,7 +122,8 @@ cfo_estimation_delay_point = (sample_delay_point + 1 - 1)/2;
 
 cfo_compensable_max_fir = symbol_rate/2/sample_delay_block/mpower;
 cfo_compensable_max_point = symbol_rate/2/sample_delay_point/mpower;
-% Maximum compensable CFO, in Hz.
+% Maximum compensable CFO, in Hz
+
 
 
 fprintf('\n\n\n%s\n','Test of CFO estimation by Leven method')
@@ -138,7 +143,9 @@ fprintf('%s\t\t\t%1.1f\n','Estimator delay:',cfo_estimation_delay_fir)
 fprintf(1,'%s\t%6.6f\t%s\n\n','Maximum compensable CFO: ',cfo_compensable_max_fir/1.0e6, 'MHz');
 
 
-fprintf(1,'%s\t%6.6f\t%s\n','Added CFO: ',cfo_mean/1.0e6, 'MHz');
+fprintf(1,'%s\t%6.6f\t%s\n','Added CFO (start): ',cfo_added(1)/1.0e6, 'MHz');
+fprintf(1,'%s\t%6.6f\t%s\n','Added CFO (end):',cfo_added(end)/1.0e6, 'MHz');
+
 
 % -------------------------------------------------------------------------
 % Check constellation after CFO addition
@@ -149,7 +156,7 @@ plot_constellation(symbs,'plain','Constellation after CFO addition');
 % Add AWGN
 % -------------------------------------------------------------------------
 symbs = add_awgn(symbs,esn0_db);
-% Add white Gaussian noise
+% Add white Gaussian noise  
     
 % -------------------------------------------------------------------------
 % Check constellation after AWGN addition
@@ -160,28 +167,27 @@ plot_constellation(symbs,'plain','Constellation after AWGN addition');
 % Make a copy of the signal to process
 % -------------------------------------------------------------------------
 symbs_rx = symbs;
-% Make a copy of signal.
+% Make a copy of the signal
 
 % -------------------------------------------------------------------------
 % CFO estimation
 % -------------------------------------------------------------------------
-cfo_estimate_fir = cfo_estimation_leven(symbs_rx,mpower,sample_delay_block,block_length);
+[cfo_estimate_fir, cfo_estimation_delay_func_block] = cfo_diffphase(symbs_rx,mpower,sample_delay_block,block_length);
 % CFO estimation with FIR running averaging
-cfo_estimate_point = cfo_estimation_leven(symbs_rx,mpower,sample_delay_point,1);
+[cfo_estimate_point, cfo_estimation_delay_func_point] = cfo_diffphase(symbs_rx,mpower,sample_delay_point,1);
 % 1-point CFO estimation
-
 
 % -------------------------------------------------------------------------
 % Compare applied CFO with estimates
 % -------------------------------------------------------------------------
 cfo_added_delayed_fir = dsp_delay(cfo_added,cfo_estimation_delay_fir);
 cfo_added_delayed_point = dsp_delay(cfo_added,cfo_estimation_delay_point);
-% Delay the added CFO by the value of the delay of the estimator
-% For constant CFO, this is not very relevant...
+% Delay the added CFO by the value of the delay of the estimator.
 
 cfo_estimate_error_fir = cfo_estimate_fir*symbol_rate - cfo_added_delayed_fir;
 cfo_estimate_error_point = cfo_estimate_point*symbol_rate - cfo_added_delayed_point;
-% Calculate CFO estimation error, in Hz
+% Calculate CFO estimation error, in Hz.
+
 
 figure('Name','CFO estimate')
 plot(cfo_estimate_fir*symbol_rate/1.0e6,'g-');
@@ -201,6 +207,8 @@ plot(cfo_added/1.0e6, 'rs--')
 xlabel('sample')
 ylabel('CFO (MHz)')
 legend('CFO estimate (FIR av.)','CFO estimate (point)','added CFO')
+ylim([1.0598 1.0602])
+hline(1.06,'r-')
 grid on
 
 figure('Name','CFO estimate - point')
@@ -234,6 +242,8 @@ ylabel('CFO error (kHz)');
 ylim([min(cfo_estimate_error_fir(2*cfo_estimation_delay_fir+1:end)) max(cfo_estimate_error_fir(2*cfo_estimation_delay_fir+1:end))]/1.0e3)
 
 
+
+%%
 % -------------------------------------------------------------------------
 % CFO compensation
 % -------------------------------------------------------------------------
@@ -255,6 +265,7 @@ symbs_original_delayed_fir = symbs_original_delayed_fir(2*cfo_estimation_delay_f
 % -------------------------------------------------------------------------
 plot_constellation(symbs_comp_fir,'plain','Constellation after CFO compensation - FIR averaging');
 plot_constellation(symbs_comp_point,'plain','Constellation after CFO compensation - point');
+
 
 % -------------------------------------------------------------------------
 % Check symbols after CFO addition and compensation
@@ -297,7 +308,7 @@ xlim(check_symbols_range)
 nblocks = floor(length(symbs)/block_length);
 % Number of complete blocks of length block_length in the input data
 
-cfo_estimate_block = cfo_estimation_leven(symbs_rx,mpower,sample_delay_block,block_length,'block');
+cfo_estimate_block = cfo_diffphase(symbs_rx,mpower,sample_delay_block,block_length,'block');
 % CFO estimation 
 
 cfo_estimate_error_block = cfo_estimate_block*symbol_rate - cfo_added(1:nblocks*block_length);
@@ -331,5 +342,5 @@ plot_constellation(symbs_comp_block,'plain','Constellation after CFO compensatio
 % -------------------------------------------------------------------------
 % Requires alignfigs function
 % Available at https://github.com/nickhale/alignfigs
-% alignfigs(4)
+%alignfigs(4)
 

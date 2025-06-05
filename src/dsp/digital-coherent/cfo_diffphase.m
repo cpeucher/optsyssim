@@ -1,11 +1,11 @@
-function [cfo_estimate,estimator_delay] = cfo_estimation_leven(samps,mpower,sample_delay,block_length,varargin)
-% CFO estimation for M-PSK modulation by phase differential algorithm (Leven)
+function [cfo_estimate,estimator_delay] = cfo_diffphase(samps,mpower,sample_delay,block_length,varargin)
+% CFO estimation for M-PSK by differential phase algorithm (Leven)
 %
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
 % This function implements the carrier frequency offset (CFO) estimation 
-% method based on the phase differential algorithm described in:
+% method based on the differential phase algorithm described in:
 % A. Leven, N. Kaneda, U.-V. Koc, and Y.-K. Chen, "Frequency estimation in 
 % intradyne reception," IEEE Photonics Technology Letters, vol. 19, no. 6,
 % pp. 366-368, Mar. 2007.
@@ -18,12 +18,12 @@ function [cfo_estimate,estimator_delay] = cfo_estimation_leven(samps,mpower,samp
 % mpower = 4;
 % sample_delay = 1;
 % block_length = 1000;
-% [cfo_estimate, cfo_estimation_delay] = cfo_estimation_leven(symbs,mpower,sample_delay,block_length);
+% [cfo_estimate, cfo_estimation_delay] = cfo_diffphase(symbs,mpower,sample_delay,block_length);
 % symbs_comp = dsp_delay(symbs,cfo_estimation_delay).*exp(-1j*2*pi*cfo_estimate.*dsp_delay(tk,cfo_estimation_delay)*symbol_rate);
 % symbs_comp = symbs_comp([2*cfo_estimation_delay + 1:end]);
 % 
 % nblocks = floor(length(symbs)/block_length);
-% cfo_estimate = cfo_estimation_leven(symbs,mpower,sample_delay,block_length,'block');
+% cfo_estimate = cfo_diffphase(symbs,mpower,sample_delay,block_length,'block');
 % symbs_comp = symbs(1:nblocks*block_length).*exp(-1j*2*pi*cfo_estimate.*tk(1:nblocks*block_length)*symbol_rate);
 %
 % -------------------------------------------------------------------------
