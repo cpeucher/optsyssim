@@ -126,7 +126,7 @@ elseif (nargin == 5)
 
 else
 
-    error('cfo_estimation_leven: wrong number of input arguments');
+    error('cfo_diffphase: wrong number of input arguments');
 
 end
 
@@ -176,7 +176,7 @@ switch method
 
     otherwise
 
-        error('cfo_estimation_leven: averaging option not implemented');
+        error('cfo_diffphase: averaging option not implemented');
 
 end
 
