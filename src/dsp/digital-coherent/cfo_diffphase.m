@@ -105,7 +105,7 @@ function [cfo_estimate,estimator_delay] = cfo_diffphase(samps,mpower,sample_dela
 % estimator_delay   delay of the estimator, in number of samples
 %                       [real scalar]
 %
-%                       Infortunately, if L + d is even, the estimator
+%                       Unfortunately, if L + d is even, the estimator
 %                       delay is not an integer number of samples.
 %
 % -------------------------------------------------------------------------
