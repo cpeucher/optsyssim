@@ -322,7 +322,7 @@ CONSTANT = core_load_constants();
 % Addition of complex AWGN to signal samples in the digital domain
 % /src/digicoms/
 % -------------------------------------------------------------------------
-symbs = add_awgn(symbs,esn0); 
+symbs = add_awgn(symbs,esn0_db); 
 % Add WGN to symbols
 
 % -------------------------------------------------------------------------

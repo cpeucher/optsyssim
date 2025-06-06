@@ -4,19 +4,20 @@ function symbs = add_awgn(symbs,esn0)
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
-% This function adds samples of (complex, complex circularly-symmetric)
-% white Gaussian noise to a discrete time signal according to a specified
+% This function adds samples of (complex, circularly-symmetric) white
+% Gaussian noise to a discrete time signal according to a specified
 % signal-to-noise ratio, defined in terms of energy per symbol divided by 
-% % white noise spectral density, Es/N0.
+% white noise power spectral density, Es/N0.
 % The energy per symbol is calculated from the input signal samples. It is
 % therefore understood that the length of the input signal should be
 % sufficient for this calculation to make sense (i.e. the signal should
-% describe the entire constellation).
+% describe the entire constellation and each symbol of the constellation 
+% should be present with approximately the same number of occurences).
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% symbs = add_awgn(symbs,esn0); 
+% symbs = add_awgn(symbs,esn0_db); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:
