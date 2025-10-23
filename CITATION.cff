@@ -1,0 +1,20 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Optsyssim
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: 'Christophe '
+    family-names: Peucheret
+    email: cpeucher@univ-rennes.fr
+    affiliation: University of Rennes
+    orcid: 'https://orcid.org/0000-0002-1655-9293'
+repository-code: 'https://github.com/cpeucher/optsyssim'
+abstract: >-
+  Matlab library for the simulation of optical communication
+  systems
+license: GPL-3.0
