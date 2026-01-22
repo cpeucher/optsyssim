@@ -1302,11 +1302,86 @@ bit_pattern = logical_adapt_binary_sequence(bit_pattern,nsymbols);
 % params_prbs.seed = [0 1 1 0 1 1 1 0 0 1 0];
 
 
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% modes                                                                     modes
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
+% --------------------------------------------------------------------------------------------------------------------------------------------------
 
+% -------------------------------------------------------------------------
+% create_space_grid
+% Create 2D space grid in the transverse plane
+% /src/modes/
+% -------------------------------------------------------------------------
+xrange = [-15e-6, 15e-6];  
+yrange = [-15e-6, 15e-6]; 
+nxpoints = 2001;
+nypoints = 2001;
+space_grid = create_space_grid(xrange,yrange,nxpoints,nypoints);
+[space_grid.THETA,space_grid.RHO] = cart2pol(space_grid.X,space_grid.Y); 
 
+% -------------------------------------------------------------------------
+% fibre_si_b
+% Calculate normalised propagation constant for circular-core step-index fibre
+% /src/modes/
+% -------------------------------------------------------------------------
+params_fibre.a = 4.7e-6;
+params_fibre.n1 = 1.4628;
+params_fibre.n2 = 1.4600;
+lambda = 1550e-9;
+mode_type = 'LP';
+mode_l = 0;
+V = 2*pi*params_fibre.a*sqrt(params_fibre.n1^2 - params_fibre.n2^2)/lambda;
+[b, nmodes] = fibre_si_b(mode_type,mode_l,V,params_fibre);
 
+% -------------------------------------------------------------------------
+% fibre_si_lp_field
+% Calculate scalar field of the LPlm mode of a step-index fibre
+% /src/modes/
+% -------------------------------------------------------------------------
+xrange = [-1, 1]*50e-6;  
+yrange = [-1, 1]*50e-6; 
+nxpoints = 2001;
+nypoints = 2001;
+global space_grid
+space_grid = create_space_grid(xrange,yrange,nxpoints,nypoints);
+[space_grid.THETA,space_grid.RHO] = cart2pol(space_grid.X,space_grid.Y); 
 
+params_fibre.n1 =  1.45;
+params_fibre.n2 =  1.4361;
+params_fibre.a = 25e-6;
+mode_type = 'LP';
+mode_l = 1;             % Index l of mode LPlm
+mode_m = 1;             % Index m of mode LPlm. Check that mode_m <= nmodes
+lambda = 850e-9; 
+V = 2*pi*params_fibre.a*sqrt(params_fibre.n1^2 - params_fibre.n2^2)/lambda;
+[b,nmodes] = fibre_si_b('LP',mode_l,V,params_fibre);
+% Normalised propagation constant
+field = fibre_si_lp_field(params_fibre,mode_l,b(mode_m),V,'even'); 
+% Mode field
 
+visparams.limit_radius = Inf;
+visparams.show_core_limit = 0;
+visparams.save = 0;
+visparams.colormap = 'jet';%'hot';
+visparams.name = ['Mode field distribution for ' mode_type num2str(mode_l) num2str(mode_m)];
+fibre_si_plot_mode(field,params_fibre,visparams);
+
+% -------------------------------------------------------------------------
+% fibre_si_plot_mode
+% Plot field or intensity distribution (irradiance pattern) of fibre mode
+% /src/modes/
+% -------------------------------------------------------------------------
+visparams.limit_radius = Inf;
+visparams.show_core_limit = 0;
+visparams.save = 0;
+visparams.colormap = 'jet';%'hot';
+visparams.name = 'Mode field distribution';
+fibre_si_plot_mode(field,params_fibre,visparams);
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
