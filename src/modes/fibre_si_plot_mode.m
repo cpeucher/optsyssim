@@ -11,7 +11,7 @@ function fibre_si_plot_mode(field,params,visparams)
 % -------------------------------------------------------------------------
 % visparams.limit_radius = Inf;% 2*params_fibre.a;
 % visparams.show_core_limit = 0;
-% visparams.show_core_linewidth = 5;
+% visparams.show_core_linewidth = 1;
 % visparams.save = 0;
 % visparams.colormap = 'jet';%'hot';
 % visparams.name = 'Mode field distribution';
@@ -98,8 +98,8 @@ hold on
 
 if visparams.show_core_limit
     plot_core_limit_x = linspace(-params.a,params.a,1001);
-    plot(plot_core_limit_x, sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',visparams.show_core_linewidth,'Color','w','LineStyle',':');
-    plot(plot_core_limit_x,-sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',visparams.show_core_linewidth,'Color','w','LineStyle',':');
+    plot(plot_core_limit_x, sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',visparams.show_core_linewidth,'Color','w','LineStyle','--');
+    plot(plot_core_limit_x,-sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',visparams.show_core_linewidth,'Color','w','LineStyle','--');
 end
 
 axis square

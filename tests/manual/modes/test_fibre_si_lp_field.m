@@ -80,7 +80,7 @@ field = fibre_si_lp_field(params_fibre,mode_l,b(mode_m),V,'even');
 
 visparams.limit_radius = Inf;
 visparams.show_core_limit = 1;
-visparams.show_core_linewidth = 5;
+visparams.show_core_linewidth = 1;
 visparams.save = 0;
 visparams.colormap = 'jet';%'hot';
 visparams.name = ['Mode field distribution for ' mode_type num2str(mode_l) num2str(mode_m)];
@@ -89,8 +89,8 @@ fibre_si_plot_mode(field,params_fibre,visparams);
 
 visparams.limit_radius = 62.5e-6;
 visparams.show_core_limit = 1;
-visparams.show_core_linewidth = 5;
-visparams.save = 1;
+visparams.show_core_linewidth = 1;
+visparams.save = 0;
 visparams.colormap = 'hot';
 visparams.name = ['Mode power distribution for ' mode_type num2str(mode_l) num2str(mode_m)];
 fibre_si_plot_mode(abs(field).^2,params_fibre,visparams);
