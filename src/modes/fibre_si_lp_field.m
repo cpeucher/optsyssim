@@ -34,6 +34,7 @@ function field = fibre_si_lp_field(params,l,b,V,sym)
 % 
 % visparams.limit_radius = Inf;
 % visparams.show_core_limit = 0;
+% visparams.show_core_linewidth = 5;
 % visparams.save = 0;
 % visparams.colormap = 'jet';%'hot';
 % visparams.name = ['Mode field distribution for ' mode_type num2str(mode_l) num2str(mode_m)];

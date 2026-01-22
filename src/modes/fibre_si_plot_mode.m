@@ -11,6 +11,7 @@ function fibre_si_plot_mode(field,params,visparams)
 % -------------------------------------------------------------------------
 % visparams.limit_radius = Inf;% 2*params_fibre.a;
 % visparams.show_core_limit = 0;
+% visparams.show_core_linewidth = 5;
 % visparams.save = 0;
 % visparams.colormap = 'jet';%'hot';
 % visparams.name = 'Mode field distribution';
@@ -54,6 +55,10 @@ function fibre_si_plot_mode(field,params,visparams)
 %                               displays the limit of the core as a dashed 
 %                               white line [0/1]
 %
+%                           visparams.show_core_linewidth
+%                               thickness of the dashed white line 
+%                               delimiting the core, in pt [real scalar]
+%
 %                           visparams.save
 %                               saves the output in .emf and .jpg formats
 %                               [0/1]
@@ -93,8 +98,8 @@ hold on
 
 if visparams.show_core_limit
     plot_core_limit_x = linspace(-params.a,params.a,1001);
-    plot(plot_core_limit_x,sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',5,'Color','w','LineStyle',':');
-    plot(plot_core_limit_x,-sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',5,'Color','w','LineStyle',':');
+    plot(plot_core_limit_x, sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',visparams.show_core_linewidth,'Color','w','LineStyle',':');
+    plot(plot_core_limit_x,-sqrt(params.a^2-plot_core_limit_x.^2),'LineWidth',visparams.show_core_linewidth,'Color','w','LineStyle',':');
 end
 
 axis square
