@@ -1384,6 +1384,17 @@ visparams.colormap = 'jet';%'hot';
 visparams.name = 'Mode field distribution';
 fibre_si_plot_mode(field,params_fibre,visparams);
 
+% -------------------------------------------------------------------------
+% plot_irradiance
+% Plot intensity distribution
+% /src/modes/
+% -------------------------------------------------------------------------
+visparams.display = '2d';% '2d_slicex','2d_slicey','2d_slicexy'
+visparams.name = 'Intensity distribution for xxx beam';
+visparams.xslice = 0;
+visparams.yslice = 10e-6;
+hfig = plot_irradiance(I,visparams);
+
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 % --------------------------------------------------------------------------------------------------------------------------------------------------
