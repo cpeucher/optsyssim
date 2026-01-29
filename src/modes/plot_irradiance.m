@@ -1,4 +1,4 @@
-function hfig = plot_irradiance(F,visparams)
+function [hfig,Fx,Fy] = plot_irradiance(F,visparams)
 % Plot intensity distribution
 %
 % -------------------------------------------------------------------------

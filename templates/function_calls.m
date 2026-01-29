@@ -1313,6 +1313,21 @@ bit_pattern = logical_adapt_binary_sequence(bit_pattern,nsymbols);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% beam_gauss
+% Scalar field of a fundamental Gaussian beam
+% /src/modes/
+% -------------------------------------------------------------------------
+position = [0 0];
+lambda = 1550e-9;
+k = 2*pi/lambda;
+w0 = 10e-6;
+z = 0;
+power = 1e-3;
+u = sqrt(power)*beam_gauss(position,k,w0,z);
+% Create Gaussian beam
+
+
+% -------------------------------------------------------------------------
 % create_space_grid
 % Create 2D space grid in the transverse plane
 % /src/modes/

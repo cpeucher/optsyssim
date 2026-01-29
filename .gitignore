@@ -1,3 +1,4 @@
 *.asv
 ignore/
+workshop/
 make_html_doc.m
