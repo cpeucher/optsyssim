@@ -1326,7 +1326,6 @@ power = 1e-3;
 u = sqrt(power)*beam_gauss(position,k,w0,z);
 % Create Gaussian beam
 
-
 % -------------------------------------------------------------------------
 % create_space_grid
 % Create 2D space grid in the transverse plane
