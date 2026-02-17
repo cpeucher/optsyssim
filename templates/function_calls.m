@@ -158,6 +158,14 @@ char_opt_constellation(sig,params_constellation);
 % Plot optical constellation
 
 % -------------------------------------------------------------------------
+% char_opt_energy
+% Energy of an optical signal in a specified time interval
+% /src/characterization/
+% -------------------------------------------------------------------------
+ep = char_opt_energy(sig,[time_array(1),time_array(end)]);
+% Energy of the signal
+
+% -------------------------------------------------------------------------
 % char_opt_peak_power
 % Peak power of optical signal in a given time interval
 % /src/characterization/
