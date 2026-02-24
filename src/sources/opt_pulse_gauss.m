@@ -9,7 +9,13 @@ function pulse = opt_pulse_gauss(time,order,peak_power,position,duration,chirp)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% pulse = opt_pulse_gauss(time_array,order,peak_power,position,duration,chirp);
+% params_pulse.order = 1;
+% params_pulse.peak_power = 1;
+% params_pulse.fwhm = 10e-12;
+% params_pulse.chirp = 0;
+% sig = struct;
+% sig.x = opt_pulse_gauss(time_array,params_pulse.order,params_pulse.peak_power,time_array(nsamples/2),params_pulse.fwhm,params_pulse.chirp);
+% sig.y = zeros(1,nsamples);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
