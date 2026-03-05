@@ -2156,7 +2156,7 @@ pulse = opt_pulse_sech(time_array,peak_power,position,duration,chirp);
 % Optical pulse source
 % /src/sources/
 % -------------------------------------------------------------------------
-params_pulse_train.type = 'gaussian';%'sech';
+params_pulse_train.pulse_shape = 'gaussian';%'sech';
 params_pulse_train.order = 1;
 params_pulse_train.emission_frequency = reference_frequency + 100e9;
 params_pulse_train.peak_power = 1e-3;
