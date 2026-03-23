@@ -29,7 +29,7 @@ function varargout = meas_eye(sig,params)
 %
 %                       [real vector] in case the signal is electrical
 %
-%                       [optical signal strucuture] in case the signal is
+%                       [optical signal structure] in case the signal is
 %                       optical
 %
 % params            eye diagram parameters [structure]
