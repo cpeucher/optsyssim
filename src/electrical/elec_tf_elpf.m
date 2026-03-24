@@ -159,7 +159,7 @@ switch params.type
 
         % RC filter
 
-        tf = 1./(1 - 1i*(freq/params.f3dB));
+        tf = 1./(1 + 1i*(freq/params.f3dB));
 
     case 'rectangular'
 

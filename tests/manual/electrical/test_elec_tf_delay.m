@@ -28,11 +28,6 @@ format long
 % ------------------------------------------------------------------------- 
 % Dock figures
 % ------------------------------------------------------------------------- 
-set(groot, "defaultFigurePosition", [680 458 560 420])
-% Temporary fix so that the figures generated in R2025a have the same
-% appearance as those generated in R2024b and earlier.
-% See: https://se.mathworks.com/matlabcentral/answers/2175629-how-to-revert-the-figure-behavior-in-matlab-r2025a-and-newer-to-the-r2024b-style
-
 % set(0,'DefaultFigureWindowStyle','docked');
 set(0,'DefaultFigureWindowStyle','normal');
 
@@ -68,9 +63,6 @@ mred = [178 0 24]/255;
 
 % line_color = linspecer(6,'qualitative');
 % Use plot(x,y,'Color',line_color(1,:));
-% Distinguishable colors for graphs
-% Available at:
-% https://se.mathworks.com/matlabcentral/fileexchange/42673-beautiful-and-distinguishable-line-colors-colormap
 
 
 % -------------------------------------------------------------------------
@@ -98,11 +90,11 @@ global CONSTANT
 reference_frequency = 193.1e12;
 nsamples_per_symbol = 128;
 nsymbols = 128;
-symbol_rate = 10e9;
+symbol_rate = 40e9;
 
 nsamples = nsamples_per_symbol*nsymbols;
 sample_rate = nsamples_per_symbol*symbol_rate;
-[time_array,dt,frequency_array,df] = core_create_time_axis(nsamples_per_symbol,nsymbols,symbol_rate);       
+[time_array,dt,frequency_array,df] = core_create_time_axis(nsamples_per_symbol,nsymbols,symbol_rate);        
         
   
 % reference_frequency = 193.1e12;
@@ -111,16 +103,6 @@ sample_rate = nsamples_per_symbol*symbol_rate;
 % 
 % sample_rate = nsamples*df;
 % dt = 1/sample_rate;
-% time_array = (0:nsamples-1)*dt;
-% frequency_array = (-nsamples/2:nsamples/2-1)*df;
-
-
-% reference_frequency = 193.1e12;
-% dt = 1e-15;
-% nsamples = 2^15;
-%
-% sample_rate = 1/dt;
-% df = sample_rate/nsamples;
 % time_array = (0:nsamples-1)*dt;
 % frequency_array = (-nsamples/2:nsamples/2-1)*df;
 
@@ -175,6 +157,25 @@ fprintf('\n\n%s%s\n\n','Simulation started on ',start_time);
 
 
 
+
+
+params_rf.frequency = symbol_rate;
+params_rf.phase = 0;
+params_rf.vpp = 1.0;
+params_rf.vdc = 0;
+sig = elec_sinusoidal(params_rf); 
+% Electrical sinusoidal signal generation
+
+
+figure(1)
+plot(sig)
+
+params_elpf.type = 'bessel';%'butterworth';'gaussian;'none';'rc';'rectangular';'raised_cosine';'root_raised_cosine';
+params_elpf.order = 4;
+params_elpf.f3dB = 0.75*symbol_rate;
+params_elpf.roll_off = 0.6;            % for 'raised_cosine' and 'root_raised_cosine'
+params_elpf.symbol_rate = symbol_rate; % for 'raised_cosine' and 'root_raised_cosine'
+sig = elec_elpf(sig,params_elpf); 
 
 
 
