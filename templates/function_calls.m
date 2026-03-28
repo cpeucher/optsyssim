@@ -178,8 +178,11 @@ pp = char_opt_peak_power(sig,time_interval);
 % Temporal chirp of an optical signal
 % /src/characterization/
 % -------------------------------------------------------------------------
-chirp = char_opt_temporal_chirp(sig);
+chirp = char_opt_temporal_chirp(sig.x);
 % Calculate temporal chirp
+% chirp = chirp(2:end -1); 
+% time_chirp = time_array(2:end -1);
+% When periodic boundary conditions not satisfied
 
 % -------------------------------------------------------------------------
 % char_pulse_rms

@@ -1,4 +1,4 @@
-function chirp = char_opt_temporal_chirp(sig)
+function chirp = char_opt_temporal_chirp(ssig)
 % Calculate temporal chirp of an optical signal
 %
 % -------------------------------------------------------------------------
@@ -10,17 +10,20 @@ function chirp = char_opt_temporal_chirp(sig)
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
 % -------------------------------------------------------------------------
-% chirp = char_opt_temporal_chirp(sig);
+% chirp = char_opt_temporal_chirp(sig.x);
+% % chirp = chirp(2:end -1); 
+% % time_chirp = time_array(2:end -1);
+% % When periodic boundary conditions not satisfied
 %
 % -------------------------------------------------------------------------
 % INPUTS:
 % -------------------------------------------------------------------------
-% sig               optical signal [optical signal structure]
+% ssig               complex envelope of optical signal [complex vector]
 %
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
-% chiro              instantaneous frequency variations with respect to
+% chirp              instantaneous frequency variations with respect to
 %                       reference_frequency, in Hz [real vector]
 %
 % -------------------------------------------------------------------------
@@ -41,7 +44,7 @@ function chirp = char_opt_temporal_chirp(sig)
 
 global dt
 
-phi = -unwrap(angle(sig.x));
+phi = -unwrap(angle(ssig.x));
 % Signal phase.
 % We employ the phase convention exp(-1j*phi(t)) while angle in matlab
 % returns the argument of a complex number.
