@@ -14,7 +14,7 @@ hfig = figure('Name',fig_name);
 plot(x,y,'Color','b','LineStyle','-','Marker','none','LineWidth',1.5,'MarkerSize',12,'MarkerFaceColor','w','HandleVisibility','on')
 xlabel(' ','Interpreter',fig.interpreter)
 ylabel(' ','Interpreter',fig.interpreter)
-legend('','Location','NorthEast','Box','off','Interpreter',fig.interpreter,'FontSize',fig.font_size)
+legend('','Location','NorthEast','Box','off','Interpreter',fig.interpreter,'FontSize',fig.font_size);
 ax = gca;
 ax.TickLabelInterpreter = fig.interpreter;
 ax.FontSize = fig.font_size;
