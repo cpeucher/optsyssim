@@ -44,7 +44,7 @@ function chirp = char_opt_temporal_chirp(ssig)
 
 global dt
 
-phi = -unwrap(angle(ssig.x));
+phi = -unwrap(angle(ssig));
 % Signal phase.
 % We employ the phase convention exp(-1j*phi(t)) while angle in matlab
 % returns the argument of a complex number.
