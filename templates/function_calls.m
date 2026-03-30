@@ -2178,6 +2178,25 @@ sig = opt_source_pulse(seq,params_pulse_train);
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+% -------------------------------------------------------------------------
+% set_er
+% Set extinction ratio and average power of an OOK/PAM2 signal
+% /src/transmitters/
+% -------------------------------------------------------------------
+params_tx.type = 'ook_nrz';
+params_tx.emission_frequency = reference_frequency;
+params_tx.power = 1.0e-3;
+params_tx.linewidth = 0;
+params_tx.bit_pattern = bit_pattern;
+params_tx.rise_time = 1/symbol_rate/4;
+sig = tx(params_tx);
+er_db = 10;
+pav_dbm = 0;
+sig = set_er(sig,er_db,pav_dbm);
+% Set extinction ratio and average power
+% Beware in case tx linewidth is not zero.
+
 % -------------------------------------------------------------------------
 % tx
 % General optical transmitter
