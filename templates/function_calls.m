@@ -224,6 +224,7 @@ params_eye.save.display_baseline = 1;
 params_eye.colour_grade = 0;
 params_eye.name = 'Eye diagram';
 meas_eye(sig,params_eye);
+% meas_eye(sig,params_eye,'no_overlap');
 % Plot eye diagram
 
 % -------------------------------------------------------------------------

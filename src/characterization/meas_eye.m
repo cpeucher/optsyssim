@@ -1,4 +1,4 @@
-function varargout = meas_eye(sig,params)
+function varargout = meas_eye(sig,params,varargin)
 % Visualisation of eye diagram of optical or electrical signals
 %
 % -------------------------------------------------------------------------
@@ -21,6 +21,7 @@ function varargout = meas_eye(sig,params)
 % params_eye.colour_grade = 0;
 % params_eye.name = 'Eye diagram';
 % meas_eye(sig,params_eye);
+% % meas_eye(sig,params_eye,'no_overlap');
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -100,6 +101,53 @@ function varargout = meas_eye(sig,params)
 %                                   params.colour_grade = 1;
 %                                   params.colour_grade = 0;  
 %
+% varargin          optional argument [string]
+%   
+%                       This optional argument specifies the method used to
+%                       calculate the eye diagram from the waveform.
+%
+%                       varargin = 'no_overlap'
+%                           This is the legacy mode of the function.
+%
+%                           The waveform is split into non-overlapping 
+%                           blocks of size 
+%                               params.nsamples_per_symbol*params.neyes, 
+%                           which are then all plotted together.
+%
+%                           The number of traces is nsymbols/params.neyes,
+%                           which should then be an integer.
+%
+%                           Since nsymbols is normally a power of 2, so
+%                           should be params.neyes = 1, 2, 4...
+%
+%                           In this case, the eyes in the eye diagram 
+%                           could exhibit distinct traces, especially when 
+%                           short patterns are used.
+%
+%                       varargin = 'overlap'
+%                           This is the default mode of the function, in
+%                           case this optional argument is not specified.
+%                           
+%                           The waveform is split into overlapping blocks
+%                           of size params.neyes.
+% 
+%                           Each eye in the eye diagram is the
+%                           superposition of all nsymbols in the waveform.
+% 
+%                           It becomes possible to have an odd number of
+%                           eyes, e.g. params.neyes = 3;
+% 
+%                           The number of traces is nsymbols.
+%
+%                           All eyes in the eye diagram are identical.
+%               
+%                           This mode is slower than 'no_overlap' and
+%                           result in a larger size of the eye diagram
+%                           matrix.
+%
+%                       When params.neyes = 1, the two modes obviously
+%                       result in the same eye diagram.
+%
 % -------------------------------------------------------------------------
 % OUTPUTS:
 % -------------------------------------------------------------------------
@@ -116,6 +164,19 @@ function varargout = meas_eye(sig,params)
 % -------------------------------------------------------------------------
 
 global dt
+
+
+switch nargin 
+    case 2
+        eye_type = 'overlap';
+        % This is the default mode.
+    case 3
+        eye_type = varargin{1};
+        % Else we select the eye diagram calculation mode.
+    otherwise
+        error('meas_eye: incorrect number of optional arguments. Should be 1 at most.');
+end
+
 
 
 if isoptical(sig)
@@ -141,21 +202,55 @@ else
 end
 
 
+nsamples_per_trace = params.nsamples_per_symbol*params.neyes;
+% Number of samples per trace
+
 nsymbols = length(waveform)/params.nsamples_per_symbol;
 % Number of symbols
 % If global parameters are set properly, this should be an integer.
 
-nsamples_per_trace = params.nsamples_per_symbol*params.neyes;
-% Number of samples per trace
 
-eye_traces = reshape(waveform,nsamples_per_trace,nsymbols/params.neyes);
-% Traces of the eye diagram
+
+switch eye_type
+
+    case 'no_overlap'
+        % This is the legacy operation mode of the function.
+        % In this case, the eyes in the eye diagram could exhibit
+        % distinct traces, especially when short patterns are used.
+        % We split the waveform into non-overlapping blocks of size
+        % params.neyes, which are then all plotted together.
+        % The number of traces in the eye diagram is
+        % nsymbols/params.neyes
+
+        eye_traces = reshape(waveform,nsamples_per_trace,nsymbols/params.neyes);
+        % Traces of the eye diagram
+
+    case 'overlap'
+        % All eyes in the eye diagram are identical.
+        % We split the waveform into overlapping blocks of size
+        % params.neyes.
+        % The number of traces in the eye diagram is nsymbols.
+
+        eye_traces = zeros(nsymbols, params.nsamples_per_symbol*params.neyes);
+
+        for ii = 1:nsymbols
+            B = circshift(waveform,-(ii - 1)*params.nsamples_per_symbol);
+            eye_traces(ii,:) = B(1:params.neyes*params.nsamples_per_symbol);
+        end
+
+        eye_traces = transpose(eye_traces);
+        % Traces of the eye diagram
+
+end
+
+
 eye_time = (0:nsamples_per_trace - 1)*dt;
 % Time base
 
 varargout(1) = {eye_time};
 varargout(2) = {eye_traces};
 % Save to optional output parameters
+
 
 
 % -------------------------------------------------------------------------
