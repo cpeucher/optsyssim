@@ -24,6 +24,13 @@ ax.XMinorTick = 'on';
 % xlim([0 18])
 % ylim([-0.5 0.05])
 
+print_figure(hfig,do_print,do_add_figsize_to_filename,margin_figure)
+
+
+% or:
+
+
+
 if margin_figure
     hfig.Position(3:4) = [1 0.9]*hfig.Position(4);
 end
