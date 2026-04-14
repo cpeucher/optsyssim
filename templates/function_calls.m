@@ -215,6 +215,7 @@ spectrum = meas_esa(sig,params_esa);
 params_eye.pol = 'x';%'y','both';
 params_eye.neyes = 2;
 params_eye.nsamples_per_symbol = nsamples_per_symbol;
+params_eye.display = 1;
 params_eye.save.txt = 0;
 params_eye.save.emf = 0;
 params_eye.save.jpg = 0;
@@ -245,6 +246,26 @@ meas_osa(sig,params_osa);
 % Optical spectrum analyser
 
 % -------------------------------------------------------------------------
+% meas_osnr
+% OSNR measurement by noise interpolation
+% /src/characterization/
+% -------------------------------------------------------------------------
+params_osnr.sigfreq = params_tx.emission_frequency - reference_frequency;
+params_osnr.meas_bw = 100e9;
+params_osnr.meas_offset = 200e9;
+params_osnr.noise_bw = 12.5e9;
+osnr_retrieved_db = meas_osnr(sig,params_osnr);
+% Retrieve optical signal-to-noise ratio (OSNR) from an optical signal
+
+vline((params_osnr.sigfreq + params_osnr.meas_offset + params_osnr.meas_bw/2)/1.0e9,'r--')
+vline((params_osnr.sigfreq + params_osnr.meas_offset - params_osnr.meas_bw/2)/1.0e9,'r--')
+vline((params_osnr.sigfreq - params_osnr.meas_offset + params_osnr.meas_bw/2)/1.0e9,'r--')
+vline((params_osnr.sigfreq - params_osnr.meas_offset - params_osnr.meas_bw/2)/1.0e9,'r--')
+vline((params_osnr.sigfreq + params_osnr.meas_bw/2)/1.0e9,'b:')
+vline((params_osnr.sigfreq - params_osnr.meas_bw/2)/1.0e9,'b:')
+% Plot limits of measurement bandwidths on spectrum 
+
+% -------------------------------------------------------------------------
 % meas_rf_power
 % Integrate RF power in a specified bandwidth
 % /src/characterization/
@@ -267,7 +288,14 @@ params_scope.name = 'Waveform';
 meas_scope(sig,params_scope); 
 % Scope
 
-
+% -------------------------------------------------------------------------
+% set_osnr
+% Add ASE noise corresponding to a given OSNR to a noise-free optical signal
+% /src/characterization/
+% -------------------------------------------------------------------------
+osnr_target_db = 20;
+sig = set_osnr(sig,osnr_target_db,12.5e9,2);
+% Set OSNR
 
 
 % --------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1864,7 +1892,7 @@ dop = calc_dop(Sav);
 
 % -------------------------------------------------------------------------
 % char_opt_stokes
-% Characterization of instantaneous Stokes parameters
+% Characterisation of instantaneous Stokes parameters
 % /src/polarization/
 % -------------------------------------------------------------------------
 S = char_opt_stokes(sig);
