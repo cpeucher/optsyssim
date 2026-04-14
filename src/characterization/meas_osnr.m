@@ -14,8 +14,8 @@ function osnr = meas_osnr(sig,params)
 % calculation.
 % This is a standard procedure for experimentally determining the OSNR
 % using an optical spectrum analyser (OSA).
-% Rectangular filters are used to measure select signal + noise at the
-% signal frequency as well as noise on both sides of the signal.
+% Rectangular filters are used to select signal + noise at the signal 
+% frequency as well as noise on both sides of the signal.
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
@@ -116,5 +116,7 @@ p_0 = char_opt_average_power(sig_0);
 % Signal + noise power measurement
 
 osnr = 10*log10((p_0 - 0.5*(p_m + p_p))/(0.5*(p_m + p_p)*params.noise_bw/params_obpf.bandwidth));
+% OSNR calculation by linear interpolation of the noise PSD at the signal
+% frequency
 
 end
