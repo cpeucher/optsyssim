@@ -146,19 +146,23 @@ nsamples = length(sig.x);
 % Number of samples in the input signal
 
 if strcmp(params.pol,'x')
-    sig_test = sig.x;
+
+    sig_spectrum = fftshift(fft(sig.x))/nsamples;
+    sig_power = abs(sig_spectrum).^2;
+
 elseif strcmp(params.pol,'y')
-    sig_test = sig.y;
+
+    sig_spectrum = fftshift(fft(sig.y))/nsamples;
+    sig_power = abs(sig_spectrum).^2;
+
 elseif strcmp(params.pol,'both')
-    sig_test = sqrt(abs(sig.x).^2 + abs(sig.y).^2).*exp(-1j*0.5*(angle(sig.x) + angle(sig.y)));
+
+    sig_spectrum_x = fftshift(fft(sig.x))/nsamples;
+    sig_spectrum_y = fftshift(fft(sig.y))/nsamples;
+    sig_power = abs(sig_spectrum_x).^2 + abs(sig_spectrum_y).^2;
+
 end
 % Signal to plot, depending on the polarisation selection
-
-sig_spectrum = fftshift(fft(sig_test))/nsamples;
-% Calculate the spectrum from the time domain signal
-
-sig_power = abs(sig_spectrum).^2;
-% Power spectrum
 
 varargout(1) = {sig_power};
 % Save the spectrum in linear scale as first optional output argument
