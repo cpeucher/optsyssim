@@ -265,6 +265,7 @@ meas_osa(sig,params_osa);
 params_eye.pol = 'x';%'y','both';
 params_eye.neyes = 2;
 params_eye.nsamples_per_symbol = nsamples_per_symbol;
+params_eye.display = 1;
 params_eye.save.txt = 0;
 params_eye.save.emf = 0;
 params_eye.save.jpg = 0;

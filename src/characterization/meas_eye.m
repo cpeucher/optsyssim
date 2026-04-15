@@ -4,7 +4,7 @@ function varargout = meas_eye(sig,params,varargin)
 % -------------------------------------------------------------------------
 % DESCRIPTION:
 % -------------------------------------------------------------------------
-% This function produces an eye diagram 
+% This function produces an eye diagram. 
 %
 % -------------------------------------------------------------------------
 % FUNCTION CALL:
@@ -12,6 +12,7 @@ function varargout = meas_eye(sig,params,varargin)
 % params_eye.pol = 'x';%'y','both';
 % params_eye.neyes = 2;
 % params_eye.nsamples_per_symbol = nsamples_per_symbol;
+% params_eye.display = 1;
 % params_eye.save.txt = 0;
 % params_eye.save.emf = 0;
 % params_eye.save.jpg = 0;
@@ -50,6 +51,11 @@ function varargout = meas_eye(sig,params,varargin)
 %                       params.nsamples_per_symbol
 %                           number of samples per symbol of the the signal
 %                           to be visualised [integer scalar]
+%
+%                       params.display 
+%                           specifies whether the eye diagram is displayed 
+%                           in a figure, or just calculated and 
+%                           returned as optional output argument [0/1]
 %
 %                       params.name
 %                           name of the figure [string]
@@ -250,150 +256,156 @@ eye_time = (0:nsamples_per_trace - 1)*dt;
 varargout(1) = {eye_time};
 varargout(2) = {eye_traces};
 % Save to optional output parameters
+% We are down with the extraction of the eye diagram traces from the
+% signal.
 
+if params.display
+    % Display the eye diagram in a separate figure
 
-
-% -------------------------------------------------------------------------
-% Display
-% -------------------------------------------------------------------------
-min_max = abs(max(waveform) - min(waveform));
-if min_max < eps
-    display_min = 0;
-    display_max = max(waveform)*1.1;
-else
-    display_delta = abs(max(waveform) - min(waveform))*0.1;
-    display_min = min(waveform) - display_delta;
-    display_max = max(waveform) + display_delta;
-end
-% Determine vertical range of the display
-
-
-hfig_line_eye = figure('Name',params.name);
-plot(eye_time./1e-12,eye_traces,'Color',[0 0 1],'LineWidth',2);
-axis([0 params.neyes*params.nsamples_per_symbol*dt/1.0e-12 display_min display_max])
-xlabel('time (ps)');
-ylabel('amplitude / power (a.u.)');
-
-if params.save.jpg == 1
-    file_name_jpg = [params.name,'.jpg'];    
-    print(hfig_line_eye,'-djpeg','-r300',file_name_jpg); 
-end
-    
-if params.save.txt == 1
-    eye_diagram_txt = [eye_time',eye_traces];
-    file_name_txt = [params.name,'.dat'];
-    save(file_name_txt,'eye_diagram_txt','-ascii','-double','-tabs')    
-end
-
-if params.save.emf == 1
-    file_name_emf = [params.name,'.emf'];
-    temp = figure();
-    plot(eye_time./1e-12,eye_traces,'LineWidth',2,'Color',[0 0 0]);
-    if min(waveform) < 0
-        vertical_axis_min = min(waveform);
+    % ---------------------------------------------------------------------
+    % Display
+    % ---------------------------------------------------------------------
+    min_max = abs(max(waveform) - min(waveform));
+    if min_max < eps
+        display_min = 0;
+        display_max = max(waveform)*1.1;
     else
-        vertical_axis_min = -1.0e-5;
+        display_delta = abs(max(waveform) - min(waveform))*0.1;
+        display_min = min(waveform) - display_delta;
+        display_max = max(waveform) + display_delta;
     end
-    if strcmp(params.save.vertical_scale_type,'auto')
-        axis([eye_time(1)/1.0e-12 eye_time(length(eye_time))/1.0e-12 vertical_axis_min max(waveform)]);
-    elseif strcmp(params.save.vertical_scale_type,'fixed')
-        axis([eye_time(1)/1.0e-12 eye_time(length(eye_time))/1.0e-12 vertical_axis_min params.save.vertical_scale_max]);
-    else
-        error('meas_eye: vertical scale type not defined.');
-    end
-    if params.save.display_baseline == 1
-        hold on;
-        plot(eye_time./1e-12,zeros(1,length(eye_time)),'LineWidth',1,'Color',[0 0 0],'LineStyle','--');
-    end
-    axis off;
-    print(temp,'-dmeta','-r300',file_name_emf);
-    close(temp);
-end
+    % Determine vertical range of the display
 
 
-% -------------------------------------------------------------------------
-% Display and save colour grade eye diagram
-% -------------------------------------------------------------------------
+    hfig_line_eye = figure('Name',params.name);
+    plot(eye_time./1e-12,eye_traces,'Color',[0 0 1],'LineWidth',2);
+    axis([0 params.neyes*params.nsamples_per_symbol*dt/1.0e-12 display_min display_max])
+    xlabel('time (ps)');
+    ylabel('amplitude / power (a.u.)');
 
-% TODO Clean up this mess and use histcounts2 
-
-
-if params.colour_grade == 1
-    % Check if a colour grade eye diagram is expected.
-    
-    amp_vert = max(waveform) - min(waveform);
-    vertical_range_max = max(waveform) + 0.1*amp_vert;
-    vertical_range_min = min(waveform) - 0.1*amp_vert;
-    % Determine minimum and maximum values for the vertical scale.
-
-    n_horizontal_pixels = nsamples_per_trace - 1;
-    n_vertical_pixels = 100;
-    % Number of pixels; by default the number of horizontal coordinates is
-    % equal to the number of samples per trace.
-
-    border_vert = vertical_range_min + (0:n_vertical_pixels)*(vertical_range_max - vertical_range_min)/n_vertical_pixels;
-    % Array contains pixels vertical boundaries; NPixelsVert+1 elements.
-
-    border_hori = 1 + (0:n_horizontal_pixels)*(nsamples_per_trace - 1)/n_horizontal_pixels;
-    % Array containing pixels horizontal boundaries, in terms of the 
-    % indices i of eyetime(i) or eyetrace(i,j); NPixelsHor+1 elements.
-    % Observe that the elements of BorderHor are not necessarily integer, 
-    % unless the number of horizontal pixels is equal to the number of 
-    % samples per trace minus 1.
-
-    % to remember:
-    % eyetraces(:,i) contains all the samples of trace number i (of length
-    % nsamples_per_trace
-    % eyetraces(j,:) contains the collection of samples # j of all traces
-    % (length is Nbits/params.neyes)
-
-    count_matrix = zeros(length(border_vert),n_horizontal_pixels);
-    % Initialise the matrix in which the values of the pixels will be 
-    % stored.
-    
-    sample_range = (1:nsamples_per_trace);
-    % Array containing the full range of horizontal samples in the eye 
-    % diagram.
-    for i=1:n_horizontal_pixels
-        % For each horizontal bin.
-        if i < n_horizontal_pixels
-            sample_range_bin = find(sample_range >= border_hori(i) & sample_range < border_hori(i+1));
-        elseif i == n_horizontal_pixels
-            sample_range_bin = find(sample_range >= border_hori(i) & sample_range <= border_hori(i+1));            
-        end
-        
-        for k = 1:length(sample_range_bin)
-            % For each time sample in the bin.
-            count_matrix(:,i) = count_matrix(:,i) + histc(eye_traces(sample_range_bin(k),:),border_vert)';
-            % Count the number of values in each vertical bin for that
-            % particular time sample.
-        end
-    end
-
-    hfig_colour_grade_eye = figure('Name',[params.name ' (Colour grade)']);
-    image([eye_time(1)/1.0e-12,nsamples_per_trace*dt/1.0e-12],[vertical_range_min, vertical_range_max],count_matrix);
-    colormap(hot);
-    set(gca,'YDir','normal');
-    set(get(gca,'XLabel'),'String', 'time (ps)');
-    set(get(gca,'YLabel'),'String', 'amplitude / power (a.u.)');
-    % Visualise colour grade mode eye diagram
-    
-
-    
     if params.save.jpg == 1
-        file_name_jpg = [params.Name,'_colour_grade','.jpg'];    
-        print(hfig_colour_grade_eye,'-djpeg','-r300',file_name_jpg);
+        file_name_jpg = [params.name,'.jpg'];
+        print(hfig_line_eye,'-djpeg','-r300',file_name_jpg);
     end
-    
-    if params.save.emf == 1    
-        %set(ColourGradeEye,'Units','centimeters','Position',[10 8 11 9]);
-        set(hfig_colour_grade_eye,'PaperPositionMode','auto');
-        file_name_emf=[params.Name,'_colour_grade','.emf'];    
-        print(hfig_colour_grade_eye,'-dmeta','-r300',file_name_emf);
+
+    if params.save.txt == 1
+        eye_diagram_txt = [eye_time',eye_traces];
+        file_name_txt = [params.name,'.dat'];
+        save(file_name_txt,'eye_diagram_txt','-ascii','-double','-tabs')
     end
-        
+
+    if params.save.emf == 1
+        file_name_emf = [params.name,'.emf'];
+        temp = figure();
+        plot(eye_time./1e-12,eye_traces,'LineWidth',2,'Color',[0 0 0]);
+        if min(waveform) < 0
+            vertical_axis_min = min(waveform);
+        else
+            vertical_axis_min = -1.0e-5;
+        end
+        if strcmp(params.save.vertical_scale_type,'auto')
+            axis([eye_time(1)/1.0e-12 eye_time(length(eye_time))/1.0e-12 vertical_axis_min max(waveform)]);
+        elseif strcmp(params.save.vertical_scale_type,'fixed')
+            axis([eye_time(1)/1.0e-12 eye_time(length(eye_time))/1.0e-12 vertical_axis_min params.save.vertical_scale_max]);
+        else
+            error('meas_eye: vertical scale type not defined.');
+        end
+        if params.save.display_baseline == 1
+            hold on;
+            plot(eye_time./1e-12,zeros(1,length(eye_time)),'LineWidth',1,'Color',[0 0 0],'LineStyle','--');
+        end
+        axis off;
+        print(temp,'-dmeta','-r300',file_name_emf);
+        close(temp);
+    end
+
+
+    % ---------------------------------------------------------------------
+    % Display and save colour grade eye diagram
+    % ---------------------------------------------------------------------
+
+    % TODO Clean up this mess and use histcounts2
+
+
+    if params.colour_grade == 1
+        % Check if a colour grade eye diagram is expected.
+
+        amp_vert = max(waveform) - min(waveform);
+        vertical_range_max = max(waveform) + 0.1*amp_vert;
+        vertical_range_min = min(waveform) - 0.1*amp_vert;
+        % Determine minimum and maximum values for the vertical scale.
+
+        n_horizontal_pixels = nsamples_per_trace - 1;
+        n_vertical_pixels = 100;
+        % Number of pixels; by default the number of horizontal coordinates is
+        % equal to the number of samples per trace.
+
+        border_vert = vertical_range_min + (0:n_vertical_pixels)*(vertical_range_max - vertical_range_min)/n_vertical_pixels;
+        % Array contains pixels vertical boundaries; NPixelsVert+1 elements.
+
+        border_hori = 1 + (0:n_horizontal_pixels)*(nsamples_per_trace - 1)/n_horizontal_pixels;
+        % Array containing pixels horizontal boundaries, in terms of the
+        % indices i of eyetime(i) or eyetrace(i,j); NPixelsHor+1 elements.
+        % Observe that the elements of BorderHor are not necessarily integer,
+        % unless the number of horizontal pixels is equal to the number of
+        % samples per trace minus 1.
+
+        % to remember:
+        % eyetraces(:,i) contains all the samples of trace number i (of length
+        % nsamples_per_trace
+        % eyetraces(j,:) contains the collection of samples # j of all traces
+        % (length is Nbits/params.neyes)
+
+        count_matrix = zeros(length(border_vert),n_horizontal_pixels);
+        % Initialise the matrix in which the values of the pixels will be
+        % stored.
+
+        sample_range = (1:nsamples_per_trace);
+        % Array containing the full range of horizontal samples in the eye
+        % diagram.
+        for i=1:n_horizontal_pixels
+            % For each horizontal bin.
+            if i < n_horizontal_pixels
+                sample_range_bin = find(sample_range >= border_hori(i) & sample_range < border_hori(i+1));
+            elseif i == n_horizontal_pixels
+                sample_range_bin = find(sample_range >= border_hori(i) & sample_range <= border_hori(i+1));
+            end
+
+            for k = 1:length(sample_range_bin)
+                % For each time sample in the bin.
+                count_matrix(:,i) = count_matrix(:,i) + histc(eye_traces(sample_range_bin(k),:),border_vert)';
+                % Count the number of values in each vertical bin for that
+                % particular time sample.
+            end
+        end
+
+        hfig_colour_grade_eye = figure('Name',[params.name ' (Colour grade)']);
+        image([eye_time(1)/1.0e-12,nsamples_per_trace*dt/1.0e-12],[vertical_range_min, vertical_range_max],count_matrix);
+        colormap(hot);
+        set(gca,'YDir','normal');
+        set(get(gca,'XLabel'),'String', 'time (ps)');
+        set(get(gca,'YLabel'),'String', 'amplitude / power (a.u.)');
+        % Visualise colour grade mode eye diagram
+
+
+
+        if params.save.jpg == 1
+            file_name_jpg = [params.Name,'_colour_grade','.jpg'];
+            print(hfig_colour_grade_eye,'-djpeg','-r300',file_name_jpg);
+        end
+
+        if params.save.emf == 1
+            %set(ColourGradeEye,'Units','centimeters','Position',[10 8 11 9]);
+            set(hfig_colour_grade_eye,'PaperPositionMode','auto');
+            file_name_emf=[params.Name,'_colour_grade','.emf'];
+            print(hfig_colour_grade_eye,'-dmeta','-r300',file_name_emf);
+        end
+
+    end
+    % End of colour grade eye diagram plot.
+
 end
-% End of colour grade eye diagram plot.
+% End of representation of the eye diagram in a figure
 
 
 end
