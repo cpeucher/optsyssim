@@ -14,6 +14,7 @@ Work in progress...
 ```bash
 .
 ├── data                   # Some data files used in some functions or for validation
+├── examples               # Some examples of simulations
 ├── libs                   # Third party functions or libraries
 ├── src                    # Original functions, organized by functionality
 ├── templates              # Functions and scripts templates as well as calls to functions snippets
