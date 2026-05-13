@@ -47,9 +47,12 @@ if mod(length(stream_in),nstreams) ~= 0
     error('serial_parallel: the number of symbols does not match the number of outputs.');
 end
 
-for iout = 1:nstreams
-    streams_out(iout,:) = stream_in(iout:nstreams:length(stream_in));
-end
+streams_out = reshape(stream_in,nstreams,length(stream_in)/nstreams);
 % Serial to parallel conversion
+
+% for iout = 1:nstreams
+%     streams_out(iout,:) = stream_in(iout:nstreams:length(stream_in));
+% end
+
 
 end
