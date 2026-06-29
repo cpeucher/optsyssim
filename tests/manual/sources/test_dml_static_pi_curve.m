@@ -227,7 +227,7 @@ for ii = 1:length(ibias)
     sig_drive = ibias(ii)*ones(1,nsamples);
     % Constant driving signal.
     
-    sig = opt_laser_dml(sig_drive,params_dml,numparams_dml); 
+    sig = laser_dml(sig_drive,params_dml,numparams_dml); 
     % DML.
     
     sig_power = abs(sig.x).^2;   

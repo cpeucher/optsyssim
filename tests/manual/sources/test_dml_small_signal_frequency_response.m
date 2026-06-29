@@ -297,7 +297,7 @@ for ifreq = 1:5:length(mod_freq_numerical)
     end
     
     
-    sig = opt_laser_dml(sig_drive,params_dml,numparams_dml); 
+    sig = laser_dml(sig_drive,params_dml,numparams_dml); 
     % DML.
     
     sig_power = abs(sig.x).^2;   

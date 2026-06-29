@@ -1,4 +1,4 @@
-function sig = opt_laser_dml(sig,params,numparams)
+function sig = laser_dml(sig,params,numparams)
 % Directly modulated single-mode laser using rate equations
 %
 % -------------------------------------------------------------------------
@@ -38,7 +38,7 @@ function sig = opt_laser_dml(sig,params,numparams)
 % numparams_dml.ode_solver_options = odeset('RelTol',1e-8);% ODE solver parameters
 % numparams_dml.npass = 2;             % number of iterations of the ODE solver
 % numparams_dml.check_convergence = 0;  % display convergence of densities.
-% sig = opt_laser_dml(sig,params_dml,numparams_dml); 
+% sig = laser_dml(sig,params_dml,numparams_dml); 
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -156,7 +156,7 @@ photon_density = zeros(numparams.npass,length(time_array));
 
 for ipass = 1:1:numparams.npass
     
-    [t,y] = ode45(@opt_laser_dml_re_01,[0,time_array(length(time_array))],x0,numparams.ode_solver_options,params,time_array,sig);
+    [t,y] = ode45(@laser_dml_re_01,[0,time_array(length(time_array))],x0,numparams.ode_solver_options,params,time_array,sig);
     % ODE solver
     
     x0 = [y(end,1);y(end,2);y(end,3)];
@@ -210,7 +210,7 @@ if numparams.check_convergence == 1
     % function returns an error in the unlikely case it is.
     
     
-    figure('Name','opt_laser_dml: carrier and photon density');
+    figure('Name','laser_dml: carrier and photon density');
     subplot(2,1,1)
     plot(time_array/1.0e-12,photon_density(1,:),plot_style{1});
     legend_info{1} = 'pass 1';
@@ -236,7 +236,7 @@ end
 
 end
 % -------------------------------------------------------------------------
-% End of opt_laser_dml function.
+% End of laser_dml function.
 % -------------------------------------------------------------------------
 
 
@@ -248,7 +248,7 @@ end
 % -------------------------------------------------------------------------
 % Rate equations
 % -------------------------------------------------------------------------
-function dx = opt_laser_dml_re_01(t,x,params,time,sig)
+function dx = laser_dml_re_01(t,x,params,time,sig)
 % Set of rate equations for directly modulated laser
 %
 % -------------------------------------------------------------------------
@@ -310,5 +310,5 @@ dx = dx(:);
 
 end
 % -------------------------------------------------------------------------
-% End of opt_laser_dml_re_01 function
+% End of laser_dml_re_01 function
 % -------------------------------------------------------------------------

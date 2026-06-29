@@ -2131,7 +2131,7 @@ sig = opt_laser_cw(params_cw);
 % CW laser
 
 % -------------------------------------------------------------------------
-% opt_laser_dml
+% laser_dml
 % Directly modulated single-mode laser using rate equations
 % /src/sources/
 % -------------------------------------------------------------------------
@@ -2150,7 +2150,7 @@ params_dml.emission_frequency = reference_frequency; % emission frequency, in Hz
 numparams_dml.ode_solver_options = odeset('RelTol',1e-8);% ODE solver parameters
 numparams_dml.npass = 2;             % number of iterations of the ODE solver
 numparams_dml.check_convergence = 0;  % display convergence of densities.
-sig = opt_laser_dml(sig,params_dml,numparams_dml); 
+sig = laser_dml(sig,params_dml,numparams_dml); 
 % Directly-modulated laser
 
 % -------------------------------------------------------------------------

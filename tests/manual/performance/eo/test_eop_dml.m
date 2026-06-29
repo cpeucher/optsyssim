@@ -2,7 +2,7 @@
 % Test of eye opening calculation using eops and eopw functions
 %
 % A signal severely affected by inter-symbole interference (but where the
-% eye remains open) is generated using the opt_laser_dml function.
+% eye remains open) is generated using the laser_dml function.
 % Its eye opening is then characterized using:
 % 1. The single sampling time eye opening determination function eops
 % 2. The wide sampling time eye opening determination function eopw, where
@@ -205,7 +205,7 @@ params_dml.emission_frequency = reference_frequency; % emission frequency, in Hz
 numparams_dml.ode_solver_options = odeset('RelTol',1e-8);% ODE solver parameters
 numparams_dml.npass = 2;             % number of iterations of the ODE solver
 numparams_dml.check_convergence = 0;  % display convergence of densities.
-sig = opt_laser_dml(sig_drive,params_dml,numparams_dml); 
+sig = laser_dml(sig_drive,params_dml,numparams_dml); 
 % DML
 
 
