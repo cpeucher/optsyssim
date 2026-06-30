@@ -86,7 +86,7 @@ params_rf.vdc = 0;
 clock_sig = elec_sinusoidal(params_rf);
 % Generate electrical clock signal
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal
 
 vpi = 1.0;

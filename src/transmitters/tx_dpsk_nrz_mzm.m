@@ -68,7 +68,7 @@ function sig = tx_dpsk_nrz_mzm(params)
 nrz_data_sig = elec_pulse_sequence_nrz(params.bit_pattern,params.rise_time);
 % Generate NRZ data stream
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal
 
 vpi = 1.0;

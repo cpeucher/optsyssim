@@ -2086,6 +2086,40 @@ sig_type = 'opt';%'elec';
 % --------------------------------------------------------------------------------------------------------------------------------------------------
 
 % -------------------------------------------------------------------------
+% laser_cw
+% Continuous wave (CW) laser
+% /src/sources/
+% -------------------------------------------------------------------------
+params_cw.power = 1.0e-3;
+params_cw.linewidth = 0;
+params_cw.emission_frequency = 193.1e12;
+sig = opt_laser_cw(params_cw);
+% CW laser
+
+% -------------------------------------------------------------------------
+% laser_dml
+% Directly modulated single-mode laser using rate equations
+% /src/sources/
+% -------------------------------------------------------------------------
+params_dml.tau_p = 2.6e-12;          % photon lifetime, in s
+params_dml.tau_c = 3.17e-9;          % carrier lifetime, in s
+params_dml.n_0 = 2.0e24;             % carrier density at transparency, in 1/m^3
+params_dml.sigma_g = 3.34e-20;       % gain cross section, in m^2
+params_dml.n_g = 4;                  % group effective index
+params_dml.Gamma = 0.2408;           % confinement factor
+params_dml.V = 3.6e-17;              % active volume, in m^3
+params_dml.epsilon_nl = 2.0e-23;     % gain suppression factor, in m^3
+params_dml.alpha = 6;                % linewidth enhancement factor
+params_dml.beta = 1.0e-3;            % spontaneous emission factor
+params_dml.eta_0 = 0.2;              % differential quantum efficiency
+params_dml.emission_frequency = reference_frequency; % emission frequency, in Hz
+numparams_dml.ode_solver_options = odeset('RelTol',1e-8);% ODE solver parameters
+numparams_dml.npass = 2;             % number of iterations of the ODE solver
+numparams_dml.check_convergence = 0;  % display convergence of densities.
+sig = laser_dml(sig,params_dml,numparams_dml); 
+% Directly-modulated laser
+
+% -------------------------------------------------------------------------
 % opt_broadband_time
 % Optical broadband source (time domain generation)
 % /src/sources/
@@ -2118,40 +2152,6 @@ params_comb.jones.y = zeros(1,params_comb.nlines);
 % Jones vectors of the lines in the comb. Should be normalised.
 [sig,params_comb.line_indices] = opt_comb(params_comb);
 % Frequency comb
-
-% -------------------------------------------------------------------------
-% opt_laser_cw
-% Continuous wave (CW) laser
-% /src/sources/
-% -------------------------------------------------------------------------
-params_cw.power = 1.0e-3;
-params_cw.linewidth = 0;
-params_cw.emission_frequency = 193.1e12;
-sig = opt_laser_cw(params_cw);
-% CW laser
-
-% -------------------------------------------------------------------------
-% laser_dml
-% Directly modulated single-mode laser using rate equations
-% /src/sources/
-% -------------------------------------------------------------------------
-params_dml.tau_p = 2.6e-12;          % photon lifetime, in s
-params_dml.tau_c = 3.17e-9;          % carrier lifetime, in s
-params_dml.n_0 = 2.0e24;             % carrier density at transparency, in 1/m^3
-params_dml.sigma_g = 3.34e-20;       % gain cross section, in m^2
-params_dml.n_g = 4;                  % group effective index
-params_dml.Gamma = 0.2408;           % confinement factor
-params_dml.V = 3.6e-17;              % active volume, in m^3
-params_dml.epsilon_nl = 2.0e-23;     % gain suppression factor, in m^3
-params_dml.alpha = 6;                % linewidth enhancement factor
-params_dml.beta = 1.0e-3;            % spontaneous emission factor
-params_dml.eta_0 = 0.2;              % differential quantum efficiency
-params_dml.emission_frequency = reference_frequency; % emission frequency, in Hz
-numparams_dml.ode_solver_options = odeset('RelTol',1e-8);% ODE solver parameters
-numparams_dml.npass = 2;             % number of iterations of the ODE solver
-numparams_dml.check_convergence = 0;  % display convergence of densities.
-sig = laser_dml(sig,params_dml,numparams_dml); 
-% Directly-modulated laser
 
 % -------------------------------------------------------------------------
 % opt_nosig

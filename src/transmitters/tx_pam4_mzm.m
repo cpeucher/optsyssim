@@ -69,7 +69,7 @@ nrz_data_sig_1 = elec_pulse_sequence_nrz(params.bit_pattern_1,params.rise_time);
 nrz_data_sig_2 = elec_pulse_sequence_nrz(params.bit_pattern_2,params.rise_time);
 % Generate NRZ data streams
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal
 
 alpha = 0.5 + asin(1/3)/pi;

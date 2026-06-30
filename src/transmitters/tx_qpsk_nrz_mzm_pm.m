@@ -74,7 +74,7 @@ nrz_data_sig_mzm = elec_pulse_sequence_nrz(params.bit_pattern_1,params.rise_time
 nrz_data_sig_pm = elec_pulse_sequence_nrz(params.bit_pattern_2,params.rise_time);
 % NRZ data stream to be applied to the PM
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal
 
 vpi = 1.0;

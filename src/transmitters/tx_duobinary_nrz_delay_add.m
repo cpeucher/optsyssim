@@ -79,7 +79,7 @@ duobinary_data_sig = 0.5*(nrz_data_sig + circshift(nrz_data_sig,[0 nsamples_per_
 % Delay and add filter applied to the NRZ data stream
 % The filtered signal is normalised back to a peak-to-peak amplitude of 1.
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal
 
 vpi = 1.0;

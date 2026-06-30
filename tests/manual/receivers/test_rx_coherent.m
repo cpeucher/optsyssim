@@ -319,7 +319,7 @@ char_opt_constellation(sig_x,params_constellation);
 params_cw.power = 1.0e-3;
 params_cw.linewidth = 0;
 params_cw.emission_frequency = params_tx.emission_frequency;
-sig_lo = opt_laser_cw(params_cw);
+sig_lo = laser_cw(params_cw);
 % Local oscillator CW laser
 
 params_coherent_front_end.pbs_sig.angle = 0;

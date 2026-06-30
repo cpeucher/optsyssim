@@ -83,7 +83,7 @@ elpf.f3dB = 0.25*bit_rate;
 duobinary_data_sig = elec_elpf(nrz_data_sig,elpf);
 % Low pass filtering for duobinary encoding
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal
 
 vpi = 1.0;

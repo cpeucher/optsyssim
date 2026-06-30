@@ -158,7 +158,7 @@ ui = v0*(nrz_data_sig_c1 + params.alpha*nrz_data_sig_c3);
 uq = v0*(nrz_data_sig_c2 + params.alpha*nrz_data_sig_c4);
 % Quadrature modulator driving signal
 
-sig = opt_laser_cw(params);
+sig = laser_cw(params);
 % CW laser signal.
 
 % The peak-to-peak of Delta V applied to each modulator is 2*(1+\alpha)V0

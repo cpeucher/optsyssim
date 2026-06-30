@@ -1,4 +1,4 @@
-function sig = opt_laser_cw(params)
+function sig = laser_cw(params)
 % Ideal continuous wave laser
 %
 % -------------------------------------------------------------------------
@@ -14,7 +14,7 @@ function sig = opt_laser_cw(params)
 % params_cw.power = 1.0e-3;
 % params_cw.linewidth = 0;
 % params_cw.emission_frequency = 193.1e12;
-% sig = opt_laser_cw(params_cw);
+% sig = laser_cw(params_cw);
 %
 % -------------------------------------------------------------------------
 % INPUTS:
@@ -75,7 +75,7 @@ params.frequency_offset = params.actual_emission_frequency - params.emission_fre
 % Frequency offset between the actual emission frequency and the desired
 % emission frequency
 
-% fprintf(1,'\n\n%s\n%s\t%f\t%s\n','opt_laser_cw:','Desired emission frequency: ',params.emission_frequency/1.0e12,' THz');
+% fprintf(1,'\n\n%s\n%s\t%f\t%s\n','laser_cw:','Desired emission frequency: ',params.emission_frequency/1.0e12,' THz');
 % fprintf(1,'%s\t\t%f\t%s\n','Actual emission frequency: ',params.actual_emission_frequency/1.0e12,' THz');
 % fprintf(1,'%s\t\t\t\t\t\t%f\t%s\n','Delta f: ',params.frequency_offset/1.0e9,' GHz');
 % % Notify the user that the emission frequency has been adjusted
