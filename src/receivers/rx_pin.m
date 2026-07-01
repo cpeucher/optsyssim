@@ -35,6 +35,12 @@ function sig = rx_pin(sig,params)
 %                           single sided spectral density of thermal noise, 
 %                           in A/sqrt(Hz) [real scalar]
 %
+%                           If the noise equivalent power (NEP), in
+%                           W/sqrt(Hz) of the photodiode is known, then
+%                           
+%                               params.pd.thermal_noise_density =
+%                                   params.pd.responsivity * nep
+%
 %                       params.pd.shot_noise
 %                           specifies whether shot noise is included or not
 %                           [0/1]
